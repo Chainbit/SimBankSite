@@ -50,10 +50,6 @@ namespace SimBankSite.Models
         {
             //base.OnModelCreating(modelBuilder);
 
-            for (int i = 0; i < length; i++)
-            {
-
-            }
         }
 
     }
