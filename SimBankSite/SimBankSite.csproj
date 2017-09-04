@@ -235,6 +235,7 @@
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Service.cs" />
+    <Compile Include="Models\SimModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SignalR_Hubs\ClientComm.cs" />
     <Compile Include="SignalR_Hubs\CommandHub.cs" />
