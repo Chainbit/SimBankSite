@@ -1,7 +1,14 @@
-﻿@{
-    ViewBag.Title = "About";
+﻿@model SimBankSite.Models.ApplicationUser
+
+@{
+    ViewBag.Title = "Ваши данные";
 }
 <h2>@ViewBag.Title.</h2>
 <h3>@ViewBag.Message</h3>
 
-<p>Use this area to provide additional information.</p>
+<table>
+   <tr>
+        <td>@ViewBag.User.Email</td>
+        <td>@ViewBag.User.Id</td>       
+   </tr>
+</table>

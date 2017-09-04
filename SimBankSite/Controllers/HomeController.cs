@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Microsoft.AspNet.Identity.EntityFramework;
+using SimBankSite.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -8,14 +10,27 @@ namespace SimBankSite.Controllers
 {
     public class HomeController : Controller
     {
+       
         public ActionResult Index()
         {
+            List<ApplicationUser> user = new List<ApplicationUser>();
+
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                ViewBag.Users = db.Users.ToList();
+            }
+            
             return View();
         }
 
+        [Authorize]
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "Ваша статистика";
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                ViewBag.User = db.Users.Where(x => x.UserName == User.Identity.Name).FirstOrDefault();
+            }
 
             return View();
         }
@@ -23,6 +38,13 @@ namespace SimBankSite.Controllers
         public ActionResult Contact()
         {
             ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+
+        public ActionResult Help()
+        {
+            ViewBag.Message = "Тут будет страница помощи";
 
             return View();
         }

@@ -83,4 +83,15 @@ namespace SimBankSite.Models
         public string SelectedProvider { get; set; }
         public ICollection<System.Web.Mvc.SelectListItem> Providers { get; set; }
     }
+
+    //Наши классы
+
+    public class MoneyAddOnBalance
+    {
+        [Required]
+        [Display(Name ="Количество денег для занесения")]
+        [DataType(DataType.Currency)]
+        public double Money { get; set; }
+                
+    }
 }

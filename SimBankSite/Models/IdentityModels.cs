@@ -3,12 +3,17 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SimBankSite.Models
 {
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {
+        [ForeignKey("UserCredentials")]
+        public UserCredential UserCredentials { get; set; }
+
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
             // Обратите внимание, что authenticationType должен совпадать с типом, определенным в CookieAuthenticationOptions.AuthenticationType
@@ -17,11 +22,23 @@ namespace SimBankSite.Models
             return userIdentity;
         }
     }
+    public class UserCredential
+    {    
+        [Key, ForeignKey("User")]       
+        public string Id { get; set; }
 
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+        public double Money { get; set; }
+        
+        
+        public ApplicationUser User { get; set; }
+    }
+
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser> 
     {
+        public DbSet<UserCredential> UserCredentials { get; set; }
+
         public ApplicationDbContext()
-            : base("DefaultConnection", throwIfV1Schema: false)
+            : base("Database", throwIfV1Schema: false)
         {
         }
 
@@ -29,5 +46,15 @@ namespace SimBankSite.Models
         {
             return new ApplicationDbContext();
         }
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            //base.OnModelCreating(modelBuilder);
+
+            for (int i = 0; i < length; i++)
+            {
+
+            }
+        }
+
     }
 }

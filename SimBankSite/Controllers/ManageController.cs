@@ -322,6 +322,38 @@ namespace SimBankSite.Controllers
             return result.Succeeded ? RedirectToAction("ManageLogins") : RedirectToAction("ManageLogins", new { Message = ManageMessageId.Error });
         }
 
+        // Post: /Manage/BalanceAdding
+        public ActionResult BalanceAdding()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public ActionResult BalanceAdding(MoneyAddOnBalance a)
+        {
+            ApplicationUser usera = new ApplicationUser();
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                if (usera.UserCredentials == null)
+            {
+                    usera.UserCredentials = new UserCredential { Id = usera.Id, Money = a.Money };
+                    db.UserCredentials.Add(new UserCredential { Id = usera.Id, Money = a.Money });
+                    db.SaveChanges();
+               
+            }
+            else
+            {
+                usera.UserCredentials.Money += a.Money;
+                
+            }
+            }
+            ViewBag.Balance = a.Money.ToString();
+            return View();
+        }
+        
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)

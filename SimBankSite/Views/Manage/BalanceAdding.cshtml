@@ -1,0 +1,34 @@
+﻿@model SimBankSite.Models.MoneyAddOnBalance
+
+
+@{
+    ViewBag.Title = "BalanceAdding";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>BalanceAdding</h2>
+@if (ViewBag.Balance != null)
+{
+    <h3>
+        Баланс пополнен на @ViewBag.Balance рубля
+    </h3>
+}
+    
+
+@using (Html.BeginForm("BalanceAdding", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{ 
+@Html.AntiForgeryToken()
+@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+<p>На сколько вы хотите пополнить баланс ?</p>
+
+@Html.TextBoxFor(m => m.Money);
+<br />
+<input type="submit" value="Пополнить" class="btn btn-default" style="margin-top: 10px;" />
+
+}
+
+
+
+
+

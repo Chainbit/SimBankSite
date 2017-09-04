@@ -1,31 +1,41 @@
-﻿@{
+﻿@model SimBankSite.Models.ApplicationUser
+
+@{
     ViewBag.Title = "Home Page";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
-</div>
-
 <div class="row">
     <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+        <h3>Выберите сервис, для которого Вам нужно принять СМС.</h3>
+        <form method="post" action="">
+            <input type="radio" name="vk" value="Vk" class="radioChooseEntity" /> Вконтакте <br />
+            <input type="radio" name="ok" class="radioChooseEntity" /> Одноклассники <br />
+            <input type="radio" name="steam" class="radioChooseEntity" /> Steam <br />
+            <input type="radio" name="uber" class="radioChooseEntity" /> Uber <br />
+            <input type="submit" class="btn-lg btn-success" />
+        </form>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+
+    <div class="col-md-8">
+        <div class="jumbotron">
+            <h1>Sim Sim SMS</h1>
+            <p class="lead">Вы сможете получить смс на наш номер</p>
+            <p><a href="/Home/Help" class="btn btn-primary btn-lg">Раздел помощи &raquo;</a></p>
+            <table>
+                <h3>
+                    @foreach (SimBankSite.Models.ApplicationUser u in ViewBag.Users)
+                    {
+
+                        <tr>
+                            <td>@u.UserName</td>
+                            <td>@u.Id </td>
+                            
+                        </tr>
+
+
+                    }
+                </h3>
+            </table>
+        </div>
     </div>
 </div>
