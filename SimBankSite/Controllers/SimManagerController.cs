@@ -11,7 +11,7 @@ using System.Web.Mvc;
 using System.Web.Routing;
 using System.Security.Principal;
 using Microsoft.AspNet.SignalR.Client;
-
+using Newtonsoft.Json;
 
 namespace SimBankSite.Controllers
 {
@@ -40,13 +40,65 @@ namespace SimBankSite.Controllers
             _hub.Invoke("Connect", "8nkCH0iXXkNBgw3V").Wait();
         }
 
+        private void DisconnectHub()
+        {
+            connection.Stop();
+        }
+
         /// <summary>
-        /// Получить номер для использования в сервисе
+        /// Обработка заказа
+        /// </summary>
+        /// <param name="order">Заказ</param>
+        public void ParseOrder(Order order)
+        {
+            var serviceName = order.Service.Name;
+            var sim = GetNumberForService(serviceName);
+            if (sim==null)
+            {
+                order.Status = "Ошибка! Нет доступных номеров";
+                return;
+            }
+            //создаем команду
+            CommandClass command = new CommandClass {
+                Destination = sim.Id,
+                Command = "WaitSms",
+                Pars = new string[]{ "ReceiveLast" }
+            };
+            //превращаем ее в JSON
+            string cmd = JsonConvert.SerializeObject(command);
+            //подключаемся
+            InitializeConnection("/");
+            //подписываемся на события и вызываем методы
+            _hub.On("SmsContentReceived", (x => order.Message = x));
+            _hub.Invoke("SendCommCommand", cmd).Wait();
+        }
+
+        /// <summary>
+        /// Выбор номера телефона для регистрации
         /// </summary>
         /// <param name="service">Сервис</param>
-        public void GetFreeNumber(Service service)
+        /// <returns></returns>
+        public Sim GetNumberForService(string service)
         {
-            //выбираем номер из Бд
+            var list = db.ActiveSimCards.OrderByDescending(s => s.UsedServicesArray.Length);
+            foreach (var sim in list)
+            {
+                if (!sim.UsedServicesArray.Contains(service))
+                {
+                    return sim;
+                }
+            }
+            return null;
         }
+    }
+
+    /// <summary>
+    /// Класс, представляющий собо команду клиенту
+    /// </summary>
+    public class CommandClass
+    {
+        public string Destination { get; set; }
+        public string Command { get; set; }
+        public string[] Pars { get; set; }
     }
 }

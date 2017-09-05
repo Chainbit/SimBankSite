@@ -10,6 +10,9 @@ namespace SimBankSite.Models
 {
     public class Sim
     {
+        /// <summary>
+        /// ICCID сим-карты
+        /// </summary>
         public string Id { get; set; }
         public string TelNumber { get; set; }
         /// <summary>
@@ -33,7 +36,7 @@ namespace SimBankSite.Models
         /// Использованные сервисы как строка (для БД)
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Advanced)]
-        public string UsedServices { get; set; }
+        private string UsedServices { get; set; }
     }
 
     public class SimContext : DbContext

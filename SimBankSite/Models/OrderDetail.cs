@@ -9,7 +9,6 @@ namespace SimBankSite.Models
     {
         public int Id { get; set; }
         public int OrderId { get; set; }
-        public int ProductId { get; set; }
         public string TelNumber { get; set; }
         public string Status { get; set; }
 

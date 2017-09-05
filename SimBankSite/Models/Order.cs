@@ -12,8 +12,10 @@ namespace SimBankSite.Models
 
         [Required]
         public string Customer { get; set; }
-
-        // Navigation property
-        public ICollection<OrderDetail> OrderDetails { get; set; }
+        //Order details
+        public string TelNumber { get; set; }
+        public string Status { get; set; }
+        public Service Service { get; set; }
+        public string Message { get; set; }
     }
 }

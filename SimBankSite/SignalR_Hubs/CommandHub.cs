@@ -45,7 +45,7 @@ namespace SimBankSite.SignalR_Hubs
         /// <param name="message"></param>
         public void SmsReceived(string message)
         {
-            Console.WriteLine(message);
+            Clients.Client(Host.ConnectionId).SmsContentReceived(message);
         }
 
         public void PrintClientsId()

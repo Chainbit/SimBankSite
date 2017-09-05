@@ -9,7 +9,7 @@ namespace SimBankSite.Models
         }
 
         public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderDetail> OrderDetails { get; set; }
+        //public DbSet<OrderDetail> OrderDetails { get; set; }
         public DbSet<Service> Services { get; set; }
     }
 }
