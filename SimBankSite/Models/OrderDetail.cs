@@ -8,9 +8,10 @@ namespace SimBankSite.Models
     public class OrderDetail
     {
         public int Id { get; set; }
-        public int Quantity { get; set; }
         public int OrderId { get; set; }
         public int ProductId { get; set; }
+        public string TelNumber { get; set; }
+        public string Status { get; set; }
 
         // Navigation properties
         public Service Service { get; set; }
