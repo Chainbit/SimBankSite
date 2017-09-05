@@ -16,11 +16,6 @@ namespace SimBankSite.SignalR_Hubs
 
         public CommandHub()
         {
-            Task.Run(new Action(() =>
-            {
-                Thread.Sleep(10000);
-                Clients.All.CommandArrived(cmd);
-            }));
 
         }
 

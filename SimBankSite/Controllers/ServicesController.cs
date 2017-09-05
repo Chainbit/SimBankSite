@@ -16,8 +16,7 @@ namespace SimBankSite.Controllers
         private IQueryable<Service> MapServices()
         {
             return from p in db.Services
-                   select new Service()
-                   { Id = p.Id, Name = p.Name, Price = p.Price };
+                   select p;
         }
 
         public IEnumerable<Service> GetServices()
