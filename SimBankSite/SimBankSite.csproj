@@ -230,7 +230,7 @@
     <Compile Include="Controllers\SimManagerController.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderDetail.cs" />
-    <Compile Include="Models\OrdersContext.cs" />
+    <Compile Include="Models\ServiceContext.cs" />
     <Compile Include="Controllers\ServicesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -247,6 +247,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\Services.mdf" />
+    <Content Include="App_Data\Services_log.ldf">
+      <DependentUpon>Services.mdf</DependentUpon>
+    </Content>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -274,6 +278,7 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Views\Home\Help.cshtml" />
     <Content Include="Views\Manage\BalanceAdding.cshtml" />
+    <Content Include="Views\Home\AddService.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
@@ -311,9 +316,7 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="App_Data\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
   </ItemGroup>
