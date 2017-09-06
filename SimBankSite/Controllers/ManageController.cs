@@ -32,9 +32,9 @@ namespace SimBankSite.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -70,7 +70,8 @@ namespace SimBankSite.Controllers
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                User = await UserManager.FindByIdAsync(userId)
             };
             return View(model);
         }
@@ -333,26 +334,16 @@ namespace SimBankSite.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult BalanceAdding(MoneyAddOnBalance a)
         {
-            ApplicationUser usera = new ApplicationUser();
+            ApplicationUser user = new ApplicationUser();
+
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
-                if (usera.UserCredentials == null)
-            {
-                    usera.UserCredentials = new UserCredential { Id = usera.Id, Money = a.Money };
-                    db.UserCredentials.Add(new UserCredential { Id = usera.Id, Money = a.Money });
-                    db.SaveChanges();
-               
+                user.Money += a.Money;
             }
-            else
-            {
-                usera.UserCredentials.Money += a.Money;
-                
-            }
-            }
+
             ViewBag.Balance = a.Money.ToString();
             return View();
         }
-        
 
         protected override void Dispose(bool disposing)
         {
@@ -365,7 +356,7 @@ namespace SimBankSite.Controllers
             base.Dispose(disposing);
         }
 
-#region Вспомогательные приложения
+        #region Вспомогательные приложения
         // Используется для защиты от XSRF-атак при добавлении внешних имен входа
         private const string XsrfKey = "XsrfId";
 
@@ -416,6 +407,6 @@ namespace SimBankSite.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }
