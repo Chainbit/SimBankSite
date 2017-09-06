@@ -10,7 +10,7 @@ namespace SimBankSite.Controllers
 {
     public class ServicesController : ApiController
     {
-        private OrdersContext db = new OrdersContext();
+        private ServiceContext db = new ServiceContext();
 
         // Project products to product DTOs.
         private IQueryable<Service> MapServices()

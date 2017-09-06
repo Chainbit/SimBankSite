@@ -14,6 +14,10 @@ namespace SimBankSite.Controllers
         public ActionResult Index()
         {
             List<ApplicationUser> user = new List<ApplicationUser>();
+            using (ServiceContext db = new ServiceContext())
+            {
+                ViewBag.Services = db.Services.ToList();
+            }
 
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
@@ -47,6 +51,26 @@ namespace SimBankSite.Controllers
             ViewBag.Message = "Тут будет страница помощи";
 
             return View();
+        }
+
+        /// <summary>
+        /// Добавление сервисов
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public ActionResult AddService()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public ActionResult AddService(Service svc)
+        {
+            ServiceContext db = new ServiceContext();
+            db.Services.Add(svc);
+            db.SaveChanges();
+
+            return RedirectToAction("Index");
         }
     }
 }

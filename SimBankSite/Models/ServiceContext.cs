@@ -2,9 +2,9 @@
 
 namespace SimBankSite.Models
 {
-    public class OrdersContext : DbContext
+    public class ServiceContext : DbContext
     {
-        public OrdersContext() : base("name=OrdersContext")
+        public ServiceContext() : base("ServiceContext")
         {
         }
 
