@@ -228,10 +228,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\SimManagerController.cs" />
-    <Compile Include="Migrations\201709061651572_UserMoney.cs" />
-    <Compile Include="Migrations\201709061651572_UserMoney.Designer.cs">
-      <DependentUpon>201709061651572_UserMoney.cs</DependentUpon>
-    </Compile>
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderDetail.cs" />
     <Compile Include="Models\ServiceContext.cs" />
@@ -319,11 +315,6 @@
     <Content Include="Views\Manage\VerifyPhoneNumber.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709061651572_UserMoney.resx">
-      <DependentUpon>201709061651572_UserMoney.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
