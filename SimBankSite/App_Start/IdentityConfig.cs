@@ -54,9 +54,9 @@ namespace SimBankSite
             manager.PasswordValidator = new PasswordValidator
             {
                 RequiredLength = 6,
-                RequireDigit = true,
-                RequireLowercase = true,
-                RequireUppercase = true,
+                RequireDigit = false,
+                RequireLowercase = false,
+                RequireUppercase = false,
             };
 
             // Настройка параметров блокировки по умолчанию
