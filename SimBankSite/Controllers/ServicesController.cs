@@ -27,7 +27,7 @@ namespace SimBankSite.Controllers
         public Service GetService(int id)
         {
             var product = (from p in MapServices()
-                           where p.Id == 1
+                           where p.Id == id
                            select p).FirstOrDefault();
             if (product == null)
             {
