@@ -14,6 +14,7 @@ namespace SimBankSite
     {
         protected void Application_Start()
         {
+            Database.SetInitializer<ServiceContext> (null);
             Database.SetInitializer<ApplicationDbContext>(null);
             AreaRegistration.RegisterAllAreas();
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
