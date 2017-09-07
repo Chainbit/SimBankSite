@@ -17,9 +17,16 @@ namespace SimBankSite.SignalR_Hubs
 
         SimContext db;
 
+        
+
         public CommandHub()
         {
             db = new SimContext();
+        }
+
+        public void PrintClientsId()
+        {
+
         }
 
         public void DetermineLength(string message)
