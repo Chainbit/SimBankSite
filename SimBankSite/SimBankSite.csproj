@@ -246,6 +246,10 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="App_Data\aspnet-SimBankSite-20170821044936.mdf" />
+    <Content Include="App_Data\aspnet-SimBankSite-20170821044936_log.ldf">
+      <DependentUpon>aspnet-SimBankSite-20170821044936.mdf</DependentUpon>
+    </Content>
     <Content Include="App_Data\Services.mdf" />
     <Content Include="App_Data\Services_log.ldf">
       <DependentUpon>Services.mdf</DependentUpon>
