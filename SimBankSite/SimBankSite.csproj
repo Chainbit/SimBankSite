@@ -227,8 +227,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\ServicesController.cs" />
-    <Compile Include="Controllers\SimManagerController.cs" />
     <Compile Include="Migrations\201709061143553_InitialCreate.cs" />
     <Compile Include="Migrations\201709061143553_InitialCreate.Designer.cs">
       <DependentUpon>201709061143553_InitialCreate.cs</DependentUpon>
