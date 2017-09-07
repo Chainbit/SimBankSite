@@ -33,6 +33,7 @@ namespace SimBankSite.SignalR_Hubs
             Clients.All.ComsInfoArrived(json);
             List<Sim> activeComs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Sim>>(json);
             db.ActiveSimCards.AddRange(activeComs);
+            db.SaveChanges();
         }
 
         /// <summary>

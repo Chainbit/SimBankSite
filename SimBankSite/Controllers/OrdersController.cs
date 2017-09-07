@@ -16,16 +16,24 @@ using System.Web;
 
 namespace SimBankSite.Controllers
 {
-    public class OrdersController : IController
+    public class OrdersController : Controller
     {
         private IHubProxy _hub;
         private HubConnection connection;
         private SimContext db = new SimContext();
 
-        public void Execute(RequestContext requestContext)
+        public new void Execute(RequestContext requestContext)
         {
-            string url = HttpContext.Current.Request.Url.ToString();
+            string url =Request.Url.ToString();
+            string baseUrl = Request.Url.Scheme + "://" + Request.Url.Authority +
+    Request.ApplicationPath.TrimEnd('/') + "/";
             InitializeConnection(url);
+            Subscribe();
+        }
+
+        public ActionResult Index()
+        {
+            return View();
         }
 
         /// <summary>
