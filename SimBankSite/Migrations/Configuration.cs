@@ -5,15 +5,15 @@ namespace SimBankSite.Migrations
     using System.Data.Entity.Migrations;
     using System.Linq;
 
-    internal sealed class Configuration : DbMigrationsConfiguration<SimBankSite.Models.ApplicationDbContext>
+    internal sealed class Configuration : DbMigrationsConfiguration<SimBankSite.Models.ServiceContext>
     {
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "SimBankSite.Models.ApplicationDbContext";
+            ContextKey = "SimBankSite.Models.ServiceContext";
         }
 
-        protected override void Seed(SimBankSite.Models.ApplicationDbContext context)
+        protected override void Seed(SimBankSite.Models.ServiceContext context)
         {
             //  This method will be called after migrating to the latest version.
 

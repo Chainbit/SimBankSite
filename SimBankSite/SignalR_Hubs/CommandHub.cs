@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNet.SignalR;
+using SimBankSite.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,11 @@ namespace SimBankSite.SignalR_Hubs
         static ClientComm Host = null;
         string cmd = "{\"Destination\": \"8970199170310344443\",\"Command\": \"WaitSms\",\"Pars\": [\"SearchByNumber\", \"My Beeline\" ]}";
 
+        SimContext db;
+
         public CommandHub()
         {
-
+            db = new SimContext();
         }
 
         public void DetermineLength(string message)
@@ -25,18 +28,12 @@ namespace SimBankSite.SignalR_Hubs
             Clients.All.ReceiveLength(newMessage);
         }
 
-        public void GetClients()
-        {
-            foreach (var item in Clients.All)
-            {
-                Console.WriteLine(item);
-            }
-            Console.WriteLine("done");
-        }
-
         public void ManagerInfo(string json)
         {
-            Clients.Client(Host.ConnectionId).ComsInfoArrived(json);
+            Clients.All.ComsInfoArrived(json);
+            List<Sim> activeComs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Sim>>(json);
+            db.ActiveSimCards.AddRange(activeComs);
+            db.SaveChanges();
         }
 
         /// <summary>
@@ -46,14 +43,6 @@ namespace SimBankSite.SignalR_Hubs
         public void SmsReceived(string message)
         {
             Clients.Client(Host.ConnectionId).SmsContentReceived(message);
-        }
-
-        public void PrintClientsId()
-        {
-            foreach (var client in clientComms)
-            {
-                Console.WriteLine(client.ConnectionId);
-            }
         }
 
         /// <summary>
@@ -77,6 +66,13 @@ namespace SimBankSite.SignalR_Hubs
 
             // Посылаем сообщение текущему пользователю
             Clients.Caller.onConnected(id, commName);
+            Controllers.CommandClass initialCommand = new Controllers.CommandClass()
+            {
+                Id = -1,
+                Destination = "All",
+                Command = "ManagerInfo",
+                Pars = new string[] { }
+            };
             // и сайту
             if (Host != null)
             {
@@ -111,6 +107,11 @@ namespace SimBankSite.SignalR_Hubs
             Clients.AllExcept(Context.ConnectionId).CommandArrived(cmd);
             //вызываем у отправителя метод Confirm чтобы подтвердить что команда принята
             //Clients.Caller.Confirm();
+        }
+
+        ~CommandHub()
+        {
+            db.Dispose();
         }
     }
 }

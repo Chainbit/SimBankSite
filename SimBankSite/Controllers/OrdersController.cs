@@ -12,18 +12,28 @@ using System.Web.Routing;
 using System.Security.Principal;
 using Microsoft.AspNet.SignalR.Client;
 using Newtonsoft.Json;
+using System.Web;
 
 namespace SimBankSite.Controllers
 {
-    public class SimManagerController : IController
+    public class OrdersController : Controller
     {
         private IHubProxy _hub;
         private HubConnection connection;
         private SimContext db = new SimContext();
 
-        public void Execute(RequestContext requestContext)
+        public new void Execute(RequestContext requestContext)
         {
-            InitializeConnection("/");
+            string url =Request.Url.ToString();
+            string baseUrl = Request.Url.Scheme + "://" + Request.Url.Authority +
+    Request.ApplicationPath.TrimEnd('/') + "/";
+            InitializeConnection(url);
+            Subscribe();
+        }
+
+        public ActionResult Index()
+        {
+            return View();
         }
 
         /// <summary>
@@ -38,6 +48,11 @@ namespace SimBankSite.Controllers
             connection.Start().Wait();
 
             _hub.Invoke("Connect", "8nkCH0iXXkNBgw3V").Wait();
+        }
+
+        private void Subscribe()
+        {
+            _hub.On<string, int>("SmsContentReceived", (sms, cmdId) => UpdateOrderMessage(cmdId,sms));
         }
 
         private void DisconnectHub()
@@ -60,6 +75,7 @@ namespace SimBankSite.Controllers
             }
             //создаем команду
             CommandClass command = new CommandClass {
+                Id = order.Id,
                 Destination = sim.Id,
                 Command = "WaitSms",
                 Pars = new string[]{ "ReceiveLast" }
@@ -68,9 +84,22 @@ namespace SimBankSite.Controllers
             string cmd = JsonConvert.SerializeObject(command);
             //подключаемся
             InitializeConnection("/");
-            //подписываемся на события и вызываем методы
-            _hub.On("SmsContentReceived", (x => order.Message = x));
+            //вызываем метод
             _hub.Invoke("SendCommCommand", cmd).Wait();
+        }
+
+        /// <summary>
+        /// Обновляет значение сообщения у <see cref="Order"/>
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="sms"></param>
+        private void UpdateOrderMessage(int id, string sms)
+        {
+            using (ServiceContext db = new ServiceContext())
+            {
+                db.Orders.Find(id).Message = sms;
+                db.SaveChanges();
+            }
         }
 
         /// <summary>
@@ -97,6 +126,7 @@ namespace SimBankSite.Controllers
     /// </summary>
     public class CommandClass
     {
+        public int Id { get; set; }
         public string Destination { get; set; }
         public string Command { get; set; }
         public string[] Pars { get; set; }
