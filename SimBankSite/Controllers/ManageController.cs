@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SimBankSite.Models;
+using System.Text.RegularExpressions;
 
 namespace SimBankSite.Controllers
 {
@@ -332,16 +333,42 @@ namespace SimBankSite.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult BalanceAdding(MoneyAddOnBalance a)
+        public async Task<ActionResult> BalanceAdding(MoneyAddOnBalance a)
         {
-            ApplicationUser user = new ApplicationUser();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+            string ptrn = "[0-9]{1,10}(\\,[0-9]{0,2})?";
+
+            string moneyToAdd = a.Money;
+            decimal money = 0;
+
+            if (moneyToAdd.Contains("."))
+            {
+                moneyToAdd = moneyToAdd.Replace(".", ",");
+            }
+
+            Regex check = new Regex(ptrn);
+            Match match = check.Match(moneyToAdd);
+            if (match.Success)
+            {
+                money = decimal.Parse(match.Value);
+            }
 
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
-                user.Money += a.Money;
+                if (money <= 0)
+                {
+                    ModelState.AddModelError("", "Сумма начисления должна быть больше нуля");
+                }
+                else
+                {
+                    user.Money += money;
+
+                    await UserManager.UpdateAsync(user);
+                    ViewBag.Balance = moneyToAdd.ToString();
+                }
             }
 
-            ViewBag.Balance = a.Money.ToString();
             return View();
         }
 
