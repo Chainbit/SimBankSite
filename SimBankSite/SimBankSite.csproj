@@ -259,10 +259,10 @@
     <Content Include="App_Data\aspnet-SimBankSite-20170821044936_log.ldf">
       <DependentUpon>aspnet-SimBankSite-20170821044936.mdf</DependentUpon>
     </Content>
-    <Content Include="App_Data\Services.mdf" />
-    <Content Include="App_Data\Services_log.ldf">
+    <None Include="App_Data\Services.mdf" />
+    <None Include="App_Data\Services_log.ldf">
       <DependentUpon>Services.mdf</DependentUpon>
-    </Content>
+    </None>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -291,17 +291,14 @@
     <Content Include="Views\Home\Help.cshtml" />
     <Content Include="Views\Manage\BalanceAdding.cshtml" />
     <Content Include="Views\Home\AddService.cshtml" />
-    <Content Include="Web.config">
+    <None Include="Web.config">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
