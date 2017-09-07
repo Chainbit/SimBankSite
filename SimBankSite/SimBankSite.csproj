@@ -229,14 +229,6 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\Admin\ServicesController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
-    <Compile Include="Migrations\201709070944592_InitialCreate.cs" />
-    <Compile Include="Migrations\201709070944592_InitialCreate.Designer.cs">
-      <DependentUpon>201709070944592_InitialCreate.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709071733189_Order.cs" />
-    <Compile Include="Migrations\201709071733189_Order.Designer.cs">
-      <DependentUpon>201709071733189_Order.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderDetail.cs" />
@@ -336,14 +328,6 @@
     <Content Include="Views\Services\Edit.cshtml" />
     <Content Include="Views\Services\Index.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709070944592_InitialCreate.resx">
-      <DependentUpon>201709070944592_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709071733189_Order.resx">
-      <DependentUpon>201709071733189_Order.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
