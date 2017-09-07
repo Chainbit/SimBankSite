@@ -73,14 +73,6 @@ namespace SimBankSite.Controllers
                 return View(model);
             }
 
-            /*var userId = User.Identity.GetUserId();
-            var user = await UserManager.FindByIdAsync(userId);
-
-            if (user.UserCredentials == null)
-            {
-                user.UserCredentials = new UserCredential { Money = 0.00d, User = user };
-            }*/
-
             // Сбои при входе не приводят к блокированию учетной записи
             // Чтобы ошибки при вводе пароля инициировали блокирование учетной записи, замените на shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
@@ -159,7 +151,7 @@ namespace SimBankSite.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Money = 0.00d };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email/*, Money = 0.00m */};
 
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

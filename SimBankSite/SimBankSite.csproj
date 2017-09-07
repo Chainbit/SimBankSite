@@ -227,8 +227,28 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Migrations\201709071515401_Decim.cs" />
+    <Compile Include="Migrations\201709071515401_Decim.Designer.cs">
+      <DependentUpon>201709071515401_Decim.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709071522395_Decim1.cs" />
+    <Compile Include="Migrations\201709071522395_Decim1.Designer.cs">
+      <DependentUpon>201709071522395_Decim1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709071524377_Decimal.cs" />
+    <Compile Include="Migrations\201709071524377_Decimal.Designer.cs">
+      <DependentUpon>201709071524377_Decimal.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controllers\Admin\ServicesController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Migrations\201709070944592_InitialCreate.cs" />
+    <Compile Include="Migrations\201709070944592_InitialCreate.Designer.cs">
+      <DependentUpon>201709070944592_InitialCreate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709071733189_Order.cs" />
+    <Compile Include="Migrations\201709071733189_Order.Designer.cs">
+      <DependentUpon>201709071733189_Order.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderDetail.cs" />
@@ -251,10 +271,10 @@
     <Content Include="App_Data\aspnet-SimBankSite-20170821044936_log.ldf">
       <DependentUpon>aspnet-SimBankSite-20170821044936.mdf</DependentUpon>
     </Content>
-    <Content Include="App_Data\Services.mdf" />
-    <Content Include="App_Data\Services_log.ldf">
+    <None Include="App_Data\Services.mdf" />
+    <None Include="App_Data\Services_log.ldf">
       <DependentUpon>Services.mdf</DependentUpon>
-    </Content>
+    </None>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -283,17 +303,14 @@
     <Content Include="Views\Home\Help.cshtml" />
     <Content Include="Views\Manage\BalanceAdding.cshtml" />
     <Content Include="Views\Home\AddService.cshtml" />
-    <Content Include="Web.config">
+    <None Include="Web.config">
       <SubType>Designer</SubType>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    </None>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Web.Release.config">
       <DependentUpon>Web.config</DependentUpon>
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
@@ -328,6 +345,23 @@
     <Content Include="Views\Services\Edit.cshtml" />
     <Content Include="Views\Services\Index.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201709071515401_Decim.resx">
+      <DependentUpon>201709071515401_Decim.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709071522395_Decim1.resx">
+      <DependentUpon>201709071522395_Decim1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709071524377_Decimal.resx">
+      <DependentUpon>201709071524377_Decimal.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709070944592_InitialCreate.resx">
+      <DependentUpon>201709070944592_InitialCreate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709071733189_Order.resx">
+      <DependentUpon>201709071733189_Order.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

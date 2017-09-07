@@ -92,7 +92,7 @@ namespace SimBankSite.Models
         [Required]
         [Display(Name ="Количество денег для занесения")]
         [DataType(DataType.Currency)]
-        public double Money { get; set; }
+        public string Money { get; set; }
                 
     }
 }
