@@ -13,11 +13,11 @@
             <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Администрирование<span class="caret"></span></a>           
             <ul class="dropdown-menu" aria-labelledby="adminDropdown">
                 <li>
-                @Html.ActionLink("Изменить доступные сервисы", "Index", "Services", routeValues: null, htmlAttributes: new { title = "Добавить сервис", @class = "dropdown-item" }) 
+                    @Html.ActionLink("Изменить доступные сервисы", "Index", "Services", routeValues: null, htmlAttributes: new { title = "Добавить сервис", @class = "dropdown-item" }) 
                 </li>
-                <li>
-                    <a class="dropdown-item" href="#">Another action</a>
-                </li>
+                @*<li>
+                    @Html.ActionLink("Управление пользователями", "Index", "ApplicationUsers", routeValues: null, htmlAttributes: new { title = "Управление пользователями", @class = "dropdown-item" }) 
+                </li>*@
                 <li>
                     <a class="dropdown-item" href="#">Something else here</a>
                 </li>

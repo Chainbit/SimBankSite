@@ -13,16 +13,16 @@ namespace SimBankSite.Controllers
        
         public ActionResult Index()
         {
-            List<ApplicationUser> user = new List<ApplicationUser>();
+            //List<ApplicationUser> user = new List<ApplicationUser>();
             using (ServiceContext db = new ServiceContext())
             {
                 ViewBag.Services = db.Services.ToList();
             }
 
-            using (ApplicationDbContext db = new ApplicationDbContext())
-            {
-                ViewBag.Users = db.Users.ToList();
-            }
+            //using (ApplicationDbContext db = new ApplicationDbContext())
+            //{
+            //    ViewBag.Users = db.Users.ToList();
+            //}
             
             return View();
         }

@@ -9,7 +9,7 @@ using System.Web;
 using System.Web.Mvc;
 using SimBankSite.Models;
 
-namespace SimBankSite.Controllers
+namespace SimBankSite.Controllers.Admin
 {
     [Authorize]// ДОБАВИТЬ РОЛИ!
     public class ServicesController : Controller
