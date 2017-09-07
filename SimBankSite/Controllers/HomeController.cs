@@ -53,6 +53,14 @@ namespace SimBankSite.Controllers
             return View();
         }
 
+        [HttpPost]
+        public ActionResult Check()
+        {
+            var context = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<SignalR_Hubs.CommandHub>();
+            context.Clients.All.broadcast("Идите нахуй!");
+            return RedirectToAction("Index");
+        }
+
         /// <summary>
         /// Добавление сервисов
         /// </summary>
