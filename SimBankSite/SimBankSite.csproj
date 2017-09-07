@@ -227,12 +227,6 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
-    <Compile Include="Controllers\ServicesController.cs" />
-    <Compile Include="Controllers\SimManagerController.cs" />
-    <Compile Include="Migrations\201709061143553_InitialCreate.cs" />
-    <Compile Include="Migrations\201709061143553_InitialCreate.Designer.cs">
-      <DependentUpon>201709061143553_InitialCreate.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\201709071515401_Decim.cs" />
     <Compile Include="Migrations\201709071515401_Decim.Designer.cs">
       <DependentUpon>201709071515401_Decim.cs</DependentUpon>
@@ -245,7 +239,6 @@
     <Compile Include="Migrations\201709071524377_Decimal.Designer.cs">
       <DependentUpon>201709071524377_Decimal.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Controllers\Admin\ServicesController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Migrations\201709070944592_InitialCreate.cs" />
@@ -357,9 +350,6 @@
     <Content Include="Views\Orders\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709061143553_InitialCreate.resx">
-      <DependentUpon>201709061143553_InitialCreate.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709071515401_Decim.resx">
       <DependentUpon>201709071515401_Decim.cs</DependentUpon>
     </EmbeddedResource>
