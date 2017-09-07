@@ -7,7 +7,7 @@ namespace SimBankSite.Migrations
     {
         public override void Up()
         {
-            CreateTable(
+            /*CreateTable(
                 "dbo.Orders",
                 c => new
                     {
@@ -30,16 +30,16 @@ namespace SimBankSite.Migrations
                         Name = c.String(nullable: false),
                         Price = c.Decimal(nullable: false, precision: 18, scale: 2),
                     })
-                .PrimaryKey(t => t.Id);
+                .PrimaryKey(t => t.Id);*/
             
         }
         
         public override void Down()
         {
-            DropForeignKey("dbo.Orders", "Service_Id", "dbo.Services");
+            /*DropForeignKey("dbo.Orders", "Service_Id", "dbo.Services");
             DropIndex("dbo.Orders", new[] { "Service_Id" });
             DropTable("dbo.Services");
-            DropTable("dbo.Orders");
+            DropTable("dbo.Orders");*/
         }
     }
 }
