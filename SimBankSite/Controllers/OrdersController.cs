@@ -6,6 +6,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using Microsoft.AspNet.SignalR;
+using Microsoft.AspNet.Identity;
 using SimBankSite.SignalR_Hubs;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -13,6 +14,8 @@ using System.Security.Principal;
 using Microsoft.AspNet.SignalR.Client;
 using Newtonsoft.Json;
 using System.Web;
+using Microsoft.AspNet.Identity.Owin;
+using System.Threading.Tasks;
 
 namespace SimBankSite.Controllers
 {
@@ -21,6 +24,12 @@ namespace SimBankSite.Controllers
         private IHubProxy _hub;
         private HubConnection connection;
         private SimContext db = new SimContext();
+        private ApplicationUserManager UserManager { get; set; }
+
+        public OrdersController()
+        {
+            UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+        }
 
         public new void Execute(RequestContext requestContext)
         {
@@ -34,6 +43,51 @@ namespace SimBankSite.Controllers
         public ActionResult Index()
         {
             return View();
+        }
+
+        public async Task<ActionResult> Create(Service svc)
+        {
+            if (User.Identity.IsAuthenticated)
+            {
+                //var UserManager= HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                if (user.Money>=svc.Price)
+                {
+
+                }
+                return View("Index");
+            }
+            else
+            {
+                return Redirect("/Account/Login");
+            }
+        }
+
+        /// <summary>
+        /// Создает новый заказ
+        /// </summary>
+        /// <param name="user">Текущий пользователь</param>
+        /// <param name="svc">Сервис</param>
+        private async void CreateOrder(ApplicationUser user, Service svc)
+        {
+            var dt = DateTime.Now;
+            var order = new Order()
+            {
+                CustomerId = user.Id,
+                Service = svc,
+                Status = "Обработка заказа",
+                DateCreated = dt
+            };
+            
+            //using(ApplicationDbContext UsersDB = new ApplicationDbContext())
+            using (ServiceContext OrdersDB = new ServiceContext())
+            {
+                user.Money -= svc.Price;
+                await UserManager.UpdateAsync(user);
+                OrdersDB.Orders.Add(order);
+                OrdersDB.SaveChanges();
+            }
+            await ParseOrder(order);
         }
 
         /// <summary>
@@ -64,28 +118,32 @@ namespace SimBankSite.Controllers
         /// Обработка заказа
         /// </summary>
         /// <param name="order">Заказ</param>
-        public void ParseOrder(Order order)
+        public Task ParseOrder(Order order)
         {
-            var serviceName = order.Service.Name;
-            var sim = GetNumberForService(serviceName);
-            if (sim==null)
+            return Task.Factory.StartNew(() =>
             {
-                order.Status = "Ошибка! Нет доступных номеров";
-                return;
-            }
-            //создаем команду
-            CommandClass command = new CommandClass {
-                Id = order.Id,
-                Destination = sim.Id,
-                Command = "WaitSms",
-                Pars = new string[]{ "ReceiveLast" }
-            };
-            //превращаем ее в JSON
-            string cmd = JsonConvert.SerializeObject(command);
-            //подключаемся
-            InitializeConnection("/");
-            //вызываем метод
-            _hub.Invoke("SendCommCommand", cmd).Wait();
+                var serviceName = order.Service.Name;
+                var sim = GetNumberForService(serviceName);
+                if (sim == null)
+                {
+                    order.Status = "Ошибка! Нет доступных номеров";
+                    return;
+                }
+                //создаем команду
+                CommandClass command = new CommandClass
+                {
+                    Id = order.Id,
+                    Destination = sim.Id,
+                    Command = "WaitSms",
+                    Pars = new string[] { "ReceiveLast" }
+                };
+                //превращаем ее в JSON
+                string cmd = JsonConvert.SerializeObject(command);
+                //подключаемся
+                InitializeConnection("/");
+                //вызываем метод
+                _hub.Invoke("SendCommCommand", cmd).Wait();
+            });
         }
 
         /// <summary>

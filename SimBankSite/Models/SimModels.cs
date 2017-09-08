@@ -17,6 +17,8 @@ namespace SimBankSite.Models
         [Required]
         public string Id { get; set; }
         public string TelNumber { get; set; }
+        public SimState State { get; set; }
+        public string SimBankId { get; set; }
         /// <summary>
         /// Использованные сервисы как массив
         /// </summary>
@@ -45,6 +47,25 @@ namespace SimBankSite.Models
     {
         public SimContext() : base("Database") { }
 
+        /// <summary>
+        /// Активные сим-карты
+        /// </summary>
         public DbSet<Sim> ActiveSimCards { get; set; }
+    }
+
+    public class SimStorageContext : DbContext
+    {
+        public SimStorageContext(): base("Database") { }
+
+        /// <summary>
+        /// Все сим-карты
+        /// </summary>
+        public DbSet<Sim> AllSimCards { get; set; }
+    }
+
+    public enum SimState
+    {
+        Ready,
+        InUse
     }
 }

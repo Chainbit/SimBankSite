@@ -229,13 +229,17 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\Admin\ServicesController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
-    <Compile Include="Migrations\201709072149310_decimal0.cs" />
-    <Compile Include="Migrations\201709072149310_decimal0.Designer.cs">
-      <DependentUpon>201709072149310_decimal0.cs</DependentUpon>
+    <Compile Include="Migrations\201709081420028_simstate2.cs" />
+    <Compile Include="Migrations\201709081420028_simstate2.Designer.cs">
+      <DependentUpon>201709081420028_simstate2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201709072154032_decimal1.cs" />
-    <Compile Include="Migrations\201709072154032_decimal1.Designer.cs">
-      <DependentUpon>201709072154032_decimal1.cs</DependentUpon>
+    <Compile Include="Migrations\201709081452085_simbase.cs" />
+    <Compile Include="Migrations\201709081452085_simbase.Designer.cs">
+      <DependentUpon>201709081452085_simbase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709081455249_orderscontextmigration.cs" />
+    <Compile Include="Migrations\201709081455249_orderscontextmigration.Designer.cs">
+      <DependentUpon>201709081455249_orderscontextmigration.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Order.cs" />
@@ -353,11 +357,14 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709072149310_decimal0.resx">
-      <DependentUpon>201709072149310_decimal0.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709081420028_simstate2.resx">
+      <DependentUpon>201709081420028_simstate2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709072154032_decimal1.resx">
-      <DependentUpon>201709072154032_decimal1.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709081452085_simbase.resx">
+      <DependentUpon>201709081452085_simbase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709081455249_orderscontextmigration.resx">
+      <DependentUpon>201709081455249_orderscontextmigration.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

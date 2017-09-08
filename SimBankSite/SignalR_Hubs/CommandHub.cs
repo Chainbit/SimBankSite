@@ -35,10 +35,30 @@ namespace SimBankSite.SignalR_Hubs
             Clients.All.ReceiveLength(newMessage);
         }
 
+        /// <summary>
+        /// Сетод принимающий список активных сим-карт
+        /// </summary>
+        /// <param name="json"></param>
         public void ManagerInfo(string json)
         {
             Clients.All.ComsInfoArrived(json);
-            List<Sim> activeComs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Sim>>(json);
+            List<Sim> activeComs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Sim>>(json); // надеюсь, прокатит
+
+            using (SimStorageContext db = new SimStorageContext())
+            {
+                foreach (var comm in activeComs)
+                {
+                    comm.State = SimState.Ready;
+
+                    var sim = db.AllSimCards.Find(comm.Id);
+                    if (sim != null)
+                    {
+                        comm.UsedServicesArray = sim.UsedServicesArray;
+                    }
+                }
+                db.AllSimCards.AddRange(activeComs);
+                db.SaveChanges();
+            }
             db.ActiveSimCards.AddRange(activeComs);
             db.SaveChanges();
         }
@@ -73,13 +93,7 @@ namespace SimBankSite.SignalR_Hubs
 
             // Посылаем сообщение текущему пользователю
             Clients.Caller.onConnected(id, commName);
-            Controllers.CommandClass initialCommand = new Controllers.CommandClass()
-            {
-                Id = -1,
-                Destination = "All",
-                Command = "ManagerInfo",
-                Pars = new string[] { }
-            };
+
             // и сайту
             if (Host != null)
             {
@@ -95,12 +109,20 @@ namespace SimBankSite.SignalR_Hubs
         public override Task OnDisconnected(bool stopCalled)
         {
             var item = clientComms.FirstOrDefault(x => x.ConnectionId == Context.ConnectionId);
+            var id = Context.ConnectionId;
             if (item != null)
             {
                 clientComms.Remove(item);
-                var id = Context.ConnectionId;
                 Clients.All.onUserDisconnected(id, item.Name);
             }
+            // удаляем из базы все симки с этого блока
+            using (SimContext db = new SimContext())
+            {
+                var range = db.ActiveSimCards.Where(x => x.SimBankId == id && x.State==SimState.Ready);// здесь спорный момент
+                db.ActiveSimCards.RemoveRange(range);
+                db.SaveChanges();
+            }
+
             return base.OnDisconnected(stopCalled);
         }
 
