@@ -42,14 +42,14 @@ namespace SimBankSite.SignalR_Hubs
         public void ManagerInfo(string json)
         {
             Clients.All.ComsInfoArrived(json);
-            List<Sim> activeComs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Sim>>(json); // надеюсь, прокатит
+            List<ActiveSim> activeComs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ActiveSim>>(json); // надеюсь, прокатит
 
             using (SimStorageContext db = new SimStorageContext())
             {
                 foreach (var comm in activeComs)
                 {
                     comm.State = SimState.Ready;
-
+                    
                     var sim = db.AllSimCards.Find(comm.Id);
                     if (sim != null)
                     {
