@@ -28,7 +28,6 @@ namespace SimBankSite.Controllers
 
         public OrdersController()
         {
-            UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
         }
 
         public new void Execute(RequestContext requestContext)
@@ -45,7 +44,7 @@ namespace SimBankSite.Controllers
             return View();
         }
 
-
+        
         public async Task<ActionResult> Create(int? id)
         {
             Service svc;
@@ -55,7 +54,7 @@ namespace SimBankSite.Controllers
             }
             if (User.Identity.IsAuthenticated)
             {
-                //var UserManager= HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                UserManager= HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user.Money>=svc.Price)
                 {
