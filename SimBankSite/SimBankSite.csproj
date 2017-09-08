@@ -229,6 +229,14 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\Admin\ServicesController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Migrations\201709072149310_decimal0.cs" />
+    <Compile Include="Migrations\201709072149310_decimal0.Designer.cs">
+      <DependentUpon>201709072149310_decimal0.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709072154032_decimal1.cs" />
+    <Compile Include="Migrations\201709072154032_decimal1.Designer.cs">
+      <DependentUpon>201709072154032_decimal1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderDetail.cs" />
@@ -343,6 +351,14 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201709072149310_decimal0.resx">
+      <DependentUpon>201709072149310_decimal0.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709072154032_decimal1.resx">
+      <DependentUpon>201709072154032_decimal1.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
