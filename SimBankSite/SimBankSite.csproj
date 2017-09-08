@@ -241,6 +241,14 @@
     <Compile Include="Migrations\201709081455249_orderscontextmigration.Designer.cs">
       <DependentUpon>201709081455249_orderscontextmigration.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709081516349_decimaldrop.cs" />
+    <Compile Include="Migrations\201709081516349_decimaldrop.Designer.cs">
+      <DependentUpon>201709081516349_decimaldrop.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709081519075_decimaladd.cs" />
+    <Compile Include="Migrations\201709081519075_decimaladd.Designer.cs">
+      <DependentUpon>201709081519075_decimaladd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderDetail.cs" />
@@ -365,6 +373,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709081455249_orderscontextmigration.resx">
       <DependentUpon>201709081455249_orderscontextmigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709081516349_decimaldrop.resx">
+      <DependentUpon>201709081516349_decimaldrop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709081519075_decimaladd.resx">
+      <DependentUpon>201709081519075_decimaladd.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
