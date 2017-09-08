@@ -3,16 +3,16 @@ namespace SimBankSite.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class decimal0 : DbMigration
+    public partial class simbase : DbMigration
     {
         public override void Up()
         {
-            DropColumn("dbo.AspNetUsers", "Money");
+            AddColumn("dbo.Sims", "SimBankId", c => c.String());
         }
         
         public override void Down()
         {
-            AddColumn("dbo.AspNetUsers", "Money", c => c.Decimal(nullable: false, precision: 18, scale: 2));
+            DropColumn("dbo.Sims", "SimBankId");
         }
     }
 }
