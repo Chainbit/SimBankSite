@@ -38,17 +38,10 @@
     <PublishDatabaseSettings>
       <Objects>
         <ObjectGroup Name="Database-развертывание" Order="2" xmlns="">
-          <Destination Path="Server=WIN-AMCNHLSUMSR/serv%3bDatabase=ASPNETUSERDB%3buser id =dbo%3b pwd=Zaqcdebgt123321%3bIntegrated Security=true" />
+          <Destination Path="Server=WIN-AMCNHLSUMSR\SERV%3bDatabase=ASPNETUSERDB%3bIntegrated Security=true" />
           <Object Type="DbFullSql">
-            <PreSource Path="Data Source=%28LocalDb%29\MSSQLLocalDB%3bAttachDbFilename=|DataDirectory|\aspnet-SimBankSite-20170821044936.mdf%3bInitial Catalog=aspnet-SimBankSite-20170821044936%3bIntegrated Security=True%3bApplication Name=EntityFramework" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
+            <PreSource Path="data source=%28LocalDb%29\MSSQLLocalDB%3battachdbfilename=|DataDirectory|\aspnet-SimBankSite-20170821044936.mdf%3binitial catalog=aspnet-SimBankSite-20170821044936%3bintegrated security=True%3bmultipleactiveresultsets=True%3bapplication name=EntityFramework" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
             <Source Path="obj\Debug\AutoScripts\Database-развертывание_SchemaOnly.sql" Transacted="True" />
-          </Object>
-        </ObjectGroup>
-        <ObjectGroup Name="ServiceContext-развертывание" Order="3" xmlns="">
-          <Destination Path="Server=WIN-AMCNHLSUMSR/serv%3bDatabase=ASPNETUSERDB%3buser id =dbo%3b pwd=Zaqcdebgt123321%3bIntegrated Security=true" />
-          <Object Type="DbFullSql">
-            <PreSource Path="Data Source=%28LocalDB%29\MSSQLLocalDB%3bAttachDbFilename=|DataDirectory|\Services.mdf%3bIntegrated Security=True%3bApplication Name=EntityFramework" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
-            <Source Path="obj\Debug\AutoScripts\ServiceContext-развертывание_SchemaOnly.sql" Transacted="True" />
           </Object>
         </ObjectGroup>
       </Objects>
@@ -308,6 +301,8 @@
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
+    <None Include="Properties\PublishProfiles\Deployer.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
