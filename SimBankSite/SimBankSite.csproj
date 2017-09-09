@@ -244,34 +244,12 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Admin\RoleAdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\Admin\ServicesController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
-    <Compile Include="Migrations\201709081420028_simstate2.cs" />
-    <Compile Include="Migrations\201709081420028_simstate2.Designer.cs">
-      <DependentUpon>201709081420028_simstate2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709081452085_simbase.cs" />
-    <Compile Include="Migrations\201709081452085_simbase.Designer.cs">
-      <DependentUpon>201709081452085_simbase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709081455249_orderscontextmigration.cs" />
-    <Compile Include="Migrations\201709081455249_orderscontextmigration.Designer.cs">
-      <DependentUpon>201709081455249_orderscontextmigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709081516349_decimaldrop.cs" />
-    <Compile Include="Migrations\201709081516349_decimaldrop.Designer.cs">
-      <DependentUpon>201709081516349_decimaldrop.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709081519075_decimaladd.cs" />
-    <Compile Include="Migrations\201709081519075_decimaladd.Designer.cs">
-      <DependentUpon>201709081519075_decimaladd.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709081629302_SimDataAdded.cs" />
-    <Compile Include="Migrations\201709081629302_SimDataAdded.Designer.cs">
-      <DependentUpon>201709081629302_SimDataAdded.cs</DependentUpon>
-    </Compile>
+    <Compile Include="Helpers\IdentityHelpers.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderDetail.cs" />
@@ -290,14 +268,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App_Data\aspnet-SimBankSite-20170821044936.mdf" />
-    <None Include="App_Data\aspnet-SimBankSite-20170821044936_log.ldf">
-      <DependentUpon>aspnet-SimBankSite-20170821044936.mdf</DependentUpon>
-    </None>
-    <None Include="App_Data\Services.mdf" />
-    <None Include="App_Data\Services_log.ldf">
-      <DependentUpon>Services.mdf</DependentUpon>
-    </None>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -328,6 +298,9 @@
     <Content Include="Views\Home\Help.cshtml" />
     <Content Include="Views\Manage\BalanceAdding.cshtml" />
     <Content Include="Views\Home\AddService.cshtml" />
+    <Content Include="Views\RoleAdmin\Index.cshtml" />
+    <Content Include="Views\RoleAdmin\Create.cshtml" />
+    <Content Include="Views\RoleAdmin\Edit.cshtml" />
     <None Include="Views\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -396,24 +369,7 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709081420028_simstate2.resx">
-      <DependentUpon>201709081420028_simstate2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709081452085_simbase.resx">
-      <DependentUpon>201709081452085_simbase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709081455249_orderscontextmigration.resx">
-      <DependentUpon>201709081455249_orderscontextmigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709081516349_decimaldrop.resx">
-      <DependentUpon>201709081516349_decimaldrop.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709081519075_decimaladd.resx">
-      <DependentUpon>201709081519075_decimaladd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709081629302_SimDataAdded.resx">
-      <DependentUpon>201709081629302_SimDataAdded.cs</DependentUpon>
-    </EmbeddedResource>
+    <Folder Include="App_Data\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

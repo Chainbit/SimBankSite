@@ -16,15 +16,17 @@ namespace SimBankSite.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationRoleManager _roleManager;
 
         public ManageController()
         {
         }
 
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationRoleManager roleManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            RoleManager = roleManager;
         }
 
         public ApplicationSignInManager SignInManager
@@ -51,6 +53,18 @@ namespace SimBankSite.Controllers
             }
         }
 
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
+        }
+
         //
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
@@ -72,7 +86,8 @@ namespace SimBankSite.Controllers
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
-                User = await UserManager.FindByIdAsync(userId)
+                User = await UserManager.FindByIdAsync(userId),
+                Role = await RoleManager.FindByIdAsync(userId)
             };
             return View(model);
         }
