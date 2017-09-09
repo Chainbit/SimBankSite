@@ -38,17 +38,10 @@
     <PublishDatabaseSettings>
       <Objects>
         <ObjectGroup Name="Database-развертывание" Order="2" xmlns="">
-          <Destination Path="Server=WIN-AMCNHLSUMSR/serv%3bDatabase=ASPNETUSERDB%3buser id =dbo%3b pwd=Zaqcdebgt123321%3bIntegrated Security=true" />
+          <Destination Path="Server=WIN-AMCNHLSUMSR\SERV%3bDatabase=ASPNETUSERDB%3bIntegrated Security=true" />
           <Object Type="DbFullSql">
-            <PreSource Path="Data Source=%28LocalDb%29\MSSQLLocalDB%3bAttachDbFilename=|DataDirectory|\aspnet-SimBankSite-20170821044936.mdf%3bInitial Catalog=aspnet-SimBankSite-20170821044936%3bIntegrated Security=True%3bApplication Name=EntityFramework" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
+            <PreSource Path="data source=%28LocalDb%29\MSSQLLocalDB%3battachdbfilename=|DataDirectory|\aspnet-SimBankSite-20170821044936.mdf%3binitial catalog=aspnet-SimBankSite-20170821044936%3bintegrated security=True%3bmultipleactiveresultsets=True%3bapplication name=EntityFramework" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
             <Source Path="obj\Debug\AutoScripts\Database-развертывание_SchemaOnly.sql" Transacted="True" />
-          </Object>
-        </ObjectGroup>
-        <ObjectGroup Name="ServiceContext-развертывание" Order="3" xmlns="">
-          <Destination Path="Server=WIN-AMCNHLSUMSR/serv%3bDatabase=ASPNETUSERDB%3buser id =dbo%3b pwd=Zaqcdebgt123321%3bIntegrated Security=true" />
-          <Object Type="DbFullSql">
-            <PreSource Path="Data Source=%28LocalDB%29\MSSQLLocalDB%3bAttachDbFilename=|DataDirectory|\Services.mdf%3bIntegrated Security=True%3bApplication Name=EntityFramework" ScriptSchema="True" ScriptData="False" CopyAllFullTextCatalogs="False" DriDefaults="True" />
-            <Source Path="obj\Debug\AutoScripts\ServiceContext-развертывание_SchemaOnly.sql" Transacted="True" />
           </Object>
         </ObjectGroup>
       </Objects>
@@ -250,6 +243,26 @@
     <Compile Include="Controllers\Admin\ServicesController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Helpers\IdentityHelpers.cs" />
+    <Compile Include="Migrations\201709081420028_simstate2.cs" />
+    <Compile Include="Migrations\201709081420028_simstate2.Designer.cs">
+      <DependentUpon>201709081420028_simstate2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709081452085_simbase.cs" />
+    <Compile Include="Migrations\201709081452085_simbase.Designer.cs">
+      <DependentUpon>201709081452085_simbase.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709081455249_orderscontextmigration.cs" />
+    <Compile Include="Migrations\201709081455249_orderscontextmigration.Designer.cs">
+      <DependentUpon>201709081455249_orderscontextmigration.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709081516349_decimaldrop.cs" />
+    <Compile Include="Migrations\201709081516349_decimaldrop.Designer.cs">
+      <DependentUpon>201709081516349_decimaldrop.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709081519075_decimaladd.cs" />
+    <Compile Include="Migrations\201709081519075_decimaladd.Designer.cs">
+      <DependentUpon>201709081519075_decimaladd.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderDetail.cs" />
@@ -282,6 +295,8 @@
     <None Include="Properties\PublishProfiles\CustomProfile.pubxml">
       <SubType>Designer</SubType>
     </None>
+    <None Include="Properties\PublishProfiles\Default Settings.pubxml" />
+    <None Include="Properties\PublishProfiles\Deployer.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -301,6 +316,7 @@
     <Content Include="Views\RoleAdmin\Index.cshtml" />
     <Content Include="Views\RoleAdmin\Create.cshtml" />
     <Content Include="Views\RoleAdmin\Edit.cshtml" />
+    <Content Include="Views\Shared\_ServicesList.cshtml" />
     <None Include="Views\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -369,7 +385,21 @@
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="App_Data\" />
+    <EmbeddedResource Include="Migrations\201709081420028_simstate2.resx">
+      <DependentUpon>201709081420028_simstate2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709081452085_simbase.resx">
+      <DependentUpon>201709081452085_simbase.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709081455249_orderscontextmigration.resx">
+      <DependentUpon>201709081455249_orderscontextmigration.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709081516349_decimaldrop.resx">
+      <DependentUpon>201709081516349_decimaldrop.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709081519075_decimaladd.resx">
+      <DependentUpon>201709081519075_decimaladd.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

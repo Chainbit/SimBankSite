@@ -1,0 +1,20 @@
+﻿<div class="col-md-4">
+    <h3>Выберите сервис, для которого Вам нужно принять СМС.</h3>
+    @using (Html.BeginForm("Create", "Orders", new { }))
+    {
+        <table>
+            @foreach (SimBankSite.Models.Service service in ViewBag.Services)
+                {
+                <tr>
+                    <td>
+                        @Html.RadioButton("id", service.Id) @service.Name
+                        @*<input type="radio" name="id" value="@service.Id" class="radioChooseEntity" /> @service.Name*@
+                    </td>
+                    <td>@service.Price руб.</td>
+                </tr>
+            }
+        </table>
+            <input type="submit" class="btn btn-primary" value="Выбрать" />
+    }
+</div>
+

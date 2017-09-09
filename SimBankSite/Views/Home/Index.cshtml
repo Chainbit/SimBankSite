@@ -5,21 +5,8 @@
 }
 
 <div class="row">
-    <div class="col-md-4">
-        <h3>Выберите сервис, для которого Вам нужно принять СМС.</h3>
-        <form method="post" action="">
-            <table>
-                @foreach (SimBankSite.Models.Service service in ViewBag.Services)
-                {
-                    <tr>
-                        <td><input type="radio" value="@service.Id" class="radioChooseEntity" /> @service.Name</td>
-                        <td>@service.Price руб.</td>
-                    </tr>
-                }          
-            </table>
-            <input type="submit" class="btn btn-primary" value="Выбрать"/>
-        </form>
-    </div>
+
+    @Html.Partial("_ServicesList")
 
     <div class="col-md-8">
         <div class="jumbotron">
