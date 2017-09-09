@@ -3,8 +3,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
-using System.Net.Http;
-using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.Identity;
 using SimBankSite.SignalR_Hubs;
 using System.Web.Mvc;
@@ -23,7 +21,10 @@ namespace SimBankSite.Controllers
         private IHubProxy _hub;
         private HubConnection connection;
         private SimContext SimDb = new SimContext();
+        private ServiceContext db = new ServiceContext();
+
         private ApplicationUserManager UserManager { get; set; }
+        private ApplicationUser CurrentUser { get; set; }
 
         public OrdersController()
         {
@@ -38,28 +39,49 @@ namespace SimBankSite.Controllers
             Subscribe();
         }
 
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public async Task<ActionResult> Create(Service svc)
+        private void GetCurrentUserInfo()
         {
             if (User.Identity.IsAuthenticated)
             {
-                UserManager= HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                if (user.Money>=svc.Price)
+                UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                CurrentUser = UserManager.FindById(User.Identity.GetUserId());
+            }
+        }
+
+        [Authorize]
+        public ActionResult Index()
+        {
+            GetCurrentUserInfo();
+            return View("Index", db.Orders.Where(o => o.CustomerId == CurrentUser.Id));
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> Create(int? value)
+        {
+            if (value != null)
+            {                
+
+                Service svc = db.Services.Find(value);
+
+                if (User.Identity.IsAuthenticated)
                 {
-                    CreateOrder(user, svc);
+                    GetCurrentUserInfo();
+                    if (CurrentUser.Money >= svc.Price)
+                    {
+                        await CreateOrder(CurrentUser, svc);
+                    }
+                    return View("Index",  db.Orders.Where(o=>o.CustomerId== CurrentUser.Id));
                 }
-                return View("Index");
+                else
+                {
+                    return Redirect("/Account/Login");
+                }
             }
             else
             {
-                return Redirect("/Account/Login");
+                return View("Error!");
             }
+            
         }
 
         /// <summary>
@@ -67,26 +89,28 @@ namespace SimBankSite.Controllers
         /// </summary>
         /// <param name="user">Текущий пользователь</param>
         /// <param name="svc">Сервис</param>
-        private async void CreateOrder(ApplicationUser user, Service svc)
+        private async Task CreateOrder(ApplicationUser user, Service svc)
         {
-            var dt = DateTime.Now;
-            var order = new Order()
+            await Task.Factory.StartNew(async () =>
             {
-                CustomerId = user.Id,
-                Service = svc,
-                Status = "Обработка заказа",
-                DateCreated = dt
-            };
-            
-            //using(ApplicationDbContext UsersDB = new ApplicationDbContext())
-            using (ServiceContext OrdersDB = new ServiceContext())
-            {
+                var dt = DateTime.Now;
+                var order = new Order()
+                {
+                    CustomerId = user.Id,
+                    Service = svc,
+                    Status = "Обработка заказа",
+                    DateCreated = dt
+                };
+
+                //using(ApplicationDbContext UsersDB = new ApplicationDbContext())
                 user.Money -= svc.Price;
                 await UserManager.UpdateAsync(user);
-                OrdersDB.Orders.Add(order);
-                OrdersDB.SaveChanges();
-            }
-            await ParseOrder(order);
+                db.Orders.Add(order);
+                db.SaveChanges();
+                
+                await ParseOrder(order);
+            });
+
         }
 
         /// <summary>
@@ -178,6 +202,11 @@ namespace SimBankSite.Controllers
                 }
             }
             return null;
+        }
+
+        ~OrdersController()
+        {
+            db.Dispose();
         }
     }
 

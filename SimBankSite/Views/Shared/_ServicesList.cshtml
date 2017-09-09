@@ -1,13 +1,15 @@
-﻿<div class="col-md-4">
+﻿@model SimBankSite.Models.Order
+<div class="col-md-4">
     <h3>Выберите сервис, для которого Вам нужно принять СМС.</h3>
-    @using (Html.BeginForm("Create", "Orders", new { }))
+    @using (Html.BeginForm("Create", "Orders", FormMethod.Post))
     {
         <table>
             @foreach (SimBankSite.Models.Service service in ViewBag.Services)
                 {
                 <tr>
                     <td>
-                        @Html.RadioButton("id", new { @id = service.Id, @price = service.Price, @name = service.Name }) @service.Name
+                        @Html.RadioButton("value", service.Id) @service.Name
+                        @*@Html.RadioButton("id", new { @id = service.Id, @price = service.Price, @name = service.Name }) @service.Name*@
                         @*<input type="radio" name="id" value="@service.Id" class="radioChooseEntity" /> @service.Name*@
                     </td>
                     <td>@service.Price руб.</td>
