@@ -44,14 +44,8 @@ namespace SimBankSite.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(int? id)
+        public async Task<ActionResult> Create(Service svc)
         {
-            id = id ?? -1;
-            Service svc;
-            using (ServiceContext db = new ServiceContext())
-            {
-                svc = await db.Services.FindAsync(id);
-            }
             if (User.Identity.IsAuthenticated)
             {
                 UserManager= HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();

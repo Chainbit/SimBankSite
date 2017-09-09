@@ -7,7 +7,7 @@
                 {
                 <tr>
                     <td>
-                        @Html.RadioButton("id", service.Id) @service.Name
+                        @Html.RadioButton("id", new { @id = service.Id, @price = service.Price, @name = service.Name }) @service.Name
                         @*<input type="radio" name="id" value="@service.Id" class="radioChooseEntity" /> @service.Name*@
                     </td>
                     <td>@service.Price руб.</td>
