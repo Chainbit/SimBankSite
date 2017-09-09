@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
-using System.Web.Http;
 using Microsoft.AspNet.SignalR;
 using Microsoft.AspNet.Identity;
 using SimBankSite.SignalR_Hubs;
@@ -23,7 +22,7 @@ namespace SimBankSite.Controllers
     {
         private IHubProxy _hub;
         private HubConnection connection;
-        private SimContext db = new SimContext();
+        private SimContext SimDb = new SimContext();
         private ApplicationUserManager UserManager { get; set; }
 
         public OrdersController()
@@ -44,9 +43,10 @@ namespace SimBankSite.Controllers
             return View();
         }
 
-        
+        [HttpPost]
         public async Task<ActionResult> Create(int? id)
         {
+            id = id ?? -1;
             Service svc;
             using (ServiceContext db = new ServiceContext())
             {
@@ -173,13 +173,13 @@ namespace SimBankSite.Controllers
         /// <returns></returns>
         public Sim GetNumberForService(string service)
         {
-            var list = db.ActiveSimCards.OrderByDescending(s => s.UsedServicesArray.Length);
+            var list = SimDb.ActiveSimCards.OrderByDescending(s => s.UsedServicesArray.Length);
             foreach (var sim in list)
             {
                 if (!sim.UsedServicesArray.Contains(service) && sim.State != SimState.InUse)
                 {
                     sim.State = SimState.InUse;
-                    db.SaveChanges();
+                    SimDb.SaveChanges();
                     return sim;
                 }
             }

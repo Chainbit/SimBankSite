@@ -268,18 +268,6 @@
     <Compile Include="Migrations\201709081519075_decimaladd.Designer.cs">
       <DependentUpon>201709081519075_decimaladd.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201709081629302_SimDataAdded.cs" />
-    <Compile Include="Migrations\201709081629302_SimDataAdded.Designer.cs">
-      <DependentUpon>201709081629302_SimDataAdded.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709081643574_SimDataAdded2.cs" />
-    <Compile Include="Migrations\201709081643574_SimDataAdded2.Designer.cs">
-      <DependentUpon>201709081643574_SimDataAdded2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709081644584_SimDataAdded3.cs" />
-    <Compile Include="Migrations\201709081644584_SimDataAdded3.Designer.cs">
-      <DependentUpon>201709081644584_SimDataAdded3.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderDetail.cs" />
@@ -336,6 +324,7 @@
     <Content Include="Views\Home\Help.cshtml" />
     <Content Include="Views\Manage\BalanceAdding.cshtml" />
     <Content Include="Views\Home\AddService.cshtml" />
+    <Content Include="Views\Shared\_ServicesList.cshtml" />
     <None Include="Views\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -418,15 +407,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709081519075_decimaladd.resx">
       <DependentUpon>201709081519075_decimaladd.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709081629302_SimDataAdded.resx">
-      <DependentUpon>201709081629302_SimDataAdded.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709081643574_SimDataAdded2.resx">
-      <DependentUpon>201709081643574_SimDataAdded2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709081644584_SimDataAdded3.resx">
-      <DependentUpon>201709081644584_SimDataAdded3.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
