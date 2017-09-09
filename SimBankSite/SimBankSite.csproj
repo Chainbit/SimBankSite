@@ -243,26 +243,6 @@
     <Compile Include="Controllers\Admin\ServicesController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
     <Compile Include="Helpers\IdentityHelpers.cs" />
-    <Compile Include="Migrations\201709081420028_simstate2.cs" />
-    <Compile Include="Migrations\201709081420028_simstate2.Designer.cs">
-      <DependentUpon>201709081420028_simstate2.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709081452085_simbase.cs" />
-    <Compile Include="Migrations\201709081452085_simbase.Designer.cs">
-      <DependentUpon>201709081452085_simbase.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709081455249_orderscontextmigration.cs" />
-    <Compile Include="Migrations\201709081455249_orderscontextmigration.Designer.cs">
-      <DependentUpon>201709081455249_orderscontextmigration.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709081516349_decimaldrop.cs" />
-    <Compile Include="Migrations\201709081516349_decimaldrop.Designer.cs">
-      <DependentUpon>201709081516349_decimaldrop.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201709081519075_decimaladd.cs" />
-    <Compile Include="Migrations\201709081519075_decimaladd.Designer.cs">
-      <DependentUpon>201709081519075_decimaladd.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Models\OrderDetail.cs" />
@@ -383,23 +363,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="Migrations\201709081420028_simstate2.resx">
-      <DependentUpon>201709081420028_simstate2.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709081452085_simbase.resx">
-      <DependentUpon>201709081452085_simbase.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709081455249_orderscontextmigration.resx">
-      <DependentUpon>201709081455249_orderscontextmigration.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709081516349_decimaldrop.resx">
-      <DependentUpon>201709081516349_decimaldrop.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709081519075_decimaladd.resx">
-      <DependentUpon>201709081519075_decimaladd.cs</DependentUpon>
-    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -11,6 +11,7 @@ using System.Collections.Generic;
 
 namespace SimBankSite.Controllers.Admin
 {
+    [Authorize(Roles = "Admin")]
     public class RoleAdminController : Controller
     {
         private ApplicationUserManager UserManager
