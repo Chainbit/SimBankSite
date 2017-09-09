@@ -28,7 +28,6 @@ namespace SimBankSite.Controllers
 
         public OrdersController()
         {
-            UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
         }
 
         public new void Execute(RequestContext requestContext)
@@ -45,15 +44,21 @@ namespace SimBankSite.Controllers
             return View();
         }
 
-        public async Task<ActionResult> Create(Service svc)
+        
+        public async Task<ActionResult> Create(int? id)
         {
+            Service svc;
+            using (ServiceContext db = new ServiceContext())
+            {
+                svc = await db.Services.FindAsync(id);
+            }
             if (User.Identity.IsAuthenticated)
             {
-                //var UserManager= HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
+                UserManager= HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
                 if (user.Money>=svc.Price)
                 {
-
+                    CreateOrder(user, svc);
                 }
                 return View("Index");
             }
@@ -141,6 +146,7 @@ namespace SimBankSite.Controllers
                 string cmd = JsonConvert.SerializeObject(command);
                 //подключаемся
                 InitializeConnection("/");
+                Subscribe();
                 //вызываем метод
                 _hub.Invoke("SendCommCommand", cmd).Wait();
             });
@@ -170,8 +176,10 @@ namespace SimBankSite.Controllers
             var list = db.ActiveSimCards.OrderByDescending(s => s.UsedServicesArray.Length);
             foreach (var sim in list)
             {
-                if (!sim.UsedServicesArray.Contains(service))
+                if (!sim.UsedServicesArray.Contains(service) && sim.State != SimState.InUse)
                 {
+                    sim.State = SimState.InUse;
+                    db.SaveChanges();
                     return sim;
                 }
             }
