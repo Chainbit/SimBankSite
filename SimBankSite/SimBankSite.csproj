@@ -237,10 +237,12 @@
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\Admin\RoleAdminController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\Admin\ServicesController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
+    <Compile Include="Helpers\IdentityHelpers.cs" />
     <Compile Include="Migrations\201709081420028_simstate2.cs" />
     <Compile Include="Migrations\201709081420028_simstate2.Designer.cs">
       <DependentUpon>201709081420028_simstate2.cs</DependentUpon>
@@ -279,14 +281,6 @@
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App_Data\aspnet-SimBankSite-20170821044936.mdf" />
-    <None Include="App_Data\aspnet-SimBankSite-20170821044936_log.ldf">
-      <DependentUpon>aspnet-SimBankSite-20170821044936.mdf</DependentUpon>
-    </None>
-    <None Include="App_Data\Services.mdf" />
-    <None Include="App_Data\Services_log.ldf">
-      <DependentUpon>Services.mdf</DependentUpon>
-    </None>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="favicon.ico" />
@@ -319,6 +313,9 @@
     <Content Include="Views\Home\Help.cshtml" />
     <Content Include="Views\Manage\BalanceAdding.cshtml" />
     <Content Include="Views\Home\AddService.cshtml" />
+    <Content Include="Views\RoleAdmin\Index.cshtml" />
+    <Content Include="Views\RoleAdmin\Create.cshtml" />
+    <Content Include="Views\RoleAdmin\Edit.cshtml" />
     <Content Include="Views\Shared\_ServicesList.cshtml" />
     <None Include="Views\Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
