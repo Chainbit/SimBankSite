@@ -107,4 +107,18 @@ namespace SimBankSite.Models
         [Display(Name = "Почта")]
         public string Email { get; set; }
     }
+
+    public class RoleEditModel
+    {
+        public ApplicationRole Role { get; set; }
+        public IEnumerable<ApplicationUser> Members { get; set; }
+        public IEnumerable<ApplicationUser> NotMembers { get; set; }
+    }
+
+    public class RoleModificationModel
+    {
+        public string RoleName { get; set; }
+        public string[] IdsToAdd { get; set; }
+        public string[] IdsToDelete { get; set; }
+    }
 }

@@ -20,21 +20,7 @@ namespace SimBankSite.Models
         /// Состояние сим карты (готов или используется)
         /// </summary>
         public SimState State { get; set; }
-    }
 
-
-    /// <summary>
-    /// Базовый класс представляющий сим-карту
-    /// </summary>
-    [Serializable]
-    public class Sim
-    {
-        [Required]
-        /// <summary>
-        /// ICCID сим-карты
-        /// </summary>
-        public string Id { get; set; }
-        public string TelNumber { get; set; }
         /// <summary>
         /// Использованные сервисы как массив
         /// </summary>
@@ -52,6 +38,22 @@ namespace SimBankSite.Models
                 this.UsedServices = string.Join(",", value);
             }
         }
+    }
+
+
+    /// <summary>
+    /// Базовый класс представляющий сим-карту
+    /// </summary>
+    [Serializable]
+    public class Sim
+    {
+        [Required]
+        /// <summary>
+        /// ICCID сим-карты
+        /// </summary>
+        public string Id { get; set; }
+        public string TelNumber { get; set; }
+
 
         /// <summary>
         /// Использованные сервисы как строка (для БД)

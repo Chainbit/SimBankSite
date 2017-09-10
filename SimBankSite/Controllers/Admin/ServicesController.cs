@@ -11,7 +11,7 @@ using SimBankSite.Models;
 
 namespace SimBankSite.Controllers.Admin
 {
-    [Authorize]// ДОБАВИТЬ РОЛИ!
+    [Authorize(Roles = "Admin")]
     public class ServicesController : Controller
     {
         private ServiceContext db = new ServiceContext();

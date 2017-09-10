@@ -3,11 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SimBankSite.Models;
 using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace SimBankSite.Controllers
 {
@@ -16,15 +18,17 @@ namespace SimBankSite.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationRoleManager _roleManager;
 
         public ManageController()
         {
         }
 
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationRoleManager roleManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            RoleManager = roleManager;
         }
 
         public ApplicationSignInManager SignInManager
@@ -51,6 +55,18 @@ namespace SimBankSite.Controllers
             }
         }
 
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
+        }
+
         //
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)
@@ -65,6 +81,8 @@ namespace SimBankSite.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(userId);
+            var roleName = GetRoleName(userId);
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
@@ -72,7 +90,8 @@ namespace SimBankSite.Controllers
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
                 BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
-                User = await UserManager.FindByIdAsync(userId)
+                User = user,
+                RoleName = roleName
             };
             return View(model);
         }
@@ -402,6 +421,27 @@ namespace SimBankSite.Controllers
                 ModelState.AddModelError("", error);
             }
         }
+
+        private string GetRoleName(string userId)
+        {
+            ApplicationRole adminRole = RoleManager.FindByName("Admin");
+            var admins = adminRole.Users.Where(x => x.UserId == userId).ToArray();
+
+            string roleName = "";
+            if (admins.Count() > 0)
+            {
+                IdentityUserRole idenRole = admins[0];
+                ApplicationRole role = RoleManager.FindById(idenRole.RoleId);
+                roleName = role.Name;
+            }
+            else
+            {
+                roleName = "User";
+            }
+
+            return roleName;
+        }
+
 
         private bool HasPassword()
         {

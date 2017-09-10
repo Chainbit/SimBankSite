@@ -53,7 +53,7 @@ namespace SimBankSite.SignalR_Hubs
                     var sim = db.AllSimCards.Find(comm.Id);
                     if (sim != null)
                     {
-                        comm.UsedServicesArray = sim.UsedServicesArray;
+                        comm.UsedServicesArray = sim.UsedServices.Split(',');
                     }
                 }
                 db.AllSimCards.AddRange(activeComs);
