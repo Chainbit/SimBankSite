@@ -45,18 +45,18 @@ namespace SimBankSite.Controllers
         }
 
         
-        public async Task<ActionResult> Create(int? id)
+        public async Task<ActionResult> Create(Service service)
         {
             Service svc;
             using (ServiceContext db = new ServiceContext())
             {
-                svc = await db.Services.FindAsync(id);
+                svc = await db.Services.FindAsync(service.Id);
             }
             if (User.Identity.IsAuthenticated)
             {
                 UserManager= HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
                 var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-                if (user.Money>=svc.Price)
+                if (user.Money >= svc.Price)
                 {
                     CreateOrder(user, svc);
                 }
