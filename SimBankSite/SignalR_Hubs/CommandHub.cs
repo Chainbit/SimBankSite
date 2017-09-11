@@ -57,11 +57,11 @@ namespace SimBankSite.SignalR_Hubs
                     comm.SimBankId = Context.ConnectionId;
                     comm.UsedServices = "";
                     
-                    var sim = StorageDb.AllSimCards.Find(comm.Id);
-                    if (sim != null)
-                    {
-                        comm.UsedServicesArray = sim.UsedServices.Split(',');
-                    }
+                    //var sim = StorageDb.AllSimCards.Find(comm.Id);
+                    //if (sim != null)
+                    //{
+                    //    comm.UsedServicesArray = sim.UsedServices.Split(',');
+                    //}
                     comsToAdd.Add(comm);
                 }
 
@@ -112,6 +112,7 @@ namespace SimBankSite.SignalR_Hubs
 
         public override Task OnReconnected()
         {
+            var id = Context.ConnectionId;
             return base.OnReconnected();
         }
 
@@ -157,6 +158,7 @@ namespace SimBankSite.SignalR_Hubs
 
         ~CommandHub()
         {
+            Clients.All.Disconnect();
             db.Dispose();
         }
     }

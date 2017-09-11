@@ -5,7 +5,6 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System.ComponentModel.DataAnnotations;
 using SimBankSite.Models;
-using SimBankSite.Helpers;
 using System.Linq;
 using System.Collections.Generic;
 
