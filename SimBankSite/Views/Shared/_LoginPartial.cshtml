@@ -7,9 +7,25 @@
 
     <ul class="nav navbar-nav navbar-right">
         <li>           
-            @Html.ActionLink("Здравствуйте, " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
-            
+            @Html.ActionLink("Личный кабинет", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Ваш кабинет" })    
         </li>
+        @if (User.IsInRole("Admin"))
+        {
+            <li class="nav-item dropdown"> @*ТОЛЬКО ДЛЯ АДМИНА*@
+                <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Администрирование<span class="caret"></span></a>           
+                <ul class="dropdown-menu" aria-labelledby="adminDropdown">
+                    <li>
+                        @Html.ActionLink("Изменить доступные сервисы", "Index", "Services", routeValues: null, htmlAttributes: new { title = "Добавить сервис", @class = "dropdown-item" }) 
+                    </li>
+                    <li>
+                        @Html.ActionLink("Управление пользователями", "Index", "RoleAdmin", routeValues: null, htmlAttributes: new { title = "Управление пользователями", @class = "dropdown-item" }) 
+                    </li>
+                    <li>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </li>
+            </ul>
+            </li>
+        }
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
     </ul>
     }

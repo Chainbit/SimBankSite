@@ -5,29 +5,8 @@
 }
 
 <div class="row">
-    <div class="col-md-4">
-        <h3>Выберите сервис, для которого Вам нужно принять СМС.</h3>
-        <form method="post" action="">
-            <table>
-                @foreach (SimBankSite.Models.Service service in ViewBag.Services)
-                {
-                    <tr>
-                        <td><input type="radio" value="@service.Id" class="radioChooseEntity" /> @service.Name</td>
-                        <td>@service.Price руб.</td>
-                    </tr>
-                }
-                @*<input type="radio" name="vk" value="Vk" class="radioChooseEntity" /> Вконтакте
-                <br />
-                <input type="radio" name="ok" class="radioChooseEntity" /> Одноклассники
-                <br />
-                <input type="radio" name="steam" class="radioChooseEntity" /> Steam
-                <br />
-                <input type="radio" name="uber" class="radioChooseEntity" /> Uber
-                <br />*@                
-            </table>
-            <input type="submit" class="btn-lg btn-success" />
-        </form>
-    </div>
+
+    @Html.Partial("_ServicesList", new SimBankSite.Models.Order())
 
     <div class="col-md-8">
         <div class="jumbotron">
@@ -36,18 +15,15 @@
             <p><a href="/Home/Help" class="btn btn-primary btn-lg">Раздел помощи &raquo;</a></p>
             <table>
                 <h3>
-                    @foreach (SimBankSite.Models.ApplicationUser u in ViewBag.Users)
+                    @*@foreach (SimBankSite.Models.ApplicationUser u in ViewBag.Users)
                     {
                         <tr>
                             <td>@u.UserName</td>
                             <td>@u.Id </td>                            
                         </tr>
-                    }
+                    }*@
                 </h3>
             </table>
         </div>
-    </div>
-    <div class="col-md-8">
-        @Html.ActionLink("Добавить сервис", "AddService", "Home", new { @class = "btn btn-primary btn-lg" })
     </div>
 </div>

@@ -11,7 +11,7 @@ namespace SimBankSite.Models
     // You can add profile data for the user by adding more properties to your ApplicationUser class, please visit https://go.microsoft.com/fwlink/?LinkID=317594 to learn more.
     public class ApplicationUser : IdentityUser
     {       
-        public UserCredential UserCredentials { get; set; }
+        public decimal Money { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -21,21 +21,9 @@ namespace SimBankSite.Models
             return userIdentity;
         }
     }
-    public class UserCredential
-    {    
-        [Key, ForeignKey("User")]       
-        public string Id { get; set; }
-
-        public double Money { get; set; }
-        
-        
-        public ApplicationUser User { get; set; }
-    }
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser> 
     {
-        public DbSet<UserCredential> UserCredentials { get; set; }
-
         public ApplicationDbContext()
             : base("Database", throwIfV1Schema: false)
         {
@@ -48,8 +36,20 @@ namespace SimBankSite.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+        }
+    }
+
+    public class ApplicationRole : IdentityRole
+    {
+        public ApplicationRole() : base()
+        {
 
         }
 
+        public ApplicationRole(string name) : base(name)
+        {
+
+        }
     }
+
 }

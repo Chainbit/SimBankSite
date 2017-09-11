@@ -3,10 +3,13 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using SimBankSite.Models;
+using System.Text.RegularExpressions;
+using System.Collections.Generic;
 
 namespace SimBankSite.Controllers
 {
@@ -15,15 +18,17 @@ namespace SimBankSite.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationRoleManager _roleManager;
 
         public ManageController()
         {
         }
 
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationRoleManager roleManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            RoleManager = roleManager;
         }
 
         public ApplicationSignInManager SignInManager
@@ -32,9 +37,9 @@ namespace SimBankSite.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -47,6 +52,18 @@ namespace SimBankSite.Controllers
             private set
             {
                 _userManager = value;
+            }
+        }
+
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
             }
         }
 
@@ -64,13 +81,17 @@ namespace SimBankSite.Controllers
                 : "";
 
             var userId = User.Identity.GetUserId();
+            var user = await UserManager.FindByIdAsync(userId);
+            var roleName = GetRoleName(userId);
             var model = new IndexViewModel
             {
                 HasPassword = HasPassword(),
                 PhoneNumber = await UserManager.GetPhoneNumberAsync(userId),
                 TwoFactor = await UserManager.GetTwoFactorEnabledAsync(userId),
                 Logins = await UserManager.GetLoginsAsync(userId),
-                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId)
+                BrowserRemembered = await AuthenticationManager.TwoFactorBrowserRememberedAsync(userId),
+                User = user,
+                RoleName = roleName
             };
             return View(model);
         }
@@ -331,28 +352,44 @@ namespace SimBankSite.Controllers
         [HttpPost]
         [Authorize]
         [ValidateAntiForgeryToken]
-        public ActionResult BalanceAdding(MoneyAddOnBalance a)
+        public async Task<ActionResult> BalanceAdding(MoneyAddOnBalance a)
         {
-            ApplicationUser usera = new ApplicationUser();
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+
+            string ptrn = "[0-9]{1,10}(\\,[0-9]{0,2})?";
+
+            string moneyToAdd = a.Money;
+            decimal money = 0;
+
+            if (moneyToAdd.Contains("."))
+            {
+                moneyToAdd = moneyToAdd.Replace(".", ",");
+            }
+
+            Regex check = new Regex(ptrn);
+            Match match = check.Match(moneyToAdd);
+            if (match.Success)
+            {
+                money = decimal.Parse(match.Value);
+            }
+
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
-                if (usera.UserCredentials == null)
-            {
-                    usera.UserCredentials = new UserCredential { Id = usera.Id, Money = a.Money };
-                    db.UserCredentials.Add(new UserCredential { Id = usera.Id, Money = a.Money });
-                    db.SaveChanges();
-               
+                if (money <= 0)
+                {
+                    ModelState.AddModelError("", "Сумма начисления должна быть больше нуля");
+                }
+                else
+                {
+                    user.Money += money;
+
+                    await UserManager.UpdateAsync(user);
+                    ViewBag.Balance = moneyToAdd.ToString();
+                }
             }
-            else
-            {
-                usera.UserCredentials.Money += a.Money;
-                
-            }
-            }
-            ViewBag.Balance = a.Money.ToString();
+
             return View();
         }
-        
 
         protected override void Dispose(bool disposing)
         {
@@ -365,7 +402,7 @@ namespace SimBankSite.Controllers
             base.Dispose(disposing);
         }
 
-#region Вспомогательные приложения
+        #region Вспомогательные приложения
         // Используется для защиты от XSRF-атак при добавлении внешних имен входа
         private const string XsrfKey = "XsrfId";
 
@@ -384,6 +421,27 @@ namespace SimBankSite.Controllers
                 ModelState.AddModelError("", error);
             }
         }
+
+        private string GetRoleName(string userId)
+        {
+            ApplicationRole adminRole = RoleManager.FindByName("Admin");
+            var admins = adminRole.Users.Where(x => x.UserId == userId).ToArray();
+
+            string roleName = "";
+            if (admins.Count() > 0)
+            {
+                IdentityUserRole idenRole = admins[0];
+                ApplicationRole role = RoleManager.FindById(idenRole.RoleId);
+                roleName = role.Name;
+            }
+            else
+            {
+                roleName = "User";
+            }
+
+            return roleName;
+        }
+
 
         private bool HasPassword()
         {
@@ -416,6 +474,6 @@ namespace SimBankSite.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }

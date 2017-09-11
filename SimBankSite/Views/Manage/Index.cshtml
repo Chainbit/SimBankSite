@@ -1,12 +1,34 @@
 ﻿@model SimBankSite.Models.IndexViewModel
+
+@using SimBankSite.Models
+@using Microsoft.AspNet.Identity.EntityFramework
 @{
-    ViewBag.Title = "Управление";
+    ViewBag.Title = "Личный кабинет";
 }
 
 <h2>@ViewBag.Title.</h2>
 
 <p class="text-success">@ViewBag.StatusMessage</p>
 <div>
+    <h4>Информация о пользователе</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>Роль:</dt>
+        <dd>
+            @Model.RoleName
+        </dd>
+        <dt>Email:</dt>
+        <dd>
+            @Model.User.Email
+        </dd>
+        <dt>Баланс:</dt>
+        <dd>
+            @Model.User.Money RUB
+        </dd>
+    </dl>
+    <br />
+    <br />
+    <br />
     <h4>Изменение параметров учетной записи</h4>
     <hr />
     <dl class="dl-horizontal">
@@ -30,13 +52,13 @@
         </dd>
         @*
             Phone Numbers can used as a second factor of verification in a two-factor authentication system.
-             
+
              See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
                 for details on setting up this ASP.NET application to support two-factor authentication using SMS.
-             
+
              Uncomment the following block after you have set up two-factor authentication
         *@
-        @*  
+        @*
             <dt>Номер телефона:</dt>
             <dd>
                 @(Model.PhoneNumber ?? "None")
@@ -57,31 +79,31 @@
             </dd>
         *@
         @*<dt>Двухфакторная проверка подлинности:</dt>
-        <dd>
-            <p>
-                There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
-                for details on setting up this ASP.NET application to support two-factor authentication.
-            </p>*@
-            @*@if (Model.TwoFactor)
+            <dd>
+                <p>
+                    There are no two-factor authentication providers configured. See <a href="https://go.microsoft.com/fwlink/?LinkId=403804">this article</a>
+                    for details on setting up this ASP.NET application to support two-factor authentication.
+                </p>*@
+        @*@if (Model.TwoFactor)
+            {
+                using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                 {
-                    using (Html.BeginForm("DisableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>Включено
-                        <input type="submit" value="Отключить" class="btn btn-link" />
-                        </text>
-                    }
+                    @Html.AntiForgeryToken()
+                    <text>Включено
+                    <input type="submit" value="Отключить" class="btn btn-link" />
+                    </text>
                 }
-                else
+            }
+            else
+            {
+                using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
                 {
-                    using (Html.BeginForm("EnableTwoFactorAuthentication", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-                    {
-                        @Html.AntiForgeryToken()
-                        <text>Отключено
-                        <input type="submit" value="Включить" class="btn btn-link" />
-                        </text>
-                    }
-                }*@
+                    @Html.AntiForgeryToken()
+                    <text>Отключено
+                    <input type="submit" value="Включить" class="btn btn-link" />
+                    </text>
+                }
+            }*@
         </dd>
     </dl>
 </div>

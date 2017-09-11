@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@ViewBag.Title – приложение ASP.NET</title>
     @Styles.Render("~/Content/css")
+    @Styles.Render("~/Content/bootstrap.min.css")
     @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js")
 
 </head>
 <body>
@@ -23,7 +25,7 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Домашняя страница", "Index", "Home")</li>
-                    <li>@Html.ActionLink("О программе", "About", "Home")</li>
+                    <!--<li>@*Html.ActionLink("О программе", "About", "Home")*@</li>-->
                     <li>@Html.ActionLink("Пополнить счет", "BalanceAdding", "Manage")</li>
                     <li>@Html.ActionLink("Помощь", "Help", "Home")</li>
                 </ul>

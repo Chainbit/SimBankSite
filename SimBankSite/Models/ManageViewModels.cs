@@ -12,6 +12,8 @@ namespace SimBankSite.Models
         public string PhoneNumber { get; set; }
         public bool TwoFactor { get; set; }
         public bool BrowserRemembered { get; set; }
+        public ApplicationUser User { get; set; }
+        public string RoleName { get; set; }
     }
 
     public class ManageLoginsViewModel
@@ -91,7 +93,7 @@ namespace SimBankSite.Models
         [Required]
         [Display(Name ="Количество денег для занесения")]
         [DataType(DataType.Currency)]
-        public double Money { get; set; }
+        public string Money { get; set; }
                 
     }
 }

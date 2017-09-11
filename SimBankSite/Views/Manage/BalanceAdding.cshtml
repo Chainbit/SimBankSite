@@ -17,14 +17,14 @@
 
 @using (Html.BeginForm("BalanceAdding", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 { 
-@Html.AntiForgeryToken()
-@Html.ValidationSummary(true, "", new { @class = "text-danger" })
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-<p>На сколько вы хотите пополнить баланс ?</p>
+    <p>На сколько вы хотите пополнить баланс ?</p>
 
-@Html.TextBoxFor(m => m.Money);
-<br />
-<input type="submit" value="Пополнить" class="btn btn-default" style="margin-top: 10px;" />
+    @Html.TextBoxFor(m => m.Money);
+    <br />
+    <input type="submit" value="Пополнить" class="btn btn-default" style="margin-top: 10px;" />
 
 }
 
