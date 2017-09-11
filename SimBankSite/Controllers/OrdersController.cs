@@ -91,7 +91,7 @@ namespace SimBankSite.Controllers
         /// <param name="svc">Сервис</param>
         private async Task CreateOrder(ApplicationUser user, Service svc)
         {
-            Task.Factory.StartNew(async () =>
+            await Task.Factory.StartNew(async () =>
             {
                 var dt = DateTime.Now;
                 var order = new Order()
@@ -104,11 +104,11 @@ namespace SimBankSite.Controllers
 
                 //using(ApplicationDbContext UsersDB = new ApplicationDbContext())
                 user.Money -= svc.Price;
-                 UserManager.UpdateAsync(user);
+                await UserManager.UpdateAsync(user);
                 db.Orders.Add(order);
-                db.SaveChanges();
-                
-                 ParseOrder(order);
+                 db.SaveChanges();
+
+                await ParseOrder(order);
             });
 
         }
