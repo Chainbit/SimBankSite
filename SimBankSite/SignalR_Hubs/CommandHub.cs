@@ -64,8 +64,9 @@ namespace SimBankSite.SignalR_Hubs
                     //}
                     comsToAdd.Add(comm);
                 }
-
+                
                 StorageDb.AllSimCards.AddRange(comsToAdd);
+                StorageDb.Entry(comsToAdd).State = System.Data.Entity.EntityState.Added;
                 StorageDb.SaveChanges();
             }
             db.ActiveSimCards.AddRange(comsToAdd);
