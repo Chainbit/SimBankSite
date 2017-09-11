@@ -68,7 +68,7 @@ namespace SimBankSite.Controllers
                     GetCurrentUserInfo();
                     if (CurrentUser.Money >= svc.Price)
                     {
-                        await CreateOrder(CurrentUser, svc);
+                        CreateOrder(CurrentUser, svc);
                     }
                     return View("Index",  db.Orders.Where(o=>o.CustomerId== CurrentUser.Id));
                 }
@@ -89,28 +89,24 @@ namespace SimBankSite.Controllers
         /// </summary>
         /// <param name="user">Текущий пользователь</param>
         /// <param name="svc">Сервис</param>
-        private async Task CreateOrder(ApplicationUser user, Service svc)
+        private async void CreateOrder(ApplicationUser user, Service svc)
         {
-            await Task.Factory.StartNew(async () =>
+            var dt = DateTime.Now;
+            var order = new Order()
             {
-                var dt = DateTime.Now;
-                var order = new Order()
-                {
-                    CustomerId = user.Id,
-                    Service = svc,
-                    Status = "Обработка заказа",
-                    DateCreated = dt
-                };
+                CustomerId = user.Id,
+                Service = svc,
+                Status = "Обработка заказа",
+                DateCreated = dt
+            };
 
-                //using(ApplicationDbContext UsersDB = new ApplicationDbContext())
-                user.Money -= svc.Price;
-                await UserManager.UpdateAsync(user);
-                db.Orders.Add(order);
-                 db.SaveChanges();
+            //using(ApplicationDbContext UsersDB = new ApplicationDbContext())
+            user.Money -= svc.Price;
+            await UserManager.UpdateAsync(user);
+            db.Orders.Add(order);
+            db.SaveChanges();
 
-                await ParseOrder(order);
-            });
-
+            await ParseOrder(order);
         }
 
         /// <summary>
