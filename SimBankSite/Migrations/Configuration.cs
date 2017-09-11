@@ -1,5 +1,6 @@
 namespace SimBankSite.Migrations
 {
+    using SimBankSite.Models;
     using System;
     using System.Data.Entity;
     using System.Data.Entity.Migrations;
@@ -15,17 +16,35 @@ namespace SimBankSite.Migrations
         protected override void Seed(SimBankSite.Models.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
+            
+            if(!context.Roles.Any(r => r.Name == "Admin"))
+            {
+                var store = new Microsoft.AspNet.Identity.EntityFramework.RoleStore<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>(context);
+                var manager = new Microsoft.AspNet.Identity.RoleManager<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>(store);
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole { Name = "Admin" };
 
-            //  You can use the DbSet<T>.AddOrUpdate() helper extension method 
-            //  to avoid creating duplicate seed data. E.g.
-            //
-            //    context.People.AddOrUpdate(
-            //      p => p.FullName,
-            //      new Person { FullName = "Andrew Peters" },
-            //      new Person { FullName = "Brice Lambson" },
-            //      new Person { FullName = "Rowan Miller" }
-            //    );
-            //
+               manager.CreateAsync(role).Wait();
+            }
+
+            if (!context.Roles.Any(r => r.Name == "User"))
+            {
+                var store = new Microsoft.AspNet.Identity.EntityFramework.RoleStore<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>(context);
+                var manager = new Microsoft.AspNet.Identity.RoleManager<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>(store);
+                var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole { Name = "User" };
+
+               manager.CreateAsync(role).Wait();
+            }
+
+            if (!context.Users.Any(u => u.UserName == "admin@admin.ru"))
+            {
+                var store = new Microsoft.AspNet.Identity.EntityFramework.UserStore<Models.ApplicationUser>(context);
+                var manager = new Microsoft.AspNet.Identity.UserManager<Models.ApplicationUser>(store);
+                var user = new ApplicationUser { UserName = "admin@admin.ru" };
+
+                manager.CreateAsync(user, "ebuchayabazadannyh1488").Wait();
+                manager.AddToRoleAsync(user.Id, "Admin").Wait();
+            }
+
         }
     }
 }

@@ -10,6 +10,9 @@ namespace SimBankSite
         {
             ConfigureAuth(app);
             app.MapSignalR();
+            var configuration = new Migrations.Configuration();
+            var migrator = new System.Data.Entity.Migrations.DbMigrator(configuration);
+            migrator.Update();
         }
     }
 }
