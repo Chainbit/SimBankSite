@@ -22,6 +22,9 @@ namespace SimBankSite.Models
         }
     }
 
+    /// <summary>
+    /// Основной контекст приложения
+    /// </summary>
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser> 
     {
         public ApplicationDbContext()
@@ -37,6 +40,12 @@ namespace SimBankSite.Models
         {
             base.OnModelCreating(modelBuilder);
         }
+
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<Service> Services { get; set; }
+        public DbSet<ActiveSim> ActiveSimCards { get; set; }
+        public DbSet<Sim> AllSimCards { get; set; }
+
     }
 
     public class ApplicationRole : IdentityRole

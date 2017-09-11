@@ -62,25 +62,25 @@ namespace SimBankSite.Models
         public string UsedServices { get; set; }
     }
 
-    public class SimContext : DbContext
-    {
-        public SimContext() : base("Database") { }
+    //public class SimContext : DbContext
+    //{
+    //    public SimContext() : base("Database") { }
 
-        /// <summary>
-        /// Активные сим-карты
-        /// </summary>
-        public DbSet<ActiveSim> ActiveSimCards { get; set; }
-    }
+    //    /// <summary>
+    //    /// Активные сим-карты
+    //    /// </summary>
+    //    public DbSet<ActiveSim> ActiveSimCards { get; set; }
+    //}
 
-    public class SimStorageContext : DbContext
-    {
-        public SimStorageContext(): base("Database") { }
+    //public class SimStorageContext : DbContext
+    //{
+    //    public SimStorageContext(): base("Database") { }
 
-        /// <summary>
-        /// Все сим-карты
-        /// </summary>
-        public DbSet<Sim> AllSimCards { get; set; }
-    }
+    //    /// <summary>
+    //    /// Все сим-карты
+    //    /// </summary>
+    //    public DbSet<Sim> AllSimCards { get; set; }
+    //}
 
     public enum SimState
     {

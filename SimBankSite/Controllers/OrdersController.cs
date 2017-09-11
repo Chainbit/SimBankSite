@@ -20,8 +20,8 @@ namespace SimBankSite.Controllers
     {
         private IHubProxy _hub;
         private HubConnection connection;
-        private SimContext SimDb = new SimContext();
-        private ServiceContext db = new ServiceContext();
+
+        private ApplicationDbContext db = new ApplicationDbContext(); // ACHTUNG!!!
 
         private ApplicationUserManager UserManager { get; set; }
         private ApplicationUser CurrentUser { get; set; }
@@ -173,11 +173,8 @@ namespace SimBankSite.Controllers
         /// <param name="sms"></param>
         private void UpdateOrderMessage(int id, string sms)
         {
-            using (ServiceContext db = new ServiceContext())
-            {
-                db.Orders.Find(id).Message = sms;
-                db.SaveChanges();
-            }
+            db.Orders.Find(id).Message = sms;
+            db.SaveChanges();
         }
 
         /// <summary>
@@ -187,13 +184,13 @@ namespace SimBankSite.Controllers
         /// <returns></returns>
         public Sim GetNumberForService(string service)
         {
-            var list = SimDb.ActiveSimCards.OrderByDescending(s => s.UsedServicesArray.Length);
+            var list = db.ActiveSimCards.OrderByDescending(s => System.Data.Entity.SqlServer.SqlFunctions.DataLength(s.UsedServices));
             foreach (var sim in list)
             {
                 if (!sim.UsedServicesArray.Contains(service) && sim.State != SimState.InUse)
                 {
                     sim.State = SimState.InUse;
-                    SimDb.SaveChanges();
+                    db.SaveChanges();
                     return sim;
                 }
             }
