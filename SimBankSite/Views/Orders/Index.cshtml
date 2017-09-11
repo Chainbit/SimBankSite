@@ -45,12 +45,11 @@
             @Html.DisplayFor(modelItem => item.Message)
         </td>
         <td>
-            <a href="@Url.Action("Report", "Orders", new { id = item.Id })">
-                <span class="glyphicon glyphicon-ban-circle text-danger"></span>
-            </a> 
-            <a href="@Url.Action("Confirm", "Orders", new { id = item.Id })">
+            @Ajax.ActionLink(" ", "Report", new { id = item.Id }, new AjaxOptions() { HttpMethod = "Post" }, new { @class = "glyphicon glyphicon-ban-circle text-danger"})
+            @Ajax.ActionLink(" ", "Confirm", new { id = item.Id }, new AjaxOptions() { HttpMethod = "Post" }, new { @class = "glyphicon glyphicon-ok text-success" })
+            @*<a href="@Url.Action("Confirm", "Orders", new { id = item.Id })">
                 <span class="glyphicon glyphicon-ok text-success"></span>
-            </a>            
+            </a>*@            
         </td>
     </tr>
 }
