@@ -113,8 +113,6 @@ namespace SimBankSite.Controllers.Admin
                     foreach (string userId in model.IdsToAdd ?? new string[] { })
                     {
                         result = await UserManager.AddToRoleAsync(userId, model.RoleName);
-                        //var user = await UserManager.FindByIdAsync(userId);
-                        //await UserManager.UpdateAsync(user);
 
                         if (!result.Succeeded)
                         {
