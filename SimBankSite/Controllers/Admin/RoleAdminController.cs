@@ -5,13 +5,12 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System.ComponentModel.DataAnnotations;
 using SimBankSite.Models;
-using SimBankSite.Helpers;
 using System.Linq;
 using System.Collections.Generic;
 
 namespace SimBankSite.Controllers.Admin
 {
-    [Authorize(Roles = "Admin")]
+    [Authorize]//(Roles = "Admin")]
     public class RoleAdminController : Controller
     {
         private ApplicationUserManager UserManager

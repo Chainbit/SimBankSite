@@ -43,23 +43,32 @@ namespace SimBankSite.SignalR_Hubs
         {
             Clients.All.ComsInfoArrived(json);
             List<ActiveSim> activeComs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ActiveSim>>(json); // надеюсь, прокатит
-
-            using (SimStorageContext db = new SimStorageContext())
+            List<ActiveSim> comsToAdd = new List<ActiveSim>();
+            using (SimStorageContext StorageDb = new SimStorageContext())
             {
+                
                 foreach (var comm in activeComs)
                 {
-                    comm.State = SimState.Ready;
-                    
-                    var sim = db.AllSimCards.Find(comm.Id);
-                    if (sim != null)
+                    if (db.ActiveSimCards.Find(comm.Id) != null)
                     {
-                        comm.UsedServicesArray = sim.UsedServices.Split(',');
+                        continue;
                     }
+
+                    comm.SimBankId = Context.ConnectionId;
+                    comm.UsedServices = "";
+                    
+                    //var sim = StorageDb.AllSimCards.Find(comm.Id);
+                    //if (sim != null)
+                    //{
+                    //    comm.UsedServicesArray = sim.UsedServices.Split(',');
+                    //}
+                    comsToAdd.Add(comm);
                 }
-                db.AllSimCards.AddRange(activeComs);
-                db.SaveChanges();
+
+                StorageDb.AllSimCards.AddRange(comsToAdd);
+                StorageDb.SaveChanges();
             }
-            db.ActiveSimCards.AddRange(activeComs);
+            db.ActiveSimCards.AddRange(comsToAdd);
             db.SaveChanges();
         }
 
@@ -101,6 +110,12 @@ namespace SimBankSite.SignalR_Hubs
             }
         }
 
+        public override Task OnReconnected()
+        {
+            var id = Context.ConnectionId;
+            return base.OnReconnected();
+        }
+
         /// <summary>
         /// Действие при отключении
         /// </summary>
@@ -115,12 +130,15 @@ namespace SimBankSite.SignalR_Hubs
                 clientComms.Remove(item);
                 Clients.All.onUserDisconnected(id, item.Name);
             }
-            // удаляем из базы все симки с этого блока
-            using (SimContext db = new SimContext())
+            if (stopCalled)
             {
-                var range = db.ActiveSimCards.Where(x => x.SimBankId == id && x.State==SimState.Ready);// здесь спорный момент
-                db.ActiveSimCards.RemoveRange(range);
-                db.SaveChanges();
+                // удаляем из базы все симки с этого блока
+                using (SimContext db = new SimContext())
+                {
+                    var range = db.ActiveSimCards.Where(x => x.SimBankId == id && x.State==SimState.Ready);// здесь спорный момент
+                    db.ActiveSimCards.RemoveRange(range);
+                    db.SaveChanges();
+                }
             }
 
             return base.OnDisconnected(stopCalled);
@@ -140,6 +158,7 @@ namespace SimBankSite.SignalR_Hubs
 
         ~CommandHub()
         {
+            Clients.All.Disconnect();
             db.Dispose();
         }
     }
