@@ -15,13 +15,8 @@ namespace SimBankSite.SignalR_Hubs
         static ClientComm Host = null;
         string cmd = "{\"Destination\": \"8970199170310344443\",\"Command\": \"WaitSms\",\"Pars\": [\"SearchByNumber\", \"My Beeline\" ]}";
 
-        SimContext db;
-
-        
-
         public CommandHub()
         {
-            db = new SimContext();
         }
 
         public void PrintClientsId()
@@ -44,7 +39,7 @@ namespace SimBankSite.SignalR_Hubs
             Clients.All.ComsInfoArrived(json);
             List<ActiveSim> activeComs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ActiveSim>>(json); // надеюсь, прокатит
             List<ActiveSim> comsToAdd = new List<ActiveSim>();
-            using (SimStorageContext StorageDb = new SimStorageContext())
+            using (ApplicationDbContext db = new ApplicationDbContext())
             {
                 
                 foreach (var comm in activeComs)
@@ -65,12 +60,10 @@ namespace SimBankSite.SignalR_Hubs
                     comsToAdd.Add(comm);
                 }
                 
-                StorageDb.AllSimCards.AddRange(comsToAdd);
-                StorageDb.Entry(comsToAdd).State = System.Data.Entity.EntityState.Added;
-                StorageDb.SaveChanges();
+                db.AllSimCards.AddRange(comsToAdd);
+                db.ActiveSimCards.AddRange(comsToAdd);
+                db.SaveChanges();
             }
-            db.ActiveSimCards.AddRange(comsToAdd);
-            db.SaveChanges();
         }
 
         /// <summary>
@@ -134,7 +127,7 @@ namespace SimBankSite.SignalR_Hubs
             if (stopCalled)
             {
                 // удаляем из базы все симки с этого блока
-                using (SimContext db = new SimContext())
+                using (ApplicationDbContext db = new ApplicationDbContext())
                 {
                     var range = db.ActiveSimCards.Where(x => x.SimBankId == id && x.State==SimState.Ready);// здесь спорный момент
                     db.ActiveSimCards.RemoveRange(range);
@@ -160,7 +153,7 @@ namespace SimBankSite.SignalR_Hubs
         ~CommandHub()
         {
             Clients.All.Disconnect();
-            db.Dispose();
+            //db.Dispose();
         }
     }
 }

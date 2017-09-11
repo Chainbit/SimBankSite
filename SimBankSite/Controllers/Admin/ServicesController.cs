@@ -14,7 +14,7 @@ namespace SimBankSite.Controllers.Admin
     [Authorize(Roles = "Admin")]
     public class ServicesController : Controller
     {
-        private ServiceContext db = new ServiceContext();
+        private ApplicationDbContext db = new ApplicationDbContext(); //ОСТОРОЖНО, ВОЗМОЖНЫ ОШИБКИ!
 
         // GET: Services
         public async Task<ActionResult> Index()
