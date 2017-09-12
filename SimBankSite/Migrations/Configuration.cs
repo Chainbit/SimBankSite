@@ -16,14 +16,14 @@ namespace SimBankSite.Migrations
         protected override void Seed(SimBankSite.Models.ApplicationDbContext context)
         {
             //  This method will be called after migrating to the latest version.
-            
-            if(!context.Roles.Any(r => r.Name == "Admin"))
+
+            if (!context.Roles.Any(r => r.Name == "Admin"))
             {
                 var store = new Microsoft.AspNet.Identity.EntityFramework.RoleStore<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>(context);
                 var manager = new Microsoft.AspNet.Identity.RoleManager<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>(store);
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole { Name = "Admin" };
 
-               manager.CreateAsync(role).Wait();
+                manager.CreateAsync(role).Wait();
             }
 
             if (!context.Roles.Any(r => r.Name == "User"))
@@ -32,7 +32,7 @@ namespace SimBankSite.Migrations
                 var manager = new Microsoft.AspNet.Identity.RoleManager<Microsoft.AspNet.Identity.EntityFramework.IdentityRole>(store);
                 var role = new Microsoft.AspNet.Identity.EntityFramework.IdentityRole { Name = "User" };
 
-               manager.CreateAsync(role).Wait();
+                manager.CreateAsync(role).Wait();
             }
 
             if (!context.Users.Any(u => u.UserName == "admin@admin.ru"))
@@ -44,7 +44,6 @@ namespace SimBankSite.Migrations
                 manager.CreateAsync(user, "ebuchayabazadannyh1488").Wait();
                 manager.AddToRoleAsync(user.Id, "Admin").Wait();
             }
-
         }
     }
 }
