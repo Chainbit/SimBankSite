@@ -49,18 +49,18 @@ namespace SimBankSite.SignalR_Hubs
                         continue;
                     }
 
-                    comm.SimBankId = Context.ConnectionId;
+                    //comm.SimBankId = Context.ConnectionId;
                     comm.UsedServices = "";
-                    
-                    //var sim = StorageDb.AllSimCards.Find(comm.Id);
-                    //if (sim != null)
-                    //{
-                    //    comm.UsedServicesArray = sim.UsedServices.Split(',');
-                    //}
+
+                    var sim = db.AllSimCards.Find(comm.Id);
+                    if (sim != null)
+                    {
+                        comm.UsedServicesArray = sim.UsedServices.Split(',');
+                    }
                     comsToAdd.Add(comm);
                 }
                 
-                db.AllSimCards.AddRange(comsToAdd);
+                //db.AllSimCards.AddRange(comsToAdd);
                 db.ActiveSimCards.AddRange(comsToAdd);
                 db.SaveChanges();
             }
@@ -129,7 +129,12 @@ namespace SimBankSite.SignalR_Hubs
                 // удаляем из базы все симки с этого блока
                 using (ApplicationDbContext db = new ApplicationDbContext())
                 {
-                    var range = db.ActiveSimCards.Where(x => x.SimBankId == id && x.State==SimState.Ready);// здесь спорный момент
+                    var range = db.ActiveSimCards.Where(x => x.SimBankId == item.Name && x.State==SimState.Ready);// здесь спорный момент
+                    //foreach (var comm in range)
+                    //{
+                    //    db.AllSimCards.Add(comm as Sim);
+                    //}
+                    db.AllSimCards.AddRange(range);
                     db.ActiveSimCards.RemoveRange(range);
                     db.SaveChanges();
                 }
