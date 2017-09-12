@@ -18,13 +18,13 @@ namespace SimBankSite.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private ApplicationRoleManager _roleManager;
+        private RoleManager<IdentityRole> _roleManager;
 
         public ManageController()
         {
         }
 
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationRoleManager roleManager)
+        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, RoleManager<IdentityRole> roleManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -55,11 +55,11 @@ namespace SimBankSite.Controllers
             }
         }
 
-        public ApplicationRoleManager RoleManager
+        public RoleManager<IdentityRole> RoleManager
         {
             get
             {
-                return _roleManager ?? HttpContext.GetOwinContext().GetUserManager<ApplicationRoleManager>();
+                return _roleManager ?? HttpContext.GetOwinContext().GetUserManager<RoleManager<IdentityRole>>();
             }
             private set
             {
@@ -424,19 +424,11 @@ namespace SimBankSite.Controllers
 
         private string GetRoleName(string userId)
         {
-            ApplicationRole adminRole = RoleManager.FindByName("Admin");
-            var admins = adminRole.Users.Where(x => x.UserId == userId).ToArray();
-
-            string roleName = "";
-            if (admins.Count() > 0)
+            string roleName = "Роль не найдена";
+            var res = UserManager.GetRolesAsync(userId);
+            if(res.Result.Count > 0)
             {
-                IdentityUserRole idenRole = admins[0];
-                ApplicationRole role = RoleManager.FindById(idenRole.RoleId);
-                roleName = role.Name;
-            }
-            else
-            {
-                roleName = "User";
+                roleName = res.Result[0];
             }
 
             return roleName;

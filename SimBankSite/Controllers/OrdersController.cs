@@ -34,7 +34,7 @@ namespace SimBankSite.Controllers
         {
             string url =Request.Url.ToString();
             string baseUrl = Request.Url.Scheme + "://" + Request.Url.Authority +
-    Request.ApplicationPath.TrimEnd('/') + "/";
+            Request.ApplicationPath.TrimEnd('/') + "/";
             InitializeConnection(url);
             Subscribe();
         }

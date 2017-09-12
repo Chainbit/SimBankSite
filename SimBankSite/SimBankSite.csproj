@@ -235,10 +235,6 @@
     <Compile Include="Migrations\201709111627281_Initial.Designer.cs">
       <DependentUpon>201709111627281_Initial.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201709111907478_seedm.cs" />
-    <Compile Include="Migrations\201709111907478_seedm.Designer.cs">
-      <DependentUpon>201709111907478_seedm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Global.asax.cs">
@@ -294,6 +290,7 @@
     <Content Include="Views\Services\Details.cshtml" />
     <Content Include="Views\Services\Edit.cshtml" />
     <Content Include="Views\Services\Index.cshtml" />
+    <Content Include="Views\Shared\_ServicesList.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
@@ -355,9 +352,6 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201709111627281_Initial.resx">
       <DependentUpon>201709111627281_Initial.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709111907478_seedm.resx">
-      <DependentUpon>201709111907478_seedm.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
