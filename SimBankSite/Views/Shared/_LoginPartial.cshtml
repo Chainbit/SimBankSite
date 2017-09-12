@@ -9,8 +9,8 @@
         <li>           
             @Html.ActionLink("Личный кабинет", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Ваш кабинет" })    
         </li>
-        @*@if (User.IsInRole("Admin"))
-        {*@
+        @if (User.IsInRole("Admin"))
+        {
             <li class="nav-item dropdown"> @*ТОЛЬКО ДЛЯ АДМИНА*@
                 <a class="nav-link dropdown-toggle" href="#" id="adminDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">Администрирование<span class="caret"></span></a>           
                 <ul class="dropdown-menu" aria-labelledby="adminDropdown">
@@ -25,7 +25,7 @@
                     </li>
             </ul>
             </li>
-        @*}*@
+        }
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Выйти</a></li>
     </ul>
     }
