@@ -43,7 +43,6 @@ namespace SimBankSite.Models
 
         public DbSet<Order> Orders { get; set; }
         public DbSet<Service> Services { get; set; }
-        public DbSet<ActiveSim> ActiveSimCards { get; set; }
         public DbSet<Sim> AllSimCards { get; set; }
 
     }
