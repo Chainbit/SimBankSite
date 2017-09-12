@@ -7,12 +7,15 @@ using System.ComponentModel.DataAnnotations;
 using SimBankSite.Models;
 using System.Linq;
 using System.Collections.Generic;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace SimBankSite.Controllers.Admin
 {
-    [Authorize]//(Roles = "Admin")]
+    
     public class RoleAdminController : Controller
     {
+        ApplicationDbContext context = new ApplicationDbContext();
+
         private ApplicationUserManager UserManager
         {
             get
@@ -29,23 +32,36 @@ namespace SimBankSite.Controllers.Admin
             }
         }
 
-        // GET: RoleAdmin
-        public ActionResult Index()
+        private RoleManager<IdentityRole> IdentityRoleManager
         {
-            return View(RoleManager.Roles);
+            get
+            {
+                return new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(context));
+            }
         }
 
+        // GET: RoleAdmin
+        [Authorize(Roles = "Admin")]
+        public ActionResult Index()
+        {
+            List<IdentityRole> model = new List<IdentityRole>();
+            model.AddRange(IdentityRoleManager.Roles.ToList());
+            return View(model);
+        }
+
+        [Authorize(Roles = "Admin")]
         public ActionResult Create()
         {
             return View();
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]        
         public async Task<ActionResult> Create([Required]string name)
         {
             if(ModelState.IsValid)
             {
-                var res = await RoleManager.CreateAsync(new ApplicationRole(name));
+                var res = await IdentityRoleManager.CreateAsync(new IdentityRole(name));
 
                 if(res.Succeeded)
                 {
@@ -61,12 +77,13 @@ namespace SimBankSite.Controllers.Admin
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Delete(string id)
         {
-            ApplicationRole role = await RoleManager.FindByIdAsync(id);
+            IdentityRole role = await IdentityRoleManager.FindByIdAsync(id);
             if (role != null)
             {
-                var res = await RoleManager.DeleteAsync(role);
+                var res = await IdentityRoleManager.DeleteAsync(role);
 
                 if (res.Succeeded)
                 {
@@ -83,11 +100,12 @@ namespace SimBankSite.Controllers.Admin
             }
         }
 
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit(string id)
         {
-            ApplicationRole role = await RoleManager.FindByIdAsync(id);
+            IdentityRole role = await IdentityRoleManager.FindByIdAsync(id);
 
-            string[] memberIDs = role.Users.Select(x => x.UserId).ToArray();
+            List<string> memberIDs = role.Users.Select(x => x.UserId).ToList();
 
             IEnumerable<ApplicationUser> members = UserManager.Users.Where(x => memberIDs.Any(y =>y == x.Id));
 
@@ -102,6 +120,7 @@ namespace SimBankSite.Controllers.Admin
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<ActionResult> Edit(RoleModificationModel model)
         {
             IdentityResult result;
@@ -135,7 +154,7 @@ namespace SimBankSite.Controllers.Admin
                 return View("Error", new string[] { "Роль не найдена" });
             }
         }
-
+        
         private void AddErrors(IdentityResult res)
         {
             foreach(string error in res.Errors)

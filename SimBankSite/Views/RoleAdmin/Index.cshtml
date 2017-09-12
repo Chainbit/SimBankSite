@@ -1,6 +1,7 @@
 ﻿@using SimBankSite.Models
 @using SimBankSite.Helpers
-@model IEnumerable<ApplicationUser>
+@using Microsoft.AspNet.Identity.EntityFramework;
+@model IEnumerable<IdentityRole>
 
 @{
     ViewBag.Title = "Изменение доступа";
@@ -15,25 +16,22 @@
             <th>Пользователи</th>
             <th style="min-width: 150px"></th>
         </tr>
-        @using(ApplicationDbContext db = new ApplicationDbContext()) {
-            List<string> allRoles = Roles.GetAllRoles().ToList();
-            if (allRoles.Count == 0)
-            {
+        @if (Model.Count() == 0)
+        {
             <tr>
                 <td colspan="4" class="text-center">Нет ролей</td>
             </tr>
-            }
-            else
+        }
+        else
+        {
+          foreach (IdentityRole role in Model)
             {
-                
-                @*foreach (var role in allRoles)
-                {
                 <tr>
                     <td>@role.Id</td>
                     <td>@role.Name</td>
                     <td>
                         @if (role.Users == null || role.Users.Count == 0)
-                            {
+                        {
                             @: Нет пользователей в этой роли
                     }
                         else
@@ -41,7 +39,7 @@
                             <p>
                                 @string.Join(", ", role.Users.Select(x =>
                             Html.GetUserName(x.UserId)))
-                        </p>
+                            </p>
                         }
                     </td>
                     <td>
@@ -51,10 +49,9 @@
                                 new { @class = "btn btn-primary btn-xs", style = "float:left; margin-right:5px" })
                             <button class="btn btn-danger btn-xs" type="submit">Удалить</button>
                         }
-                    </td>*@
-                @*</tr>*@
+                    </td>
+                </tr>
             }
-        }
         }
     </table>
 </div>
