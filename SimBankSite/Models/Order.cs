@@ -18,4 +18,10 @@ namespace SimBankSite.Models
         public Service Service { get; set; }
         public string Message { get; set; }
     }
+
+    public class OrderAndService
+    {
+        public Order Order { get; set; }
+        public Service Service { get; set; }
+    }
 }

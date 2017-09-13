@@ -30,6 +30,8 @@ namespace SimBankSite.Controllers
         {
         }
 
+
+
         public new void Execute(RequestContext requestContext)
         {
             string url = Request.Url.ToString();
@@ -52,10 +54,10 @@ namespace SimBankSite.Controllers
         public ActionResult Index()
         {
             GetCurrentUserInfo();
-            var shtoTo = db.Orders.Join(db.Services, orders => orders.Service.Id, service => service.Id, (orders, service) => new { Order = orders, Service = service }).Where(o => o.Order.CustomerId == CurrentUser.Id);
-            ViewBag.ServicesOfUser = shtoTo;
+            var orderAndService = db.Orders.Join(db.Services, orders => orders.Service.Id, service => service.Id, (orders, service) => new OrderAndService { Order = orders, Service = service }).Where(o => o.Order.CustomerId == CurrentUser.Id).ToList();
+           
 
-            return View("newIndex", ViewBag.ServicesOfUser);
+            return View("Index", orderAndService);
         }
 
         [Authorize]
@@ -85,7 +87,10 @@ namespace SimBankSite.Controllers
                     {
                         await CreateOrder(CurrentUser, svc);
                     }
-                    return View("Index", db.Orders.Where(o => o.CustomerId == CurrentUser.Id));
+                   List <OrderAndService> createService = new List<OrderAndService>();
+                    createService.Add(new OrderAndService { Order = db.Orders.Where(o => o.CustomerId == CurrentUser.Id).FirstOrDefault(), Service = null });
+                    
+                    return View("Index", createService);
                 }
                 else
                 {
@@ -163,6 +168,8 @@ namespace SimBankSite.Controllers
                 if (sim == null)
                 {
                     order.Status = "Ошибка! Нет доступных номеров";
+                    db.Entry(order).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
                     return;
                 }
                 //создаем команду

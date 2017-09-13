@@ -1,48 +1,49 @@
-﻿@model IEnumerable<SimBankSite.Models.Order>
+﻿@using SimBankSite.Models
+@model IEnumerable<SimBankSite.Models.OrderAndService>
 
 <h2>Ваши заказы:</h2>
 
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.Id)
+            @Html.DisplayNameFor(model => model.Order.Id)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Service.Name)
+            @Html.DisplayNameFor(model => model.Order.Service.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TelNumber)
+            @Html.DisplayNameFor(model => model.Order.TelNumber)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Status)
+            @Html.DisplayNameFor(model => model.Order.Status)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Message)
+            @Html.DisplayNameFor(model => model.Order.Message)
         </th>
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (OrderAndService item in Model)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Id)
+                @Html.DisplayFor(modelItem => item.Order.Id)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Service.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.TelNumber)
+                @Html.DisplayFor(modelItem => item.Order.TelNumber)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Status)
+                @Html.DisplayFor(modelItem => item.Order.Status)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Message)
+                @Html.DisplayFor(modelItem => item.Order.Message)
             </td>
             <td>
-                @Ajax.ActionLink(" ", "Report", new { id = item.Id }, new AjaxOptions() { HttpMethod = "Post" }, new { @class = "glyphicon glyphicon-ban-circle text-danger" })
-                @Ajax.ActionLink(" ", "Confirm", new { id = item.Id }, new AjaxOptions() { HttpMethod = "Post" }, new { @class = "glyphicon glyphicon-ok text-success" })
+                @Ajax.ActionLink(" ", "Report", new { id = item.Order.Id }, new AjaxOptions() { HttpMethod = "Post" }, new { @class = "glyphicon glyphicon-ban-circle text-danger" })
+                @Ajax.ActionLink(" ", "Confirm", new { id = item.Order.Id }, new AjaxOptions() { HttpMethod = "Post" }, new { @class = "glyphicon glyphicon-ok text-success" })
                 @*<a href="@Url.Action("Confirm", "Orders", new { id = item.Id })">
                         <span class="glyphicon glyphicon-ok text-success"></span>
                     </a>*@
