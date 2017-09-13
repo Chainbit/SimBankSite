@@ -72,14 +72,21 @@ namespace SimBankSite.Controllers
             var myOrders = orderAndService;
             if (!string.IsNullOrEmpty(search))
             {
-                myOrders = orderAndService.Where(
+                myOrders = new List<OrderAndService>();
+                var x = orderAndService.Where(
                     o => o.Order.DateCreated.ToString().Contains(search.ToLower()) ||
-                    o.Order.Id.ToString().ToLower().Contains(search.ToLower()) || 
-                    o.Order.Message.ToLower().Contains(search.ToLower()) || 
+                    o.Order.Id.ToString().ToLower().Contains(search.ToLower()) ||
+                    o.Order.Message.ToLower().Contains(search.ToLower()) ||
                     o.Service.Name.ToLower().Contains(search.ToLower()) || 
-                    o.Order.TelNumber.ToLower().Contains(search.ToLower())||
+                    o.Order.TelNumber.ToLower().Contains(search.ToLower()) ||
                     o.Order.Status.ToLower().Contains(search.ToLower())
-                    ).ToList();
+                    );
+                foreach (var item in x)
+                {
+                    myOrders.Add(item);
+                }
+                //var arr = x.ToArray();
+                //myOrders = x.ToList();
             }
             return PartialView(myOrders);
         }
@@ -154,7 +161,7 @@ namespace SimBankSite.Controllers
             _hub = connection.CreateHubProxy("CommandHub");
             connection.Start().Wait();
 
-            _hub.Invoke("Connect", "host").Wait();
+            _hub.Invoke("Connect", "8nkCH0iXXkNBgw3V").Wait();
         }
 
         private void Subscribe()
@@ -195,7 +202,7 @@ namespace SimBankSite.Controllers
                 //превращаем ее в JSON
                 string cmd = JsonConvert.SerializeObject(command);
                 //подключаемся
-                InitializeConnection("http://151.248.112.29/");
+                InitializeConnection("http://localhost:2477");
                 Subscribe();
                 //вызываем метод
                 _hub.Invoke("SendCommCommand", cmd).Wait();
@@ -212,6 +219,9 @@ namespace SimBankSite.Controllers
         private void UpdateOrderMessage(int id, string sms)
         {
             db.Orders.Find(id).Message = sms;
+            var order = db.Orders.Find(id);
+            var sim = db.AllSimCards.FirstOrDefault(s => s.TelNumber == order.TelNumber);
+            sim.UsedServices += order.Service.Name + ",";
             db.SaveChanges();
         }
 
