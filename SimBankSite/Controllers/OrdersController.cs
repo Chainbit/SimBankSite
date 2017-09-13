@@ -65,7 +65,14 @@ namespace SimBankSite.Controllers
             var myOrders = db.Orders.Where(o => o.CustomerId == CurrentUser.Id);
             if (!string.IsNullOrEmpty(search))
             {
-                myOrders = myOrders.Where(o => o.DateCreated.ToString() == search || o.Id.ToString() == search || o.Message == search || o.Service.Name == search || o.TelNumber == search);
+                myOrders = myOrders.Where(
+                    o => o.DateCreated.ToString().Contains(search.ToLower()) ||
+                    o.Id.ToString().ToLower().Contains(search.ToLower()) || 
+                    o.Message.ToLower().Contains(search.ToLower()) || 
+                    o.Service.Name.ToLower().Contains(search.ToLower()) || 
+                    o.TelNumber.ToLower().Contains(search.ToLower())||
+                    o.Status.ToLower().Contains(search.ToLower())
+                    );
             }
             return PartialView(myOrders);
         }
