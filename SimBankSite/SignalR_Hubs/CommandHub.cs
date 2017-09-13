@@ -70,9 +70,9 @@ namespace SimBankSite.SignalR_Hubs
         /// Реакция на полученное сообщение
         /// </summary>
         /// <param name="message"></param>
-        public void SmsReceived(string message)
+        public void SmsReceived(string message,int commandID)
         {
-            Clients.Client(Host.ConnectionId).SmsContentReceived(message);
+            Clients.Client(Host.ConnectionId).SmsContentReceived(message, commandID);
         }
 
         /// <summary>
