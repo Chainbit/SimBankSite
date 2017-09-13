@@ -47,12 +47,15 @@ namespace SimBankSite.Controllers
                 CurrentUser = UserManager.FindById(User.Identity.GetUserId());
             }
         }
-
+        
         [Authorize]
         public ActionResult Index()
         {
             GetCurrentUserInfo();
-            return View("Index", db.Orders.Where(o => o.CustomerId == CurrentUser.Id));
+            var shtoTo = db.Orders.Join(db.Services, orders => orders.Service.Id, service => service.Id, (orders, service) => new { Order = orders, Service = service }).Where(o => o.Order.CustomerId == CurrentUser.Id);
+            ViewBag.ServicesOfUser = shtoTo;
+
+            return View("newIndex", ViewBag.ServicesOfUser);
         }
 
         [HttpPost]
@@ -64,7 +67,7 @@ namespace SimBankSite.Controllers
                 Service svc = db.Services.Find(value);
 
                 if (User.Identity.IsAuthenticated)
-                {
+                { 
                     GetCurrentUserInfo();
                     if (CurrentUser.Money >= svc.Price)
                     {

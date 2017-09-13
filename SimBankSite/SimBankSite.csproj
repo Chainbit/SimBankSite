@@ -290,6 +290,7 @@
     <Content Include="Views\Services\Details.cshtml" />
     <Content Include="Views\Services\Edit.cshtml" />
     <Content Include="Views\Services\Index.cshtml" />
+    <Content Include="Views\Orders\newIndex.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

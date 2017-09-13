@@ -1,6 +1,5 @@
 ﻿@model IEnumerable<SimBankSite.Models.Order>
 
-
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -32,7 +31,7 @@
 {
     <tr>
         <td>
-            @ViewBag.ServicesOfUser Html.DisplayFor(modelItem => item.Id)
+            @Html.DisplayFor(modelItem => item.Id)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Service.Name)
