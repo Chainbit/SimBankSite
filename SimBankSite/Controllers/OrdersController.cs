@@ -55,6 +55,18 @@ namespace SimBankSite.Controllers
             return View("Index", db.Orders.Where(o => o.CustomerId == CurrentUser.Id));
         }
 
+        [Authorize]
+        public ActionResult OrdersPartial(string search)
+        {
+            GetCurrentUserInfo();
+            var myOrders = db.Orders.Where(o => o.CustomerId == CurrentUser.Id);
+            if (!string.IsNullOrEmpty(search))
+            {
+                myOrders = myOrders.Where(o => o.DateCreated.ToString() == search || o.Id.ToString() == search || o.Message == search || o.Service.Name == search || o.TelNumber == search);
+            }
+            return PartialView(myOrders);
+        }
+
         [HttpPost]
         public async Task<ActionResult> Create(int? value)
         {

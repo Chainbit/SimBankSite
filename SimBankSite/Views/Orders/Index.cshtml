@@ -4,54 +4,33 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+<div>
+    @using (Ajax.BeginForm("OrdersPartial", new AjaxOptions { UpdateTargetId = "results" }))
+    {
+        <div class="input-group">
+            <input type="text" class="form-control" name="search">
+            <span class="input-group-btn">
+                <button type="submit" class="btn btn-default" value="Поиск"/>
+            </span>
+        </div>
+        <div class="col-lg-6">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="Search for...">
+                <span class="input-group-btn">
+                    <button class="btn btn-secondary" type="button">Go!</button>
+                </span>
+            </div>
+        </div>
+    }
+    <div id="results">
 
-<h2>Ваши заказы:</h2>
+    </div>
+</div>
 
-<table class="table">
-    <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Service.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.TelNumber)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Status)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Message)
-        </th>
-        <th></th>
-    </tr>
-
-@foreach (var item in Model)
-{
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Id)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Service.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TelNumber)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Message)
-        </td>
-        <td>
-            @Ajax.ActionLink(" ", "Report", new { id = item.Id }, new AjaxOptions() { HttpMethod = "Post" }, new { @class = "glyphicon glyphicon-ban-circle text-danger"})
-            @Ajax.ActionLink(" ", "Confirm", new { id = item.Id }, new AjaxOptions() { HttpMethod = "Post" }, new { @class = "glyphicon glyphicon-ok text-success" })
-            @*<a href="@Url.Action("Confirm", "Orders", new { id = item.Id })">
-                <span class="glyphicon glyphicon-ok text-success"></span>
-            </a>*@            
-        </td>
-    </tr>
-}
-</table>
+@Scripts.Render("~/scripts/jquery-1.10.2.min.js")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+<script type="text/javascript">
+    $(document).ready(function () {
+        $('#results').load('@Url.Action("OrdersPartial","Orders")?search=')
+    })
+</script>
