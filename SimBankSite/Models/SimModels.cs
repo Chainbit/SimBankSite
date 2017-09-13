@@ -11,11 +11,27 @@ using System.Web;
 namespace SimBankSite.Models
 {
     /// <summary>
-    /// Класс представляющий собой активную сим-карту
+    /// Базовый класс представляющий сим-карту
     /// </summary>
-    public class ActiveSim : Sim
+    [Serializable]
+    public class Sim
     {
+        [Required]
+        /// <summary>
+        /// ICCID сим-карты
+        /// </summary>
+        public string Id { get; set; }
+        public string TelNumber { get; set; }
+
+
+        /// <summary>
+        /// Использованные сервисы как строка (для БД)
+        /// </summary>
+        [JsonIgnore]
+        public string UsedServices { get; set; }
+
         public string SimBankId { get; set; }
+
         /// <summary>
         /// Состояние сим карты (готов или используется)
         /// </summary>
@@ -40,51 +56,10 @@ namespace SimBankSite.Models
         }
     }
 
-
-    /// <summary>
-    /// Базовый класс представляющий сим-карту
-    /// </summary>
-    [Serializable]
-    public class Sim
-    {
-        [Required]
-        /// <summary>
-        /// ICCID сим-карты
-        /// </summary>
-        public string Id { get; set; }
-        public string TelNumber { get; set; }
-
-
-        /// <summary>
-        /// Использованные сервисы как строка (для БД)
-        /// </summary>
-        [JsonIgnore]
-        public string UsedServices { get; set; }
-    }
-
-    //public class SimContext : DbContext
-    //{
-    //    public SimContext() : base("Database") { }
-
-    //    /// <summary>
-    //    /// Активные сим-карты
-    //    /// </summary>
-    //    public DbSet<ActiveSim> ActiveSimCards { get; set; }
-    //}
-
-    //public class SimStorageContext : DbContext
-    //{
-    //    public SimStorageContext(): base("Database") { }
-
-    //    /// <summary>
-    //    /// Все сим-карты
-    //    /// </summary>
-    //    public DbSet<Sim> AllSimCards { get; set; }
-    //}
-
     public enum SimState
     {
         Ready,
-        InUse
+        InUse,
+        Disconnected
     }
 }

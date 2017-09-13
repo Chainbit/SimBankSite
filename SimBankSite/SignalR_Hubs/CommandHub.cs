@@ -37,31 +37,31 @@ namespace SimBankSite.SignalR_Hubs
         public void ManagerInfo(string json)
         {
             Clients.All.ComsInfoArrived(json);
-            List<ActiveSim> activeComs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<ActiveSim>>(json); // надеюсь, прокатит
-            List<ActiveSim> comsToAdd = new List<ActiveSim>();
+            List<Sim> activeComs = Newtonsoft.Json.JsonConvert.DeserializeObject<List<Sim>>(json); // надеюсь, прокатит
+            List<Sim> comsToAdd = new List<Sim>();
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
-                
                 foreach (var comm in activeComs)
                 {
-                    if (db.ActiveSimCards.Find(comm.Id) != null)
+                    var existing = db.AllSimCards.Find(comm.Id);
+                    if (existing != null)
                     {
+                        existing.State = SimState.Ready;
                         continue;
                     }
 
-                    comm.SimBankId = Context.ConnectionId;
+                    //comm.SimBankId = Context.ConnectionId;
+                    comm.State = SimState.Ready;
                     comm.UsedServices = "";
-                    
-                    //var sim = StorageDb.AllSimCards.Find(comm.Id);
-                    //if (sim != null)
-                    //{
-                    //    comm.UsedServicesArray = sim.UsedServices.Split(',');
-                    //}
+
+                    var sim = db.AllSimCards.Find(comm.Id);
+                    if (sim != null)
+                    {
+                        comm.UsedServicesArray = sim.UsedServices.Split(',');
+                    }
                     comsToAdd.Add(comm);
                 }
-                
                 db.AllSimCards.AddRange(comsToAdd);
-                db.ActiveSimCards.AddRange(comsToAdd);
                 db.SaveChanges();
             }
         }
@@ -129,8 +129,12 @@ namespace SimBankSite.SignalR_Hubs
                 // удаляем из базы все симки с этого блока
                 using (ApplicationDbContext db = new ApplicationDbContext())
                 {
-                    var range = db.ActiveSimCards.Where(x => x.SimBankId == id && x.State==SimState.Ready);// здесь спорный момент
-                    db.ActiveSimCards.RemoveRange(range);
+                    var range = db.AllSimCards.Where(x => x.SimBankId == item.Name && x.State==SimState.Ready);// здесь спорный момент
+                    foreach (Sim comm in range)
+                    {
+                        comm.State = SimState.Disconnected;
+                        db.Entry(comm).State = System.Data.Entity.EntityState.Modified;
+                    }
                     db.SaveChanges();
                 }
             }
@@ -145,7 +149,7 @@ namespace SimBankSite.SignalR_Hubs
         public void SendCommCommand(string cmd)
         {
             //вызываем у всех кроме отправителя метод CommandArrived
-            Clients.AllExcept(Context.ConnectionId).CommandArrived(cmd);
+            Clients.All.CommandArrived(cmd);
             //вызываем у отправителя метод Confirm чтобы подтвердить что команда принята
             //Clients.Caller.Confirm();
         }

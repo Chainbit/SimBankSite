@@ -32,9 +32,9 @@ namespace SimBankSite.Controllers
 
         public new void Execute(RequestContext requestContext)
         {
-            string url =Request.Url.ToString();
+            string url = Request.Url.ToString();
             string baseUrl = Request.Url.Scheme + "://" + Request.Url.Authority +
-    Request.ApplicationPath.TrimEnd('/') + "/";
+            Request.ApplicationPath.TrimEnd('/') + "/";
             InitializeConnection(url);
             Subscribe();
         }
@@ -62,7 +62,7 @@ namespace SimBankSite.Controllers
         public async Task<ActionResult> Create(int? value)
         {
             if (value != null)
-            {                
+            {
 
                 Service svc = db.Services.Find(value);
 
@@ -71,9 +71,9 @@ namespace SimBankSite.Controllers
                     GetCurrentUserInfo();
                     if (CurrentUser.Money >= svc.Price)
                     {
-                        CreateOrder(CurrentUser, svc);
+                        await CreateOrder(CurrentUser, svc);
                     }
-                    return View("Index",  db.Orders.Where(o=>o.CustomerId== CurrentUser.Id));
+                    return View("Index", db.Orders.Where(o => o.CustomerId == CurrentUser.Id));
                 }
                 else
                 {
@@ -82,9 +82,9 @@ namespace SimBankSite.Controllers
             }
             else
             {
-                return View("Error!");
+                return Redirect("/Home");
             }
-            
+
         }
 
         /// <summary>
@@ -92,24 +92,26 @@ namespace SimBankSite.Controllers
         /// </summary>
         /// <param name="user">Текущий пользователь</param>
         /// <param name="svc">Сервис</param>
-        private async void CreateOrder(ApplicationUser user, Service svc)
+        private async Task CreateOrder(ApplicationUser user, Service svc)
         {
-            var dt = DateTime.Now;
-            var order = new Order()
-            {
-                CustomerId = user.Id,
-                Service = svc,
-                Status = "Обработка заказа",
-                DateCreated = dt
-            };
+            await Task.Run(async () =>
+             {
+                 var dt = DateTime.Now;
+                 var order = new Order()
+                 {
+                     CustomerId = user.Id,
+                     Service = svc,
+                     Status = "Обработка заказа",
+                     DateCreated = dt
+                 };
 
-            //using(ApplicationDbContext UsersDB = new ApplicationDbContext())
-            user.Money -= svc.Price;
-            await UserManager.UpdateAsync(user);
-            db.Orders.Add(order);
-            db.SaveChanges();
+                 user.Money -= svc.Price;
+                 //await UserManager.UpdateAsync(user);
+                 db.Orders.Add(order);
+                 await db.SaveChangesAsync();
+                 await ParseOrder(order);
+             });
 
-            await ParseOrder(order);
         }
 
         /// <summary>
@@ -123,12 +125,12 @@ namespace SimBankSite.Controllers
             _hub = connection.CreateHubProxy("CommandHub");
             connection.Start().Wait();
 
-            _hub.Invoke("Connect", "8nkCH0iXXkNBgw3V").Wait();
+            _hub.Invoke("Connect", "host").Wait();
         }
 
         private void Subscribe()
         {
-            _hub.On<string, int>("SmsContentReceived", (sms, cmdId) => UpdateOrderMessage(cmdId,sms));
+            _hub.On<string, int>("SmsContentReceived", (sms, cmdId) => UpdateOrderMessage(cmdId, sms));
         }
 
         private void DisconnectHub()
@@ -140,12 +142,12 @@ namespace SimBankSite.Controllers
         /// Обработка заказа
         /// </summary>
         /// <param name="order">Заказ</param>
-        public Task ParseOrder(Order order)
+        public async Task ParseOrder(Order order)
         {
-            return Task.Factory.StartNew(() =>
+            await Task.Run(async () =>
             {
                 var serviceName = order.Service.Name;
-                var sim = GetNumberForService(serviceName);
+                var sim = await GetNumberForService(serviceName);
                 if (sim == null)
                 {
                     order.Status = "Ошибка! Нет доступных номеров";
@@ -162,10 +164,12 @@ namespace SimBankSite.Controllers
                 //превращаем ее в JSON
                 string cmd = JsonConvert.SerializeObject(command);
                 //подключаемся
-                InitializeConnection("/");
+                InitializeConnection("http://151.248.112.29/");
                 Subscribe();
                 //вызываем метод
                 _hub.Invoke("SendCommCommand", cmd).Wait();
+                order.TelNumber = sim.TelNumber;
+                db.SaveChanges();
             });
         }
 
@@ -185,19 +189,25 @@ namespace SimBankSite.Controllers
         /// </summary>
         /// <param name="service">Сервис</param>
         /// <returns></returns>
-        public Sim GetNumberForService(string service)
+        public async Task<Sim> GetNumberForService(string service)
         {
-            var list = db.ActiveSimCards.OrderByDescending(s => System.Data.Entity.SqlServer.SqlFunctions.DataLength(s.UsedServices));
-            foreach (var sim in list)
-            {
-                if (!sim.UsedServicesArray.Contains(service) && sim.State != SimState.InUse)
-                {
-                    sim.State = SimState.InUse;
-                    db.SaveChanges();
-                    return sim;
-                }
-            }
-            return null;
+            return await Task.Run(async () =>
+             {
+                 var list = db.AllSimCards.Where(x => x.State != SimState.Disconnected).OrderByDescending(s => System.Data.Entity.SqlServer.SqlFunctions.DataLength(s.UsedServices));
+
+                 for (int i = 0; i < list.ToList().Count; i++)
+                 {
+                     var sim = list.ToList()[i];
+                     if (!sim.UsedServicesArray.Contains(service) && sim.State == SimState.Ready)
+                     {
+                         sim.State = SimState.InUse;
+                         db.Entry(sim).State = System.Data.Entity.EntityState.Modified;
+                         await db.SaveChangesAsync();
+                         return sim;
+                     }
+                 }
+                 return null;
+             });
         }
 
         ~OrdersController()
