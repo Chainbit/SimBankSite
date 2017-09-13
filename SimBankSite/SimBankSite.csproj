@@ -295,6 +295,7 @@
     <Content Include="Views\Services\Edit.cshtml" />
     <Content Include="Views\Services\Index.cshtml" />
     <Content Include="Views\Shared\_ServicesList.cshtml" />
+    <Content Include="Views\Orders\OrdersPartial.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
