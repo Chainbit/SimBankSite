@@ -26,11 +26,16 @@ namespace SimBankSite.Controllers
         private ApplicationUserManager UserManager { get; set; }
         private ApplicationUser CurrentUser { get; set; }
 
+        private List<OrderAndService> orderAndService = new List<OrderAndService>();
+
         public OrdersController()
         {
         }
 
-
+        private void GetUserOrdersAndServices()
+        {
+            orderAndService = db.Orders.Join(db.Services, orders => orders.Service.Id, service => service.Id, (orders, service) => new OrderAndService { Order = orders, Service = service }).Where(o => o.Order.CustomerId == CurrentUser.Id).ToList();
+        }
 
         public new void Execute(RequestContext requestContext)
         {
@@ -47,15 +52,15 @@ namespace SimBankSite.Controllers
             {
                 UserManager = HttpContext.GetOwinContext().GetUserManager<ApplicationUserManager>();
                 CurrentUser = UserManager.FindById(User.Identity.GetUserId());
+                GetUserOrdersAndServices();
+
             }
         }
         
         [Authorize]
         public ActionResult Index()
         {
-            GetCurrentUserInfo();
-            var orderAndService = db.Orders.Join(db.Services, orders => orders.Service.Id, service => service.Id, (orders, service) => new OrderAndService { Order = orders, Service = service }).Where(o => o.Order.CustomerId == CurrentUser.Id).ToList();
-           
+            GetCurrentUserInfo();      
 
             return View("Index", orderAndService);
         }
@@ -64,17 +69,17 @@ namespace SimBankSite.Controllers
         public ActionResult OrdersPartial(string search)
         {
             GetCurrentUserInfo();
-            var myOrders = db.Orders.Where(o => o.CustomerId == CurrentUser.Id);
+            var myOrders = orderAndService;
             if (!string.IsNullOrEmpty(search))
             {
-                myOrders = myOrders.Where(
-                    o => o.DateCreated.ToString().Contains(search.ToLower()) ||
-                    o.Id.ToString().ToLower().Contains(search.ToLower()) || 
-                    o.Message.ToLower().Contains(search.ToLower()) || 
+                myOrders = orderAndService.Where(
+                    o => o.Order.DateCreated.ToString().Contains(search.ToLower()) ||
+                    o.Order.Id.ToString().ToLower().Contains(search.ToLower()) || 
+                    o.Order.Message.ToLower().Contains(search.ToLower()) || 
                     o.Service.Name.ToLower().Contains(search.ToLower()) || 
-                    o.TelNumber.ToLower().Contains(search.ToLower())||
-                    o.Status.ToLower().Contains(search.ToLower())
-                    );
+                    o.Order.TelNumber.ToLower().Contains(search.ToLower())||
+                    o.Order.Status.ToLower().Contains(search.ToLower())
+                    ).ToList();
             }
             return PartialView(myOrders);
         }
