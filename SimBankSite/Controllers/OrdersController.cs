@@ -66,20 +66,38 @@ namespace SimBankSite.Controllers
         }
 
         [Authorize]
-        public ActionResult OrdersPartial(string search)
+        public ActionResult OrdersPartial(string search, int searchType = 1)
         {
             GetCurrentUserInfo();
-            var myOrders = orderAndService;
+            List<OrderAndService> myOrders = new List<OrderAndService>();
             if (!string.IsNullOrEmpty(search))
             {
-                myOrders = orderAndService.Where(
-                    o => o.Order.DateCreated.ToString().Contains(search.ToLower()) ||
-                    o.Order.Id.ToString().ToLower().Contains(search.ToLower()) || 
-                    o.Order.Message.ToLower().Contains(search.ToLower()) || 
-                    o.Service.Name.ToLower().Contains(search.ToLower()) || 
-                    o.Order.TelNumber.ToLower().Contains(search.ToLower())||
-                    o.Order.Status.ToLower().Contains(search.ToLower())
-                    ).ToList();
+                switch (searchType)
+                {
+                    case 1:
+                        myOrders = orderAndService.FindAll(order => (order.Service.Name.ToLower().Contains(search.ToLower())));
+                        break;
+                    case 2:
+                        myOrders = orderAndService.FindAll(order => order.Order.TelNumber.Contains("985"));
+                        break;
+                    
+
+
+                }
+                
+
+
+                    //o => o.Order.DateCreated.ToString().Contains(search.ToLower()) ||
+                    //o.Order.Id.ToString().ToLower().Contains(search.ToLower()) || 
+                    //o.Order.Message.ToLower().Contains(search.ToLower()) || 
+                    //o.Service.Name.ToLower().Contains(search.ToLower()) || 
+                    //o.Order.TelNumber.ToLower().Contains(search.ToLower())||
+                    //o.Order.Status.ToLower().Contains(search.ToLower())
+                    //).ToList();
+            }
+            else
+            {
+                myOrders = orderAndService;
             }
             return PartialView(myOrders);
         }
