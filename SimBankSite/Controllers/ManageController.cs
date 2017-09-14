@@ -387,7 +387,6 @@ namespace SimBankSite.Controllers
                     ViewBag.Balance = moneyToAdd.ToString();
                 }
             }
-
             return View();
         }
 

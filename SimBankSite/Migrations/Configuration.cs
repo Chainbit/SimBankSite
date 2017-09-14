@@ -41,7 +41,7 @@ namespace SimBankSite.Migrations
             if (!context.Users.Any(u => u.UserName == "admin@admin.ru"))
             {
               
-                var user = new ApplicationUser { UserName = "admin@admin.ru" };
+                var user = new ApplicationUser { UserName = "admin@admin.ru"};
 
                 userManager.CreateAsync(user, "ebuchayabazadannyh1488").Wait();
                 userManager.AddToRoleAsync(user.Id, "Admin").Wait();

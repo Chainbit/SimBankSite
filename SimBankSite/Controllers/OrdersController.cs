@@ -237,6 +237,8 @@ namespace SimBankSite.Controllers
                          return sim;
                      }
                  }
+
+                 ModelState.AddModelError("", "Не найдены активные симкарты");
                  return null;
              });
         }
