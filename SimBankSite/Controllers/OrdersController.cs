@@ -171,8 +171,7 @@ namespace SimBankSite.Controllers
             //ВОТ ЗДЕСЬ БЛЯТЬ ОЧЕНЬ ВНИМАТЕЛЬНО НУЖНО НАЗВАНИЕ ХАБА НАПИСАТЬ КАК НАДО
             _hub = connection.CreateHubProxy("CommandHub");
             connection.Start().Wait();
-
-            _hub.Invoke("Connect", "host").Wait();
+            _hub.Invoke("Connect", "8nkCH0iXXkNBgw3V").Wait();
         }
 
         private void Subscribe()
