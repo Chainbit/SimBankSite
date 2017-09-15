@@ -9,6 +9,12 @@
     padding-right: 15px;
 }
 
+.sim-label{
+    padding: 3px !important;
+    margin-bottom: 0px !important;
+    width: fit-content !important;
+}
+
 /* Override the default bootstrap behavior where horizontal description lists 
    will truncate terms that are too long to fit in the left column 
 */
@@ -27,3 +33,4 @@ textarea {
    margin-top: 4px;
 
 }
+
