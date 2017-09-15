@@ -34,7 +34,14 @@ namespace SimBankSite.Controllers
 
         private void GetUserOrdersAndServices()
         {
-            orderAndService = db.Orders.Join(db.Services, orders => orders.Service.Id, service => service.Id, (orders, service) => new OrderAndService { Order = orders, Service = service }).Where(o => o.Order.CustomerId == CurrentUser.Id).ToList();
+            orderAndService = db.Orders.Join(
+                db.Services, orders => orders.Service.Id,
+                service => service.Id,
+                (orders, service) => new OrderAndService
+                {
+                    Order = orders,
+                    Service = service
+                }).Where(o => o.Order.CustomerId == CurrentUser.Id).ToList();
         }
 
         public new void Execute(RequestContext requestContext)
@@ -62,7 +69,7 @@ namespace SimBankSite.Controllers
         {
             GetCurrentUserInfo();      
 
-            return View("Index", orderAndService);
+            return View("Index", orderAndService.OrderByDescending(o => o.Order.DateCreated).ToList());
         }
 
         [Authorize]
@@ -75,7 +82,7 @@ namespace SimBankSite.Controllers
                 switch (searchType)
                 {
                     case 1:
-                        myOrders = orderAndService.FindAll(order => (order.Service.Name.ToLower().Contains(search.ToLower())));
+                        myOrders = orderAndService.FindAll(order => (order.Service.Name.ToLower().Contains(search.ToLower()))).OrderByDescending(o => o.Order.DateCreated).ToList();
                         break;
                     case 2:
                         myOrders = orderAndService.FindAll(order => order.Order.TelNumber.Contains("985"));
@@ -84,16 +91,6 @@ namespace SimBankSite.Controllers
 
 
                 }
-                
-
-
-                    //o => o.Order.DateCreated.ToString().Contains(search.ToLower()) ||
-                    //o.Order.Id.ToString().ToLower().Contains(search.ToLower()) || 
-                    //o.Order.Message.ToLower().Contains(search.ToLower()) || 
-                    //o.Service.Name.ToLower().Contains(search.ToLower()) || 
-                    //o.Order.TelNumber.ToLower().Contains(search.ToLower())||
-                    //o.Order.Status.ToLower().Contains(search.ToLower())
-                    //).ToList();
             }
             else
             {
@@ -171,6 +168,7 @@ namespace SimBankSite.Controllers
             //ВОТ ЗДЕСЬ БЛЯТЬ ОЧЕНЬ ВНИМАТЕЛЬНО НУЖНО НАЗВАНИЕ ХАБА НАПИСАТЬ КАК НАДО
             _hub = connection.CreateHubProxy("CommandHub");
             connection.Start().Wait();
+
             _hub.Invoke("Connect", "8nkCH0iXXkNBgw3V").Wait();
         }
 
@@ -228,7 +226,19 @@ namespace SimBankSite.Controllers
         /// <param name="sms"></param>
         private void UpdateOrderMessage(int id, string sms)
         {
-            db.Orders.Find(id).Message = sms;
+            // Обновляем данные заказа
+            var order = db.Orders.Find(id);
+            order.Status = "Ответ получен";
+            order.Message = sms;
+
+            // Обновляем данные сим-карыты
+            var sim = db.AllSimCards.FirstOrDefault(s => s.TelNumber == order.TelNumber);
+            sim.UsedServices += order.Service.Name + ",";
+            sim.State = SimState.Ready;
+
+            // сохраняем
+            db.Entry(order).State = System.Data.Entity.EntityState.Modified;
+            db.Entry(sim).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
         }
 
@@ -254,6 +264,8 @@ namespace SimBankSite.Controllers
                          return sim;
                      }
                  }
+
+                 ModelState.AddModelError("", "Не найдены активные симкарты");
                  return null;
              });
         }
@@ -265,7 +277,7 @@ namespace SimBankSite.Controllers
     }
 
     /// <summary>
-    /// Класс, представляющий собо команду клиенту
+    /// Класс, представляющий собой команду клиенту
     /// </summary>
     public class CommandClass
     {
