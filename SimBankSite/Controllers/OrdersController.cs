@@ -172,7 +172,7 @@ namespace SimBankSite.Controllers
             _hub = connection.CreateHubProxy("CommandHub");
             connection.Start().Wait();
 
-            _hub.Invoke("Connect", "host").Wait();
+            _hub.Invoke("Connect", "8nkCH0iXXkNBgw3V").Wait();
         }
 
         private void Subscribe()
@@ -229,7 +229,19 @@ namespace SimBankSite.Controllers
         /// <param name="sms"></param>
         private void UpdateOrderMessage(int id, string sms)
         {
-            db.Orders.Find(id).Message = sms;
+            // Обновляем данные заказа
+            var order = db.Orders.Find(id);
+            order.Status = "Ответ получен";
+            order.Message = sms;
+
+            // Обновляем данные сим-карыты
+            var sim = db.AllSimCards.FirstOrDefault(s => s.TelNumber == order.TelNumber);
+            sim.UsedServices += order.Service.Name + ",";
+            sim.State = SimState.Ready;
+
+            // сохраняем
+            db.Entry(order).State = System.Data.Entity.EntityState.Modified;
+            db.Entry(sim).State = System.Data.Entity.EntityState.Modified;
             db.SaveChanges();
         }
 
@@ -268,7 +280,7 @@ namespace SimBankSite.Controllers
     }
 
     /// <summary>
-    /// Класс, представляющий собо команду клиенту
+    /// Класс, представляющий собой команду клиенту
     /// </summary>
     public class CommandClass
     {
