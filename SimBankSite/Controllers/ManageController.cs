@@ -399,6 +399,11 @@ namespace SimBankSite.Controllers
             {
                 return HttpNotFound();
             }
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                db.Transactions.Add(payment);
+                await db.SaveChangesAsync();
+            }
             return PartialView(payment);
         }
 
