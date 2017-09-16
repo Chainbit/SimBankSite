@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
 using System.ComponentModel.DataAnnotations.Schema;
+using System;
 
 namespace SimBankSite.Models
 {
@@ -107,7 +108,9 @@ namespace SimBankSite.Models
         [Required]
         [Display(Name = "Сумма пополнения")]
         [DataType(DataType.Currency)]
-        public string Sum { get; set; }
+        public decimal Sum { get; set; }
+
+        public DateTime Date { get; set; }
 
         // navigation property navernoe
         [Required]

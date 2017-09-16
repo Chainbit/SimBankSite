@@ -15,7 +15,10 @@
                 {
                 <tr>
                     <td>
-                        @Html.RadioButton("value", service.Id) @service.Name
+                        <div>
+                            @Html.RadioButton("value", service.Id, new {@id = service.Id.ToString()}) 
+                            @Html.Label(service.Name, service.Name, new {@for = service.Id.ToString(), @style = "margin-bottom: 0;" })
+                        </div>                        
                     </td>
                     <td>@Convert.ToInt32(service.Price) руб.</td>
                     <td>

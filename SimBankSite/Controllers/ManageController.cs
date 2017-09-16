@@ -10,6 +10,8 @@ using Microsoft.Owin.Security;
 using SimBankSite.Models;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace SimBankSite.Controllers
 {
@@ -401,10 +403,61 @@ namespace SimBankSite.Controllers
             }
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
+                payment.Date = DateTime.Now;
+                //payment.AppUser = UserManager.FindById(payment.UserID);
                 db.Transactions.Add(payment);
                 await db.SaveChangesAsync();
             }
-            return PartialView(payment);
+            return PartialView("YandexPartial", payment);
+        }
+
+        //[HttpGet]
+        //public string Paid()
+        //{
+        //    return View("Index");
+        //}
+
+        [HttpPost]
+        public void Paid(string notification_type, string operation_id, string label, string datetime,
+        decimal amount, decimal withdraw_amount, string sender, string sha1_hash, string currency, bool codepro)
+        {
+            string key = "xxxxxxxxxxxxxxxx"; // секретный код
+                                             // проверяем хэш
+            string paramString = string.Format("{0}&{1}&{2}&{3}&{4}&{5}&{6}&{7}&{8}",
+                notification_type, operation_id, amount, currency, datetime, sender,
+                codepro.ToString().ToLower(), key, label);
+
+            string paramStringHash1 = GetHash(paramString);
+            // создаем класс для сравнения строк
+            StringComparer comparer = StringComparer.OrdinalIgnoreCase;
+            // если хэши идентичны, добавляем данные о заказе в бд
+            if (0 == comparer.Compare(paramStringHash1, sha1_hash))
+            {
+                using (ApplicationDbContext db = new ApplicationDbContext())
+                {
+                    Transaction payment = db.Transactions.FirstOrDefault(o => o.Id == Convert.ToInt32(label));
+                    //payment.Operation_Id = operation_id;
+                    payment.Date = DateTime.Now;
+                    payment.Sum = amount; //Зависит от того кто платит комиссию
+                    //payment.Sum = withdraw_amount;
+                    //order.Sender = sender;
+                    db.Entry(payment).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                }
+            }
+        }
+        public string GetHash(string val)
+        {
+            SHA1 sha = new SHA1CryptoServiceProvider();
+            byte[] data = sha.ComputeHash(Encoding.Default.GetBytes(val));
+
+            StringBuilder sBuilder = new StringBuilder();
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                sBuilder.Append(data[i].ToString("x2"));
+            }
+            return sBuilder.ToString();
         }
 
         protected override void Dispose(bool disposing)
