@@ -25,7 +25,7 @@
 
     @foreach (OrderAndService item in Model)
     {
-        <tr>
+        <tr id="@Html.DisplayFor(modelItem => item.Order.Id).ToString().Trim()">
             <td>
                 @Html.DisplayFor(modelItem => item.Order.Id)
             </td>
@@ -42,6 +42,7 @@
                 @Html.DisplayFor(modelItem => item.Order.Message)
             </td>
             <td>
+               
                 @Ajax.ActionLink(" ", "Report", new { id = item.Order.Id }, new AjaxOptions() { HttpMethod = "Post" }, new { @class = "glyphicon glyphicon-ban-circle text-danger" })
                 @Ajax.ActionLink(" ", "Confirm", new { id = item.Order.Id }, new AjaxOptions() { HttpMethod = "Post" }, new { @class = "glyphicon glyphicon-ok text-success" })
                 @*<a href="@Url.Action("Confirm", "Orders", new { id = item.Id })">
@@ -50,4 +51,5 @@
             </td>
         </tr>
     }
+    
 </table>

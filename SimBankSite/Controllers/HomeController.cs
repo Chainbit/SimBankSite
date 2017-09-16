@@ -13,10 +13,10 @@ namespace SimBankSite.Controllers
        
         public ActionResult Index()
         {
-            //List<ApplicationUser> user = new List<ApplicationUser>();
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
                 ViewBag.Services = db.Services.ToList();
+                ViewBag.Sims = db.AllSimCards.Where(s => s.State == SimState.Ready).ToList();
             }
             
             return View();
@@ -51,8 +51,6 @@ namespace SimBankSite.Controllers
         [HttpPost]
         public ActionResult Index(Service service)
         {
-            var context = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<SignalR_Hubs.CommandHub>();
-            context.Clients.All.broadcast("Идите нахуй!");
             return RedirectToAction("Index");
         }
     }
