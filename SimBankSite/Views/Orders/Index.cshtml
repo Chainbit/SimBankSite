@@ -1,4 +1,6 @@
-﻿@model IEnumerable<SimBankSite.Models.OrderAndService>
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<SimBankSite.Models.OrderAndService>
+
 
 @{
     ViewBag.Title = "Заказы";
@@ -28,7 +30,7 @@
 @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#results').load('@Url.Action("OrdersPartial","Orders")?search=');
+        $('#results').load('@Url.Action("OrdersPartial","Orders")?page=1');
 
         $('#search').on('input',function () {
             var a = $('tr[id]').toArray();
