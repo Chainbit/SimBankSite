@@ -240,6 +240,10 @@
     <Compile Include="Migrations\201709122011195_sim.Designer.cs">
       <DependentUpon>201709122011195_sim.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709161303329_Transactions.cs" />
+    <Compile Include="Migrations\201709161303329_Transactions.Designer.cs">
+      <DependentUpon>201709161303329_Transactions.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Global.asax.cs">
@@ -302,6 +306,7 @@
     <Content Include="Views\ApplicationUsers\Details.cshtml" />
     <Content Include="Views\ApplicationUsers\Edit.cshtml" />
     <Content Include="Views\ApplicationUsers\Index.cshtml" />
+    <Content Include="Views\Manage\YandexPartial.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
@@ -366,6 +371,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709122011195_sim.resx">
       <DependentUpon>201709122011195_sim.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709161303329_Transactions.resx">
+      <DependentUpon>201709161303329_Transactions.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNet.Identity;
 using Microsoft.Owin.Security;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SimBankSite.Models
 {
@@ -94,6 +95,25 @@ namespace SimBankSite.Models
         [Display(Name ="Количество денег для занесения")]
         [DataType(DataType.Currency)]
         public string Money { get; set; }
-                
+    }
+
+    /// <summary>
+    /// Класс транзакции
+    /// </summary>
+    public class Transaction
+    {
+        public int Id { get; set; }
+
+        [Required]
+        [Display(Name = "Сумма пополнения")]
+        [DataType(DataType.Currency)]
+        public string Sum { get; set; }
+
+        // navigation property navernoe
+        [Required]
+        [ForeignKey("Id")]
+        public string UserID = System.Web.HttpContext.Current.User.Identity.GetUserId();
+
+        public virtual ApplicationUser AppUser { get; set; }
     }
 }
