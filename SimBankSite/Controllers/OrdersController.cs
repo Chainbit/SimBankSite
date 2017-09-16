@@ -13,6 +13,7 @@ using Newtonsoft.Json;
 using System.Web;
 using Microsoft.AspNet.Identity.Owin;
 using System.Threading.Tasks;
+using System.Diagnostics;
 
 namespace SimBankSite.Controllers
 {
@@ -28,8 +29,22 @@ namespace SimBankSite.Controllers
 
         private List<OrderAndService> orderAndService = new List<OrderAndService>();
 
-        public OrdersController()
+        /// <summary>
+        /// Проверка объектов на устаревание, в случае если ответа нет 5 минут , освобождает номер
+        /// </summary>
+        private void CheckOrdersState()
         {
+            List<OrderAndService> forCheckState = orderAndService.Where(o => o.Order.Status != "Ответ получен" && o.Order.Status != "Ошибка получения данных")
+                                                                 .Where(o => o.Order.DateCreated + TimeSpan.FromMinutes(5) < DateTime.Now).ToList();
+
+            for (int i = 0; i < forCheckState.Count; i++)
+            {
+                    forCheckState[i].Order.Status = "Ошибка получения данных";
+                    db.Entry(forCheckState[i].Order).State = System.Data.Entity.EntityState.Modified;
+                    db.SaveChanges();
+                
+            }
+
         }
 
         private void GetUserOrdersAndServices()
@@ -63,6 +78,7 @@ namespace SimBankSite.Controllers
 
             }
         }
+
         
         [Authorize]
         public ActionResult Index()
@@ -79,26 +95,28 @@ namespace SimBankSite.Controllers
         {
             GetCurrentUserInfo();
             List<OrderAndService> myOrders = new List<OrderAndService>();
+
+            CheckOrdersState();
+
             if (!string.IsNullOrEmpty(search))
             {
+                //Доделать требуется
                 switch (searchType)
                 {
                     case 1:
-                        myOrders = orderAndService.FindAll(order => (order.Service.Name.ToLower().Contains(search.ToLower()))).OrderByDescending(o => o.Order.DateCreated).ToList();
+                        myOrders = orderAndService.FindAll(order => (order.Service.Name.ToLower().Contains(search.ToLower()))).ToList();
                         break;
                     case 2:
-                        myOrders = orderAndService.FindAll(order => order.Order.TelNumber.Contains("985"));
+                        myOrders = orderAndService.FindAll(order => order.Order.TelNumber.Substring(1).Contains(search.ToLower()));
+                        Debug.WriteLine(myOrders.Count);
                         break;
-                    
-
-
                 }
             }
             else
             {
                 myOrders = orderAndService;
             }
-            return PartialView(myOrders);
+            return PartialView(myOrders.OrderByDescending(o => o.Order.DateCreated));
         }
 
         [HttpPost]

@@ -10,21 +10,11 @@
         {
             <div class="input-group col-md-5 col-lg-5" style="margin-top: 24px;">
                 <input id="search" type="text" class="form-control" name="search" placeholder="Введите запрос для поиска...">
-                <span class="input-group-btn">
-                    <input type="submit" class="btn btn-default" value="Поиск" />
-                </span>
+                @*<span class="input-group-btn">
+                    <input type="submit" id="searchButton" class="btn btn-default" value="Поиск" />
+                </span>*@
             </div>
-            <div class="col-md-3">
-                <div class="form-group">
-                    <label for="sel1">Критерий поиска:</label>
-                    <select class="form-control" id="searchType" name="searchType">
-                        <option value="1" selected="selected">Название службы</option>
-                        <option value="2">Номер телефона</option>
-                        <option value="3">Статус</option>
-                        <option value="4">Сообщение</option>
-                    </select>
-                </div>
-            </div>
+            
         }
     </div>
 </div>
@@ -40,10 +30,28 @@
     $(document).ready(function () {
         $('#results').load('@Url.Action("OrdersPartial","Orders")?search=');
 
-       
+        $('#search').on('input',function () {
+            var a = $('tr[id]').toArray();
+            
 
+            for (var i = 0; i < a.length; i++) {
+                var isAgreedwithFilter = false;
+                var childArr = a[i].children;
+                for (var k = 0; k < childArr.length; k++) {
+                    if (childArr[k].innerText.toLowerCase().includes($('#search').val().toLowerCase())) {
+                        isAgreedwithFilter = true;
+                        break;
+                    }
+                }
+                if (!isAgreedwithFilter) {
+                    a[i].hidden = true;
+                }
+                else {
+                    a[i].hidden = false;
+                }
 
-    })
+            }});
+           })
 
 
 </script>
