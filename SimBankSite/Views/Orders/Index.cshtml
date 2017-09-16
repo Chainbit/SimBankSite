@@ -38,13 +38,13 @@
 @Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
 <script type="text/javascript">
     $(document).ready(function () {
-        $('#results').load('@Url.Action("OrdersPartial","Orders")?search=')
-        @*$('#search').on('input', function (e) {
-            var search = $('#search').val();
-            var typeOfSearch = $('#sel1').val();
-            //search = encodeURIComponent(search);
-            $('#results').load('@Url.Action("OrdersPartial","Orders")?search=' + search + '&searchType=' + typeOfSearch)
-        })*@
+        $('#results').load('@Url.Action("OrdersPartial","Orders")?search=');
+
+       
+
+
     })
+
+
 </script>
 

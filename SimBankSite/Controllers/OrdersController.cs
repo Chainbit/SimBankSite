@@ -72,6 +72,8 @@ namespace SimBankSite.Controllers
             return View("Index", orderAndService.OrderByDescending(o => o.Order.DateCreated).ToList());
         }
 
+
+
         [Authorize]
         public ActionResult OrdersPartial(string search, int searchType = 1)
         {
@@ -100,6 +102,7 @@ namespace SimBankSite.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<ActionResult> Create(int? value)
         {
             if (value != null)
