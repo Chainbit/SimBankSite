@@ -421,7 +421,7 @@ namespace SimBankSite.Controllers
         public void Paid(string notification_type, string operation_id, string label, string datetime,
         decimal amount, decimal withdraw_amount, string sender, string sha1_hash, string currency, bool codepro)
         {
-            string key = "xxxxxxxxxxxxxxxx"; // секретный код
+            string key = "+qCr84wBkYG/Qf3td9ZVOYZt"; // секретный код
                                              // проверяем хэш
             string paramString = string.Format("{0}&{1}&{2}&{3}&{4}&{5}&{6}&{7}&{8}",
                 notification_type, operation_id, amount, currency, datetime, sender,
