@@ -390,6 +390,18 @@ namespace SimBankSite.Controllers
             return View();
         }
 
+        [HttpPost]
+        [Authorize]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> YandexPartial(Transaction payment)
+        {
+            if (payment==null)
+            {
+                return HttpNotFound();
+            }
+            return PartialView(payment);
+        }
+
         protected override void Dispose(bool disposing)
         {
             if (disposing && _userManager != null)
