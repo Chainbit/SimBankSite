@@ -13,10 +13,10 @@ namespace SimBankSite.Controllers
        
         public ActionResult Index()
         {
-            //List<ApplicationUser> user = new List<ApplicationUser>();
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
                 ViewBag.Services = db.Services.ToList();
+                ViewBag.Sims = db.AllSimCards.Where(s => s.State == SimState.Ready).ToList();
             }
             
             return View();
