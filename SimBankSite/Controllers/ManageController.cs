@@ -430,34 +430,6 @@ namespace SimBankSite.Controllers
             {
                 return false;
             }
-            //string ptrn = "[0-9]{1,10}(\\,[0-9]{0,2})?";
-
-            //string moneyToAdd = sum.ToString();
-            //decimal money = 0;
-
-            //if (moneyToAdd.Contains("."))
-            //{
-            //    moneyToAdd = moneyToAdd.Replace(".", ",");
-            //}
-
-            //Regex check = new Regex(ptrn);
-            //Match match = check.Match(moneyToAdd);
-            //if (match.Success)
-            //{
-            //    money = decimal.Parse(match.Value);
-            //    if(money > 0)
-            //    {
-            //        return true;
-            //    }
-            //    else
-            //    {
-            //        return false;
-            //    }
-            //}
-            //else
-            //{
-            //    return false;
-            //}
         }
 
         [HttpGet]
