@@ -3,20 +3,20 @@
 <form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml">
     <div class="form-group">
         <input type="hidden" name="receiver" value="410014902363226">
-        <input type="hidden" name="formcomment" value="Пополнение баланса для пользователя @Model.AppUser.UserName">
-        <input type="hidden" name="short-dest" value="Пополнение баланса для пользователя @Model.AppUser.UserName">
+        <input type="hidden" name="formcomment" value="Пополнение баланса для пользователя @Model.UserID">
+        <input type="hidden" name="short-dest" value="Пополнение баланса для пользователя @Model.UserID">
         <input type="hidden" name="label" value="@Model.Id">
         <input type="hidden" name="quickpay-form" value="donate">
         <input type="hidden" name="targets" value="транзакция @Model.Id">
-        @Html.LabelFor(m => m.Sum)
-        @Html.ValueFor(m=>m.Sum)
+        @Html.LabelFor(m => m.Sum):
+        <p>@Html.ValueFor(m => m.Sum) руб.</p>       
         <input type="hidden" name="sum" value="@Model.Sum" data-type="number">
         <input type="hidden" name="successURL" value="@Url.Action("Index","Manage")" data-type="number">
         @*<input type="hidden" name="need-fio" value="true">
             <input type="hidden" name="need-email" value="true">
             <input type="hidden" name="need-phone" value="false">
             <input type="hidden" name="need-address" value="false">*@
-        <div class="form-check">
+        @*<div class="form-check">
             <label class="form-check-label">
                 <input class="form-check-input" type="radio" name="paymentType" value="PC">Яндекс.Деньгами
             </label>
@@ -25,7 +25,15 @@
             <label class="form-check-label">
                 <input class="form-check-input" type="radio" name="paymentType" value="AC">Банковской картой
             </label>
-        </div>
+        </div>*@
+        <p>
+            <input type="radio" id="yandex" name="paymentType" value="PC" checked>
+            <label for="yandex">Яндекс.Деньгами</label>
+        </p>
+        <p>
+            <input type="radio" id="card" name="paymentType" value="AC">
+            <label for="card">Банковской картой</label>
+        </p>
             <input class="btn btn-primary" type="submit" value="Перевести">
         </div>
 </form>

@@ -1,29 +1,31 @@
-﻿@using SimBankSite.Models
-@model IEnumerable<SimBankSite.Models.OrderAndService>
+﻿@using PagedList.Mvc;
+@model PagedList.IPagedList<SimBankSite.Models.OrderAndService>
+
+
 
 <h2>Ваши заказы:</h2>
 
 <table class="table">
     <tr>
         <th> 
-            @Html.DisplayNameFor(model => model.Order.Id)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Order.Id)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Order.Service.Name)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Order.Service.Name)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Order.TelNumber)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Order.TelNumber)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Order.Status)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Order.Status)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Order.Message)
+            @Html.DisplayNameFor(model => model.FirstOrDefault().Order.Message)
         </th>
         <th></th>
     </tr>
 
-    @foreach (OrderAndService item in Model)
+    @foreach (var item in Model)
     {
         <tr id="@Html.DisplayFor(modelItem => item.Order.Id).ToString().Trim()">
             <td>
@@ -53,3 +55,12 @@
     }
     
 </table>
+
+<p>Страница @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) из @Model.PageCount</p>
+
+
+@Html.PagedListPager(
+    Model,
+    page => Url.Action("OrdersPartial", new { page = page }),
+    PagedListRenderOptions.EnableUnobtrusiveAjaxReplacing(new AjaxOptions() { HttpMethod = "GET", UpdateTargetId = "results" })
+)

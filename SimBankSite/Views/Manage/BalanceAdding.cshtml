@@ -6,42 +6,48 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>BalanceAdding</h2>
+<h2>Пополнение баланса</h2>
 @if (ViewBag.Balance != null)
 {
     <h3>
         Баланс пополнен на @ViewBag.Balance рубля
     </h3>
 }
-    
 
-@*@using (Html.BeginForm("BalanceAdding", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-{ 
-    @Html.AntiForgeryToken()
-    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    <p>На сколько вы хотите пополнить баланс ?</p>
+    @*@using (Html.BeginForm("BalanceAdding", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-    @Html.TextBoxFor(m => m.Money);
-    <br />
-    <input type="submit" value="Пополнить" class="btn btn-default" style="margin-top: 10px;" />
-}*@
+            <p>На сколько вы хотите пополнить баланс ?</p>
 
-<div id="yandexmoney">
-    @using (Ajax.BeginForm("YandexPartial", new AjaxOptions { UpdateTargetId = "yandexmoney" }))
-    {
-        @Html.AntiForgeryToken()
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.TextBoxFor(m => m.Money);
+            <br />
+            <input type="submit" value="Пополнить" class="btn btn-default" style="margin-top: 10px;" />
+        }*@
 
-        <p>На сколько вы хотите пополнить баланс ?</p>
+    <div class="row">
+        <div class="col-md-6">
+            <div id="yandexmoney">
+                @using (Ajax.BeginForm("YandexPartial", new AjaxOptions { UpdateTargetId = "yandexmoney" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-        @Html.TextBoxFor(m => m.Sum);
-        @Html.HiddenFor(m => m.UserId);
-        <br />
-        <input type="submit" value="Пополнить" class="btn btn-primary" style="margin-top: 10px;" />
-    }
-</div>
+                    <p>На сколько вы хотите пополнить баланс ?</p>
 
+                    @Html.TextBoxFor(m => m.Sum);
+                    @Html.HiddenFor(m => m.UserID);
+                    @*@Html.HiddenFor(m=>m.Date, new { @value = DateTime.Now })*@
+                    <br />
+                    <input type="submit" value="Пополнить" class="btn btn-primary" style="margin-top: 10px;" />
+                }
+            </div>
+        </div>
+    </div>
+@Scripts.Render("~/scripts/jquery-1.10.2.min.js")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
 
 
 

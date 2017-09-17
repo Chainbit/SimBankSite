@@ -69,6 +69,12 @@
       <HintPath>..\packages\Microsoft.Owin.Cors.3.1.0\lib\net45\Microsoft.Owin.Cors.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="PagedList, Version=1.17.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
+    </Reference>
+    <Reference Include="PagedList.Mvc, Version=4.5.0.0, Culture=neutral, PublicKeyToken=abbb863e9397c5e1, processorArchitecture=MSIL">
+      <HintPath>..\packages\PagedList.Mvc.4.5.0.0\lib\net40\PagedList.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
@@ -244,6 +250,10 @@
     <Compile Include="Migrations\201709161303329_Transactions.Designer.cs">
       <DependentUpon>201709161303329_Transactions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709161858290_Transactions2.cs" />
+    <Compile Include="Migrations\201709161858290_Transactions2.Designer.cs">
+      <DependentUpon>201709161858290_Transactions2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\201709161736203_trans.cs" />
     <Compile Include="Migrations\201709161736203_trans.Designer.cs">
       <DependentUpon>201709161736203_trans.cs</DependentUpon>
@@ -274,6 +284,7 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\PagedList.css" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -386,6 +397,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709161303329_Transactions.resx">
       <DependentUpon>201709161303329_Transactions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709161858290_Transactions2.resx">
+      <DependentUpon>201709161858290_Transactions2.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709161736203_trans.resx">
       <DependentUpon>201709161736203_trans.cs</DependentUpon>

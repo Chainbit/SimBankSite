@@ -14,6 +14,8 @@ using System.Web;
 using Microsoft.AspNet.Identity.Owin;
 using System.Threading.Tasks;
 using System.Diagnostics;
+using PagedList.Mvc;
+using PagedList;
 
 namespace SimBankSite.Controllers
 {
@@ -27,7 +29,7 @@ namespace SimBankSite.Controllers
         private ApplicationUserManager UserManager { get; set; }
         private ApplicationUser CurrentUser { get; set; }
 
-        private List<OrderAndService> orderAndService = new List<OrderAndService>();
+        private IEnumerable<OrderAndService> orderAndService;
 
         /// <summary>
         /// Проверка объектов на устаревание, в случае если ответа нет 5 минут , освобождает номер
@@ -56,7 +58,7 @@ namespace SimBankSite.Controllers
                 {
                     Order = orders,
                     Service = service
-                }).Where(o => o.Order.CustomerId == CurrentUser.Id).ToList();
+                }).Where(o => o.Order.CustomerId == CurrentUser.Id);
         }
 
         public new void Execute(RequestContext requestContext)
@@ -81,42 +83,37 @@ namespace SimBankSite.Controllers
 
         
         [Authorize]
-        public ActionResult Index()
+        public ActionResult Index(int? page = 1)
         {
-            GetCurrentUserInfo();      
+           
+            int pageSize = 7;
+            int pageNumber = page ?? 1;
 
-            return View("Index", orderAndService.OrderByDescending(o => o.Order.DateCreated).ToList());
+
+            GetCurrentUserInfo();
+
+            CheckOrdersState();
+
+            var pipiska = orderAndService.ToList().ToPagedList(pageNumber, pageSize);
+
+            return View("Index", pipiska);
         }
 
 
 
         [Authorize]
-        public ActionResult OrdersPartial(string search, int searchType = 1)
+        public ActionResult OrdersPartial(int? page)
         {
-            GetCurrentUserInfo();
-            List<OrderAndService> myOrders = new List<OrderAndService>();
 
+            int pageSize = 7;
+            int pageNumber = page ?? 1;
+
+            GetCurrentUserInfo();
+            
             CheckOrdersState();
 
-            if (!string.IsNullOrEmpty(search))
-            {
-                //Доделать требуется
-                switch (searchType)
-                {
-                    case 1:
-                        myOrders = orderAndService.FindAll(order => (order.Service.Name.ToLower().Contains(search.ToLower()))).ToList();
-                        break;
-                    case 2:
-                        myOrders = orderAndService.FindAll(order => order.Order.TelNumber.Substring(1).Contains(search.ToLower()));
-                        Debug.WriteLine(myOrders.Count);
-                        break;
-                }
-            }
-            else
-            {
-                myOrders = orderAndService;
-            }
-            return PartialView(myOrders.OrderByDescending(o => o.Order.DateCreated));
+            var pipiska = orderAndService.ToList().ToPagedList(pageNumber, pageSize);
+            return PartialView("OrdersPartial", pipiska);
         }
 
         [HttpPost]
@@ -152,6 +149,7 @@ namespace SimBankSite.Controllers
 
         }
 
+        #region Работа с коробкой
         /// <summary>
         /// Создает новый заказ
         /// </summary>
@@ -307,4 +305,8 @@ namespace SimBankSite.Controllers
         public string Command { get; set; }
         public string[] Pars { get; set; }
     }
+#endregion
+
+ 
+
 }
