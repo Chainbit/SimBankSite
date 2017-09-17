@@ -86,7 +86,7 @@ namespace SimBankSite.Controllers
         public ActionResult Index(int? page = 1)
         {
            
-            int pageSize = 7;
+            int pageSize = 40;
             int pageNumber = page ?? 1;
 
 
@@ -94,9 +94,9 @@ namespace SimBankSite.Controllers
 
             CheckOrdersState();
 
-            var pipiska = orderAndService.ToList().ToPagedList(pageNumber, pageSize);
+            var pagedList = orderAndService.OrderByDescending(o => o.Order.DateCreated).ToList().ToPagedList(pageNumber, pageSize);
 
-            return View("Index", pipiska);
+            return View("Index", pagedList);
         }
 
 
@@ -105,15 +105,15 @@ namespace SimBankSite.Controllers
         public ActionResult OrdersPartial(int? page)
         {
 
-            int pageSize = 7;
+            int pageSize = 40;
             int pageNumber = page ?? 1;
 
             GetCurrentUserInfo();
             
             CheckOrdersState();
 
-            var pipiska = orderAndService.ToList().ToPagedList(pageNumber, pageSize);
-            return PartialView("OrdersPartial", pipiska);
+            var pagedList = orderAndService.OrderByDescending(o => o.Order.DateCreated).ToList().ToPagedList(pageNumber, pageSize);
+            return PartialView("OrdersPartial", pagedList);
         }
 
         [HttpPost]
@@ -132,10 +132,10 @@ namespace SimBankSite.Controllers
                     {
                         await CreateOrder(CurrentUser, svc);
                     }
-                   List <OrderAndService> createService = new List<OrderAndService>();
+                   List<OrderAndService> createService = new List<OrderAndService>();
                     createService.Add(new OrderAndService { Order = db.Orders.Where(o => o.CustomerId == CurrentUser.Id).FirstOrDefault(), Service = null });
                     
-                    return View("Index", createService);
+                    return View("Index", createService.OrderByDescending(o => o.Order.DateCreated).AsEnumerable().ToPagedList(1,1));
                 }
                 else
                 {
