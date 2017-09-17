@@ -112,11 +112,12 @@ namespace SimBankSite.Models
         // navigation property navernoe
         [Required]
         [ForeignKey("AppUser")]
-        public string UserId
+        //public string AppUser_Id { get; set; }
+        public string AppUser_Id
         {
             get
             {
-                if(System.Web.HttpContext.Current != null)
+                if (System.Web.HttpContext.Current != null)
                 {
                     return System.Web.HttpContext.Current.User.Identity.GetUserId();
                 }
@@ -125,45 +126,13 @@ namespace SimBankSite.Models
             }
             set
             {
-                if(UserId == null && System.Web.HttpContext.Current != null)
+                if (AppUser_Id == null && System.Web.HttpContext.Current != null)
                 {
-                    UserId = System.Web.HttpContext.Current.User.Identity.GetUserId();
-                }    
+                    AppUser_Id = System.Web.HttpContext.Current.User.Identity.GetUserId();
+                }
             }
         }
 
         public virtual ApplicationUser AppUser { get; set; }
     }
-
-
-    /// <summary>
-    /// Класс транзакции
-    /// </summary>
-    //public class Transaction
-    //{
-    //    public int Id { get; set; }
-
-    //    // navigation property navernoe
-    //    //[Required]
-    //    [ForeignKey("AppUser")]
-    //   /* public string UserID
-    //    {
-    //        get; set;
-    //        //get
-    //        //{
-    //        //    return System.Web.HttpContext.Current.User.Identity.GetUserId();
-    //        //}
-    //        //set
-    //        //{
-    //        //    UserID = "1";
-    //        //}
-    //    }*/
-
-    //    [Required]
-    //    [Display(Name = "Сумма пополнения")]
-    //    [DataType(DataType.Currency)]
-    //    public string Sum { get; set; }
-
-    //    public virtual ApplicationUser AppUser { get; set; }
-    //}
 }
