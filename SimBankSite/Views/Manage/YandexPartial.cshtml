@@ -2,7 +2,7 @@
 
 <form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml">
     <div class="form-group">
-        <input type="hidden" name="receiver" value="410014902363226">
+        <input type="hidden" name="receiver" value="410014902363226"> @*Номер кошелька здесь*@
         <input type="hidden" name="formcomment" value="Пополнение баланса для пользователя @Model.UserID">
         <input type="hidden" name="short-dest" value="Пополнение баланса для пользователя @Model.UserID">
         <input type="hidden" name="label" value="@Model.Id">
@@ -16,16 +16,6 @@
             <input type="hidden" name="need-email" value="true">
             <input type="hidden" name="need-phone" value="false">
             <input type="hidden" name="need-address" value="false">*@
-        @*<div class="form-check">
-            <label class="form-check-label">
-                <input class="form-check-input" type="radio" name="paymentType" value="PC">Яндекс.Деньгами
-            </label>
-        </div>
-        <div class="form-check">
-            <label class="form-check-label">
-                <input class="form-check-input" type="radio" name="paymentType" value="AC">Банковской картой
-            </label>
-        </div>*@
         <p>
             <input type="radio" id="yandex" name="paymentType" value="PC" checked>
             <label for="yandex">Яндекс.Деньгами</label>
@@ -35,5 +25,6 @@
             <label for="card">Банковской картой</label>
         </p>
             <input class="btn btn-primary" type="submit" value="Перевести">
-        </div>
+            <a class="btn btn-default" value="@Model.Id" href="@Url.Action("CancelPayment","Manage")">Отменить</a>
+    </div>
 </form>
