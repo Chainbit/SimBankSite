@@ -6,6 +6,7 @@ using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Collections.Generic;
+using System.Data.Entity.ModelConfiguration;
 
 namespace SimBankSite.Models
 {
@@ -47,6 +48,8 @@ namespace SimBankSite.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            //modelBuilder.Configurations.Add(
+              //  new EntityTypeConfiguration<ApplicationUser>());
             //modelBuilder.Entity<Transaction>().Property(m => m.UserID).HasDefaultValue();
             base.OnModelCreating(modelBuilder);
         }

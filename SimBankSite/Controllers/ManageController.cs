@@ -422,7 +422,7 @@ namespace SimBankSite.Controllers
         decimal amount, decimal withdraw_amount, string sender, string sha1_hash, string currency, bool codepro)
         {
             string key = "+qCr84wBkYG/Qf3td9ZVOYZt"; // секретный код
-                                             // проверяем хэш
+                                                     // проверяем хэш
             string paramString = string.Format("{0}&{1}&{2}&{3}&{4}&{5}&{6}&{7}&{8}",
                 notification_type, operation_id, amount, currency, datetime, sender,
                 codepro.ToString().ToLower(), key, label);
@@ -446,6 +446,7 @@ namespace SimBankSite.Controllers
                 }
             }
         }
+
         public string GetHash(string val)
         {
             SHA1 sha = new SHA1CryptoServiceProvider();
