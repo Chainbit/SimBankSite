@@ -3,8 +3,8 @@
 <form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml">
     <div class="form-group">
         <input type="hidden" name="receiver" value="410014902363226"> @*Номер кошелька здесь*@
-        <input type="hidden" name="formcomment" value="Пополнение баланса для пользователя @Model.UserID">
-        <input type="hidden" name="short-dest" value="Пополнение баланса для пользователя @Model.UserID">
+        <input type="hidden" name="formcomment" value="Пополнение баланса для пользователя @Model.AppUser.UserName">
+        <input type="hidden" name="short-dest" value="Пополнение баланса для пользователя @Model.AppUser.UserName">
         <input type="hidden" name="label" value="@Model.Id">
         <input type="hidden" name="quickpay-form" value="donate">
         <input type="hidden" name="targets" value="транзакция @Model.Id">

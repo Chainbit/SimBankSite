@@ -404,9 +404,9 @@ namespace SimBankSite.Controllers
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
                 payment.Date = DateTime.Now;
-                //payment.AppUser = UserManager.FindById(payment.UserID);
                 db.Transactions.Add(payment);
-                await db.SaveChangesAsync();
+                db.SaveChanges();
+                payment.AppUser = UserManager.FindById(payment.AppUser_Id);
             }
             return PartialView("YandexPartial", payment);
         }
