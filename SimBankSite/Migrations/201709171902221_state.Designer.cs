@@ -7,13 +7,13 @@ namespace SimBankSite.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class trans : IMigrationMetadata
+    public sealed partial class state : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(trans));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(state));
         
         string IMigrationMetadata.Id
         {
-            get { return "201709161736203_trans"; }
+            get { return "201709171902221_state"; }
         }
         
         string IMigrationMetadata.Source

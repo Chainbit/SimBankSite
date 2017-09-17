@@ -133,6 +133,14 @@ namespace SimBankSite.Models
             }
         }
 
+        public PaymentStatus State { get; set; }
+
         public virtual ApplicationUser AppUser { get; set; }
+    }
+
+    public enum PaymentStatus
+    {
+        Paid,
+        Confirmed
     }
 }

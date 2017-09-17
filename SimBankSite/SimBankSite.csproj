@@ -254,9 +254,9 @@
     <Compile Include="Migrations\201709161858290_Transactions2.Designer.cs">
       <DependentUpon>201709161858290_Transactions2.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201709161736203_trans.cs" />
-    <Compile Include="Migrations\201709161736203_trans.Designer.cs">
-      <DependentUpon>201709161736203_trans.cs</DependentUpon>
+    <Compile Include="Migrations\201709171902221_state.cs" />
+    <Compile Include="Migrations\201709171902221_state.Designer.cs">
+      <DependentUpon>201709171902221_state.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Order.cs" />
@@ -393,8 +393,8 @@
     <EmbeddedResource Include="Migrations\201709161858290_Transactions2.resx">
       <DependentUpon>201709161858290_Transactions2.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709161736203_trans.resx">
-      <DependentUpon>201709161736203_trans.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709171902221_state.resx">
+      <DependentUpon>201709171902221_state.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
