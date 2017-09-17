@@ -2,6 +2,7 @@
 
 <form method="POST" action="https://money.yandex.ru/quickpay/confirm.xml">
     <div class="form-group">
+        @Html.AntiForgeryToken()
         <input type="hidden" name="receiver" value="410014902363226"> @*Номер кошелька здесь*@
         <input type="hidden" name="formcomment" value="Пополнение баланса для пользователя @Model.AppUser.UserName">
         <input type="hidden" name="short-dest" value="Пополнение баланса для пользователя @Model.AppUser.UserName">
@@ -24,7 +25,7 @@
             <input type="radio" id="card" name="paymentType" value="AC">
             <label for="card">Банковской картой</label>
         </p>
-            <input class="btn btn-primary" type="submit" value="Перевести">
-            <a class="btn btn-default" value="@Model.Id" href="@Url.Action("CancelPayment","Manage")">Отменить</a>
+        <input class="btn btn-primary" type="submit" value="Перевести">
+        <a class="btn btn-default" value="@Model.Id" href="@Url.Action("CancelPayment","Manage")?transactionID=@Model.Id&userId=@Model.AppUser_Id">Отменить</a>
     </div>
 </form>

@@ -411,11 +411,30 @@ namespace SimBankSite.Controllers
             return PartialView("YandexPartial", payment);
         }
 
-        //[HttpGet]
-        //public string Paid()
-        //{
-        //    return View("Index");
-        //}
+        [HttpGet]
+        [Authorize]
+        //[ValidateAntiForgeryToken]
+        public ActionResult CancelPayment(int? transactionID, string userId)
+        {
+            if (transactionID==null)
+            {
+                return HttpNotFound();
+            }
+
+            using (ApplicationDbContext db = new ApplicationDbContext())
+            {
+                var payment = db.Transactions.Find(transactionID);
+                if (payment.AppUser_Id!=userId)
+                {
+                    return HttpNotFound();
+                }
+                db.Transactions.Remove(payment);
+                db.Entry(payment).State = System.Data.Entity.EntityState.Deleted;
+                db.SaveChanges();
+            }
+
+            return Redirect("/Home/Index");
+        }
 
         [HttpPost]
         public void Paid(string notification_type, string operation_id, string label, string datetime,
