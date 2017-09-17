@@ -322,6 +322,7 @@
     <Content Include="Views\ApplicationUsers\Edit.cshtml" />
     <Content Include="Views\ApplicationUsers\Index.cshtml" />
     <Content Include="Views\Manage\YandexPartial.cshtml" />
+    <Content Include="Views\Manage\BalanceAddingPart.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>

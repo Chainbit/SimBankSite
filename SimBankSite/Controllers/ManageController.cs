@@ -401,14 +401,35 @@ namespace SimBankSite.Controllers
             {
                 return HttpNotFound();
             }
-            using (ApplicationDbContext db = new ApplicationDbContext())
+
+            if(IsValidSum(payment.Sum))
             {
-                payment.Date = DateTime.Now;
-                db.Transactions.Add(payment);
-                db.SaveChanges();
-                payment.AppUser = UserManager.FindById(payment.AppUser_Id);
+                using (ApplicationDbContext db = new ApplicationDbContext())
+                {
+                    payment.Date = DateTime.Now;
+                    db.Transactions.Add(payment);
+                    db.SaveChanges();
+                    payment.AppUser = UserManager.FindById(payment.AppUser_Id);
+                }
+                return PartialView("YandexPartial", payment);
             }
-            return PartialView("YandexPartial", payment);
+            else
+            {
+                ModelState.AddModelError("", "Недопустимое значение для пополнения счета. Пожалуйста попробуйте еще раз.");
+                return PartialView("BalanceAddingPart",payment);
+            }
+        }
+
+        private bool IsValidSum(decimal sum)
+        {
+            if(sum > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         [HttpGet]
