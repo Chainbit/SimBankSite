@@ -244,6 +244,18 @@
     <Compile Include="Migrations\201709161303329_Transactions.Designer.cs">
       <DependentUpon>201709161303329_Transactions.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201709161736203_trans.cs" />
+    <Compile Include="Migrations\201709161736203_trans.Designer.cs">
+      <DependentUpon>201709161736203_trans.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709161947101_Transactions1.cs" />
+    <Compile Include="Migrations\201709161947101_Transactions1.Designer.cs">
+      <DependentUpon>201709161947101_Transactions1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201709170919346_UserId_.cs" />
+    <Compile Include="Migrations\201709170919346_UserId_.Designer.cs">
+      <DependentUpon>201709170919346_UserId_.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Order.cs" />
     <Compile Include="Global.asax.cs">
@@ -374,6 +386,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201709161303329_Transactions.resx">
       <DependentUpon>201709161303329_Transactions.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709161736203_trans.resx">
+      <DependentUpon>201709161736203_trans.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709161947101_Transactions1.resx">
+      <DependentUpon>201709161947101_Transactions1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201709170919346_UserId_.resx">
+      <DependentUpon>201709170919346_UserId_.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

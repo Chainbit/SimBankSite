@@ -401,8 +401,10 @@ namespace SimBankSite.Controllers
             }
             using (ApplicationDbContext db = new ApplicationDbContext())
             {
+                var user = UserManager.FindById(payment.UserId);          
                 db.Transactions.Add(payment);
                 await db.SaveChangesAsync();
+                payment.AppUser = user;
             }
             return PartialView(payment);
         }

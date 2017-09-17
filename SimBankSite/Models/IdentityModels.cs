@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Collections.Generic;
 
 namespace SimBankSite.Models
 {
@@ -12,6 +13,7 @@ namespace SimBankSite.Models
     public class ApplicationUser : IdentityUser
     {       
         public decimal Money { get; set; }
+        public virtual List<Transaction> Transactions { get; set; }
 
         public async Task<ClaimsIdentity> GenerateUserIdentityAsync(UserManager<ApplicationUser> manager)
         {
@@ -36,16 +38,18 @@ namespace SimBankSite.Models
         {
             return new ApplicationDbContext();
         }
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-        }
+        
 
         public DbSet<Order> Orders { get; set; }
         public DbSet<Service> Services { get; set; }
         public DbSet<Sim> AllSimCards { get; set; }
         public DbSet<Transaction> Transactions { get; set; }
 
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            //modelBuilder.Entity<Transaction>().Property(m => m.UserID).HasDefaultValue();
+            base.OnModelCreating(modelBuilder);
+        }
     }
 
     public class ApplicationRole : IdentityRole
