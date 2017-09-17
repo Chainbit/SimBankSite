@@ -112,7 +112,6 @@ namespace SimBankSite.Models
         // navigation property navernoe
         [Required]
         [ForeignKey("AppUser")]
-        //public string AppUser_Id { get; set; }
         public string AppUser_Id
         {
             get

@@ -1,0 +1,40 @@
+﻿@model SimBankSite.Models.Transaction
+
+@{
+    ViewBag.Title = "Пополнение баланса";
+    //Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@if (ViewBag.Balance != null)
+{
+    <h3>
+        Баланс пополнен на @ViewBag.Balance рубля
+    </h3>
+}
+
+    <div class="row">
+        <div class="col-md-6">
+            <div id="yandexmoney">
+                @using (Ajax.BeginForm("YandexPartial", new AjaxOptions { UpdateTargetId = "yandexmoney" }))
+                {
+                    @Html.AntiForgeryToken()
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <p>На сколько вы хотите пополнить баланс ?</p>
+
+                    @Html.TextBoxFor(m => m.Sum);
+                    @Html.HiddenFor(m => m.AppUser_Id);
+                    <br />
+                    <input type="submit" value="Пополнить" class="btn btn-primary" style="margin-top: 10px;" />
+                }
+            </div>
+        </div>
+    </div>
+@Scripts.Render("~/scripts/jquery-1.10.2.min.js")
+@Scripts.Render("~/scripts/jquery.unobtrusive-ajax.min.js")
+
+
+
+
+
+

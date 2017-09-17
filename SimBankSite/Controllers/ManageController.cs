@@ -401,14 +401,63 @@ namespace SimBankSite.Controllers
             {
                 return HttpNotFound();
             }
-            using (ApplicationDbContext db = new ApplicationDbContext())
+
+            if(IsValidSum(payment.Sum))
             {
-                payment.Date = DateTime.Now;
-                db.Transactions.Add(payment);
-                db.SaveChanges();
-                payment.AppUser = UserManager.FindById(payment.AppUser_Id);
+                using (ApplicationDbContext db = new ApplicationDbContext())
+                {
+                    payment.Date = DateTime.Now;
+                    db.Transactions.Add(payment);
+                    db.SaveChanges();
+                    payment.AppUser = UserManager.FindById(payment.AppUser_Id);
+                }
+                return PartialView("YandexPartial", payment);
             }
-            return PartialView("YandexPartial", payment);
+            else
+            {
+                ModelState.AddModelError("", "Недопустимое значение для пополнения счета. Пожалуйста попробуйте еще раз.");
+                return PartialView("BalanceAddingPart",payment);
+            }
+        }
+
+        private bool IsValidSum(decimal sum)
+        {
+            if(sum > 0)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+            //string ptrn = "[0-9]{1,10}(\\,[0-9]{0,2})?";
+
+            //string moneyToAdd = sum.ToString();
+            //decimal money = 0;
+
+            //if (moneyToAdd.Contains("."))
+            //{
+            //    moneyToAdd = moneyToAdd.Replace(".", ",");
+            //}
+
+            //Regex check = new Regex(ptrn);
+            //Match match = check.Match(moneyToAdd);
+            //if (match.Success)
+            //{
+            //    money = decimal.Parse(match.Value);
+            //    if(money > 0)
+            //    {
+            //        return true;
+            //    }
+            //    else
+            //    {
+            //        return false;
+            //    }
+            //}
+            //else
+            //{
+            //    return false;
+            //}
         }
 
         [HttpGet]
