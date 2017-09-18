@@ -222,14 +222,29 @@ namespace SimBankSite.Controllers
                     db.SaveChanges();
                     return;
                 }
-                //создаем команду
-                CommandClass command = new CommandClass
+                CommandClass command;
+                if (!string.IsNullOrEmpty(order.Service.SenderNumber))
                 {
-                    Id = order.Id,
-                    Destination = sim.Id,
-                    Command = "WaitSms",
-                    Pars = new string[] { "ReceiveLast" }
-                };
+                    //создаем команду ТИП ОПРЕДЕЛЯЕМ ТУТ
+                    command = new CommandClass
+                    {
+                        Id = order.Id,
+                        Destination = sim.Id,
+                        Command = "WaitSms",
+                        Pars = new string[] { "SearchByNumber", order.Service.SenderNumber }
+                    };
+                }
+                else
+                {
+                    //создаем команду ТИП ОПРЕДЕЛЯЕМ ТУТ
+                    command = new CommandClass
+                    {
+                        Id = order.Id,
+                        Destination = sim.Id,
+                        Command = "WaitSms",
+                        Pars = new string[] { "ReceiveLast" }
+                    };
+                }
                 //превращаем ее в JSON
                 string cmd = JsonConvert.SerializeObject(command);
                 //подключаемся
