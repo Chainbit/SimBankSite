@@ -41,12 +41,16 @@ namespace SimBankSite.Controllers
 
             for (int i = 0; i < forCheckState.Count; i++)
             {
-                    forCheckState[i].Order.Status = "Ошибка получения данных";
-                    db.Entry(forCheckState[i].Order).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
-                
-            }
+                forCheckState[i].Order.Status = "Ошибка получения данных";
 
+                var user = UserManager.FindById(forCheckState[i].Order.CustomerId);
+                user.Money += forCheckState[i].Service.Price; //Возвращаем деньги
+
+                db.Entry(forCheckState[i].Order).State = System.Data.Entity.EntityState.Modified;
+                db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                db.SaveChanges();
+
+            }
         }
 
         private void GetUserOrdersAndServices()
