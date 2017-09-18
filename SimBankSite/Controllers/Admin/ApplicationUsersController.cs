@@ -119,7 +119,7 @@ namespace SimBankSite.Controllers.Admin
                 savedUser.UserName = applicationUser.UserName;
 
 
-                var res = await UserManager.UpdateAsync(applicationUser);
+                var res = await UserManager.UpdateAsync(savedUser);
                 if (res.Succeeded)
                 {
                     return RedirectToAction("Index");

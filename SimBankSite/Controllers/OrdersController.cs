@@ -169,7 +169,7 @@ namespace SimBankSite.Controllers
                  };
 
                  user.Money -= svc.Price;
-                 //await UserManager.UpdateAsync(user);
+                 await UserManager.UpdateAsync(user);
                  db.Orders.Add(order);
                  await db.SaveChangesAsync();
                  await ParseOrder(order);
