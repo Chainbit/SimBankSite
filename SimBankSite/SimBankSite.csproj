@@ -304,7 +304,6 @@
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Views\Home\Help.cshtml" />
     <Content Include="Views\Manage\BalanceAdding.cshtml" />
-    <Content Include="Views\Home\AddService.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
     <Content Include="Views\RoleAdmin\Create.cshtml" />
     <Content Include="Views\RoleAdmin\Edit.cshtml" />

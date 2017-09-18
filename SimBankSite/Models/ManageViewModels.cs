@@ -139,7 +139,13 @@ namespace SimBankSite.Models
 
     public enum PaymentStatus
     {
-        Paid,
+        /// <summary>
+        /// Транзакция созднана, но не проведена
+        /// </summary>
+        Blank,
+        /// <summary>
+        /// Транзакция проведена, пришло уведомление о платеже
+        /// </summary>
         Confirmed
     }
 }

@@ -473,17 +473,31 @@ namespace SimBankSite.Controllers
             // если хэши идентичны, добавляем данные о заказе в бд
             if (0 == comparer.Compare(paramStringHash1, sha1_hash))
             {
+                ApplicationUser user;
+
                 using (ApplicationDbContext db = new ApplicationDbContext())
                 {
                     Transaction payment = db.Transactions.FirstOrDefault(o => o.Id == Convert.ToInt32(label));
-                    //payment.Operation_Id = operation_id;
-                    payment.Date = DateTime.Now;
-                    payment.Sum = amount; //Зависит от того кто платит комиссию
-                    //payment.Sum = withdraw_amount;
-                    //order.Sender = sender;
-                    db.Entry(payment).State = System.Data.Entity.EntityState.Modified;
-                    db.SaveChanges();
+                    if (payment!=null)
+                    {
+                        //payment.Operation_Id = operation_id;
+                        payment.Date = DateTime.Now;
+                        payment.Sum = amount; //Зависит от того кто платит комиссию
+                        //payment.Sum = withdraw_amount;
+                        //order.Sender = sender;
+                        payment.State = PaymentStatus.Confirmed;
+                        user = payment.AppUser;
+                        db.Entry(payment).State = System.Data.Entity.EntityState.Modified;
+                        db.SaveChanges();
+                    }
+                    else
+                    {
+                        return;
+                    }
                 }
+                user.Money += amount;
+
+                UserManager.Update(user);
             }
         }
 

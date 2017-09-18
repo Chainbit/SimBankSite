@@ -103,6 +103,22 @@ namespace SimBankSite.Controllers.Admin
         {
             if (ModelState.IsValid)
             {
+                var savedUser = await UserManager.FindByIdAsync(applicationUser.Id);
+
+                savedUser.AccessFailedCount = applicationUser.AccessFailedCount;
+                savedUser.Email = applicationUser.Email;
+                savedUser.EmailConfirmed = applicationUser.EmailConfirmed;
+                savedUser.LockoutEnabled = applicationUser.LockoutEnabled;
+                savedUser.LockoutEndDateUtc = applicationUser.LockoutEndDateUtc;
+                savedUser.Money = applicationUser.Money;
+                //savedUser.PasswordHash = applicationUser.PasswordHash;
+                savedUser.PhoneNumber = applicationUser.PhoneNumber;
+                savedUser.PhoneNumberConfirmed = applicationUser.PhoneNumberConfirmed;
+                savedUser.Transactions = applicationUser.Transactions;
+                savedUser.TwoFactorEnabled = applicationUser.TwoFactorEnabled;
+                savedUser.UserName = applicationUser.UserName;
+
+
                 var res = await UserManager.UpdateAsync(applicationUser);
                 if (res.Succeeded)
                 {
