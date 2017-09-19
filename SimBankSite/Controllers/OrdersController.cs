@@ -248,7 +248,7 @@ namespace SimBankSite.Controllers
                 //превращаем ее в JSON
                 string cmd = JsonConvert.SerializeObject(command);
                 //подключаемся
-                InitializeConnection("http://151.248.112.29/");
+                InitializeConnection("http://simsimsms.ru/");
                 Subscribe();
                 //вызываем метод
                 _hub.Invoke("SendCommCommand", cmd).Wait();
