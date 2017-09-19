@@ -458,6 +458,7 @@ namespace SimBankSite.Controllers
         }
 
         [HttpPost]
+        [AllowAnonymous]
         public void Paid(string notification_type, string operation_id, string label, string datetime,
         decimal amount, decimal withdraw_amount, string sender, string sha1_hash, string currency, bool codepro)
         {
@@ -506,10 +507,11 @@ namespace SimBankSite.Controllers
             }
         }
 
+        [AllowAnonymous]
         public void Test(object request)
         {            
             var context = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<SignalR_Hubs.CommandHub>();
-            context.Clients.All.broadcast(request.ToString());
+            context.Clients.All.broadcast(request as string);
         }
 
         public string GetHash(string val)
