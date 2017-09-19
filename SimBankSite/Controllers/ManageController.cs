@@ -486,7 +486,8 @@ namespace SimBankSite.Controllers
 
                     using (ApplicationDbContext db = new ApplicationDbContext())
                     {
-                        Transaction payment = db.Transactions.FirstOrDefault(o => o.Id == Int32.Parse(label));
+                        int trans_id = Int32.Parse(label);
+                        Transaction payment = db.Transactions.FirstOrDefault(o => o.Id == trans_id);
                         if (payment != null)
                         {
 
