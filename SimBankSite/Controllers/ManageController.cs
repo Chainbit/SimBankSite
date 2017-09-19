@@ -488,24 +488,31 @@ namespace SimBankSite.Controllers
                     Transaction payment = db.Transactions.FirstOrDefault(o => o.Id == Convert.ToInt32(label));
                     if (payment!=null)
                     {
+                        
                         //payment.Operation_Id = operation_id;
                         payment.Date = DateTime.Now;
-                        payment.Sum = decimal.Parse(amount); //Зависит от того кто платит комиссию
-                        //payment.Sum = withdraw_amount;
+                        //payment.Sum = decimal.Parse(amount); //Зависит от того кто платит комиссию
+                        payment.Sum = decimal.Parse(withdraw_amount);
                         //order.Sender = sender;
                         payment.State = PaymentStatus.Confirmed;
                         user = payment.AppUser;
                         db.Entry(payment).State = System.Data.Entity.EntityState.Modified;
+                        context.Clients.All.broadcast(string.Format("Id: {0}\r\n Sum:{1}\r\n Date:{3}\r\n State:{4}", payment.Id, payment.Sum, payment.Date, payment.State));
                         db.SaveChanges();
                     }
                     else
                     {
+                        context.Clients.All.broadcast("Транзакция не найдена!");
                         return;
                     }
                 }
-                user.Money += decimal.Parse(amount);
+                user.Money += decimal.Parse(withdraw_amount);
 
                 UserManager.Update(user);
+            }
+            else
+            {
+                context.Clients.All.broadcast("Хэш не сошелся!");
             }
         }
 
