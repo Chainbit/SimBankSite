@@ -12,6 +12,8 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
+using System.Diagnostics;
+using System.Reflection;
 
 namespace SimBankSite.Controllers
 {
@@ -460,7 +462,7 @@ namespace SimBankSite.Controllers
         [HttpPost]
         [AllowAnonymous]
         public void Paid(string notification_type, string operation_id, string label, string datetime,
-        decimal amount, decimal withdraw_amount, string sender, string sha1_hash, string currency, bool codepro)
+        string amount, string withdraw_amount, string sender, string sha1_hash, string currency, bool codepro)
         {
             string key = "+qCr84wBkYG/Qf3td9ZVOYZt"; // секретный код
                                                      // проверяем хэш
@@ -488,7 +490,7 @@ namespace SimBankSite.Controllers
                     {
                         //payment.Operation_Id = operation_id;
                         payment.Date = DateTime.Now;
-                        payment.Sum = amount; //Зависит от того кто платит комиссию
+                        payment.Sum = decimal.Parse(amount); //Зависит от того кто платит комиссию
                         //payment.Sum = withdraw_amount;
                         //order.Sender = sender;
                         payment.State = PaymentStatus.Confirmed;
@@ -501,17 +503,56 @@ namespace SimBankSite.Controllers
                         return;
                     }
                 }
-                user.Money += amount;
+                user.Money += decimal.Parse(amount);
 
                 UserManager.Update(user);
             }
         }
 
         [AllowAnonymous]
-        public void Test(object request)
-        {            
+        [HttpPost]
+        public void Test(object value)
+        {
+            var a = Convert.ToByte(value);
+            //var propInfo = typeof(Transaction).GetProperties(BindingFlags.GetField);
+
+            
+                //bool readable = propInfo[0].CanRead;
+                //bool writable = propInfo[0].CanWrite;
+
+                //Debug.WriteLine("   Property name: {0}", propInfo[0].Name);
+                //Debug.WriteLine("   Property type: {0}", propInfo[0].PropertyType);
+                //Debug.WriteLine("   Read-Write:    {0}", readable & writable);
+                //if (readable)
+                //{
+                //    MethodInfo getAccessor = propInfo[0].GetMethod;
+                //    Debug.WriteLine("   Visibility:    {0}",
+                //                      GetVisibility(getAccessor));
+                //}
+                //if (writable)
+                //{
+                //    MethodInfo setAccessor = propInfo[0].SetMethod;
+                //    Debug.WriteLine("   Visibility:    {0}",
+                //                      GetVisibility(setAccessor));
+                //}
+               
+                
+            
             var context = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<SignalR_Hubs.CommandHub>();
-            context.Clients.All.broadcast(request as string);
+            context.Clients.All.broadcast(a);
+        }
+        public static String GetVisibility(MethodInfo accessor)
+        {
+            if (accessor.IsPublic)
+                return "Public";
+            else if (accessor.IsPrivate)
+                return "Private";
+            else if (accessor.IsFamily)
+                return "Protected";
+            else if (accessor.IsAssembly)
+                return "Internal/Friend";
+            else
+                return "Protected Internal/Friend";
         }
 
         public string GetHash(string val)
@@ -527,6 +568,7 @@ namespace SimBankSite.Controllers
             }
             return sBuilder.ToString();
         }
+
 
         protected override void Dispose(bool disposing)
         {
