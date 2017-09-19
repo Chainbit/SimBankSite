@@ -488,6 +488,7 @@ namespace SimBankSite.Controllers
                     {
                         int trans_id = Int32.Parse(label);
                         Transaction payment = db.Transactions.FirstOrDefault(o => o.Id == trans_id);
+                        context.Clients.All.broadcast(payment.AppUser_Id+"\r\n"+payment.Id+"\r\n"+payment.Sum);
                         if (payment != null)
                         {
 
@@ -497,7 +498,8 @@ namespace SimBankSite.Controllers
                             payment.Sum = decimal.Parse(withdraw_amount);
                             //order.Sender = sender;
                             payment.State = PaymentStatus.Confirmed;
-                            user = payment.AppUser;
+                            context.Clients.All.broadcast("Остнанавливаемся перед юзером");
+                            user = UserManager.FindById(payment.AppUser_Id);
                             db.Entry(payment).State = System.Data.Entity.EntityState.Modified;
                             context.Clients.All.broadcast(string.Format("Id: {0}\r\n Sum:{1}\r\n Date:{3}\r\n State:{4}", payment.Id, payment.Sum, payment.Date, payment.State));
                             db.SaveChanges();
