@@ -468,7 +468,7 @@ namespace SimBankSite.Controllers
                 codepro.ToString().ToLower(), key, label);
 
             var context = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<SignalR_Hubs.CommandHub>();
-            context.Clients.All.broadcast(string.Format("Пришел платеж: /r/n notification_type:{0}/r/n operation_id:{1}/r/n amount:{2}/r/n currency:{3}/r/n datetime:{4}/r/n sender:{5}/r/n codepro:{6}/r/n key:{7}/r/n label:{8}", 
+            context.Clients.All.broadcast(string.Format("Пришел платеж: \r\n notification_type:{0}\r\n operation_id:{1}\r\n amount:{2}\r\n currency:{3}\r\n datetime:{4}\r\n sender:{5}\r\n codepro:{6}\r\n key:{7}\r\n label:{8}", 
                 notification_type, operation_id, amount, currency, datetime, sender,
                 codepro.ToString().ToLower(), key, label));
 
@@ -504,6 +504,12 @@ namespace SimBankSite.Controllers
 
                 UserManager.Update(user);
             }
+        }
+
+        public void Test(object request)
+        {            
+            var context = Microsoft.AspNet.SignalR.GlobalHost.ConnectionManager.GetHubContext<SignalR_Hubs.CommandHub>();
+            context.Clients.All.broadcast(request.ToString());
         }
 
         public string GetHash(string val)
