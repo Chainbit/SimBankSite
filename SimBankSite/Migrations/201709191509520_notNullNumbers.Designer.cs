@@ -7,13 +7,13 @@ namespace SimBankSite.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class SenderNumber : IMigrationMetadata
+    public sealed partial class notNullNumbers : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(SenderNumber));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(notNullNumbers));
         
         string IMigrationMetadata.Id
         {
-            get { return "201709181801185_SenderNumber"; }
+            get { return "201709191509520_notNullNumbers"; }
         }
         
         string IMigrationMetadata.Source

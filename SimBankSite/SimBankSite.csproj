@@ -258,9 +258,9 @@
     <Compile Include="Migrations\201709171902221_state.Designer.cs">
       <DependentUpon>201709171902221_state.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201709181801185_SenderNumber.cs" />
-    <Compile Include="Migrations\201709181801185_SenderNumber.Designer.cs">
-      <DependentUpon>201709181801185_SenderNumber.cs</DependentUpon>
+    <Compile Include="Migrations\201709191509520_notNullNumbers.cs" />
+    <Compile Include="Migrations\201709191509520_notNullNumbers.Designer.cs">
+      <DependentUpon>201709191509520_notNullNumbers.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Order.cs" />
@@ -400,8 +400,8 @@
     <EmbeddedResource Include="Migrations\201709171902221_state.resx">
       <DependentUpon>201709171902221_state.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201709181801185_SenderNumber.resx">
-      <DependentUpon>201709181801185_SenderNumber.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201709191509520_notNullNumbers.resx">
+      <DependentUpon>201709191509520_notNullNumbers.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
