@@ -474,46 +474,54 @@ namespace SimBankSite.Controllers
             context.Clients.All.broadcast(string.Format("Пришел платеж: \r\n notification_type:{0}\r\n operation_id:{1}\r\n amount:{2}\r\n currency:{3}\r\n datetime:{4}\r\n sender:{5}\r\n codepro:{6}\r\n key:{7}\r\n label:{8}", 
                 notification_type, operation_id, amount, currency, datetime, sender,
                 codepro.ToString().ToLower(), key, label));
-
-            string paramStringHash1 = GetHash(paramString);
-            // создаем класс для сравнения строк
-            StringComparer comparer = StringComparer.OrdinalIgnoreCase;
-            // если хэши идентичны, добавляем данные о заказе в бд
-            if (0 == comparer.Compare(paramStringHash1, sha1_hash))
+            try
             {
-                ApplicationUser user;
-
-                using (ApplicationDbContext db = new ApplicationDbContext())
+                string paramStringHash1 = GetHash(paramString);
+                // создаем класс для сравнения строк
+                StringComparer comparer = StringComparer.OrdinalIgnoreCase;
+                // если хэши идентичны, добавляем данные о заказе в бд
+                if (0 == comparer.Compare(paramStringHash1, sha1_hash))
                 {
-                    Transaction payment = db.Transactions.FirstOrDefault(o => o.Id == Convert.ToInt32(label));
-                    if (payment!=null)
-                    {
-                        
-                        //payment.Operation_Id = operation_id;
-                        payment.Date = DateTime.Now;
-                        //payment.Sum = decimal.Parse(amount); //Зависит от того кто платит комиссию
-                        payment.Sum = decimal.Parse(withdraw_amount);
-                        //order.Sender = sender;
-                        payment.State = PaymentStatus.Confirmed;
-                        user = payment.AppUser;
-                        db.Entry(payment).State = System.Data.Entity.EntityState.Modified;
-                        context.Clients.All.broadcast(string.Format("Id: {0}\r\n Sum:{1}\r\n Date:{3}\r\n State:{4}", payment.Id, payment.Sum, payment.Date, payment.State));
-                        db.SaveChanges();
-                    }
-                    else
-                    {
-                        context.Clients.All.broadcast("Транзакция не найдена!");
-                        return;
-                    }
-                }
-                user.Money += decimal.Parse(withdraw_amount);
+                    ApplicationUser user;
 
-                UserManager.Update(user);
+                    using (ApplicationDbContext db = new ApplicationDbContext())
+                    {
+                        Transaction payment = db.Transactions.FirstOrDefault(o => o.Id == Int32.Parse(label));
+                        if (payment != null)
+                        {
+
+                            //payment.Operation_Id = operation_id;
+                            payment.Date = DateTime.Now;
+                            //payment.Sum = decimal.Parse(amount); //Зависит от того кто платит комиссию
+                            payment.Sum = decimal.Parse(withdraw_amount);
+                            //order.Sender = sender;
+                            payment.State = PaymentStatus.Confirmed;
+                            user = payment.AppUser;
+                            db.Entry(payment).State = System.Data.Entity.EntityState.Modified;
+                            context.Clients.All.broadcast(string.Format("Id: {0}\r\n Sum:{1}\r\n Date:{3}\r\n State:{4}", payment.Id, payment.Sum, payment.Date, payment.State));
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            context.Clients.All.broadcast("Транзакция не найдена!");
+                            return;
+                        }
+                    }
+                    user.Money += decimal.Parse(withdraw_amount);
+
+                    UserManager.Update(user);
+                }
+                else
+                {
+                    context.Clients.All.broadcast("Хэш не сошелся!");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                context.Clients.All.broadcast("Хэш не сошелся!");
+
+                context.Clients.All.broadcast(ex.Message);
             }
+            
         }
 
         [AllowAnonymous]

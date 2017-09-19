@@ -47,9 +47,10 @@ namespace SimBankSite.Controllers
                 user.Money += forCheckState[i].Service.Price; //Возвращаем деньги
 
                 db.Entry(forCheckState[i].Order).State = System.Data.Entity.EntityState.Modified;
-                db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                //db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                UserManager.Update(user);
                 db.SaveChanges();
-
+;
             }
         }
 
