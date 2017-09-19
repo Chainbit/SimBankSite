@@ -16,6 +16,7 @@ namespace SimBankSite.Models
         [Display(Name = "Цена")]
         public decimal Price { get; set; }
         [Display(Name = "Номер отправителя СМС")]
+        [DisplayFormat(ConvertEmptyStringToNull = false)]
         public string SenderNumber { get; set; }
     }
 }

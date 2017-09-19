@@ -22,14 +22,14 @@
                     </td>
                     <td>@Convert.ToInt32(service.Price) руб.</td>
                     <td>
-                        <div class="alert alert-success sim-label" role="alert">
+                        <div class="alert alert-warning sim-label" role="alert">
                             @((ViewBag.Sims as List<SimBankSite.Models.Sim>).Count() - (ViewBag.Sims as List<SimBankSite.Models.Sim>).Where(s => s.UsedServicesArray.Contains(service.Name)).Count()) Шт.
                         </div>                        
                     </td>
                 </tr>
             }
         </table>
-        <input type="submit" class="btn btn-primary" value="Выбрать" />
+        <input type="submit" class="btn btn-warning" value="Выбрать" />
         
     }
 </div>

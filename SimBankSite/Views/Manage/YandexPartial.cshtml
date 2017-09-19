@@ -25,7 +25,7 @@
             <input type="radio" id="card" name="paymentType" value="AC">
             <label for="card">Банковской картой</label>
         </p>
-        <input class="btn btn-primary" type="submit" value="Перевести">
+        <input class="btn btn-warning" type="submit" value="Перевести">
         <a class="btn btn-default" value="@Model.Id" href="@Url.Action("CancelPayment","Manage")?transactionID=@Model.Id&userId=@Model.AppUser_Id">Отменить</a>
     </div>
 </form>

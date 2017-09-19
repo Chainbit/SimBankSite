@@ -46,7 +46,7 @@
                         @using (Html.BeginForm("Delete", "RoleAdmin", new { id = role.Id }))
                         {
                             @Html.ActionLink("Изменить", "Edit", new { id = role.Id },
-                                new { @class = "btn btn-primary btn-xs", style = "float:left; margin-right:5px" })
+                                new { @class = "btn btn-warning btn-xs", style = "float:left; margin-right:5px" })
                             <button class="btn btn-danger btn-xs" type="submit">Удалить</button>
                         }
                     </td>
@@ -55,4 +55,4 @@
         }
     </table>
 </div>
-@Html.ActionLink("Создать", "Create", null, new { @class = "btn btn-primary" })
+@Html.ActionLink("Создать", "Create", null, new { @class = "btn btn-warning" })
