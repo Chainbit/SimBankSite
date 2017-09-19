@@ -18,9 +18,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Price)
         </th>
-        <dt>
+        <th>
             @Html.DisplayNameFor(model => model.SenderNumber)
-        </dt>
+        </th>
         <th></th>
     </tr>
 
@@ -32,9 +32,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.Price)
         </td>
-        <dd>
-            @Html.DisplayFor(model => model.SenderNumber)
-        </dd>
+        <td>
+            @Html.DisplayFor(modelItem => item.SenderNumber)
+        </td>
         <td>
             @Html.ActionLink("Редактировать", "Edit", new { id=item.Id }) |
             @*@Html.ActionLink("Подробно", "Details", new { id=item.Id }) |*@

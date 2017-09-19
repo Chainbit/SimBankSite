@@ -48,7 +48,7 @@ namespace SimBankSite.Controllers.Admin
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Price")] Service service)
+        public async Task<ActionResult> Create([Bind(Include = "Id,Name,Price,SenderNumber")] Service service)
         {
             if (ModelState.IsValid)
             {
@@ -80,7 +80,7 @@ namespace SimBankSite.Controllers.Admin
         // сведения см. в статье http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,Price")] Service service)
+        public async Task<ActionResult> Edit([Bind(Include = "Id,Name,Price,SenderNumber")] Service service)
         {
             if (ModelState.IsValid)
             {
