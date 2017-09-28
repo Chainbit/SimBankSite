@@ -46,7 +46,7 @@
             <td>
                
                 @Ajax.ActionLink(" ", "Report", new { id = item.Order.Id }, new AjaxOptions() { HttpMethod = "Post" }, new { @class = "glyphicon glyphicon-ban-circle text-danger" })
-                @Ajax.ActionLink(" ", "Confirm", new { id = item.Order.Id }, new AjaxOptions() { HttpMethod = "Post" }, new { @class = "glyphicon glyphicon-ok text-success" })
+                @*@Ajax.ActionLink(" ", "Confirm", new { id = item.Order.Id }, new AjaxOptions() { HttpMethod = "Post" }, new { @class = "glyphicon glyphicon-ok text-success" })*@
                 @*<a href="@Url.Action("Confirm", "Orders", new { id = item.Id })">
                         <span class="glyphicon glyphicon-ok text-success"></span>
                     </a>*@

@@ -154,6 +154,25 @@ namespace SimBankSite.Controllers
 
         }
 
+        /// <summary>
+        /// Пожаловаться на плохую симку
+        /// </summary>
+        /// <param name="id"> номер заказа</param>
+        /// <returns></returns>
+        [HttpPost]
+        [Authorize]
+        public ActionResult Report(int? id)
+        {
+            if (id==null)
+            {
+                return HttpNotFound();
+            }
+
+            //Обработка
+
+            return View("Index");
+        }
+
         #region Работа с коробкой
         /// <summary>
         /// Создает новый заказ
@@ -314,6 +333,7 @@ namespace SimBankSite.Controllers
             db.Dispose();
         }
     }
+    #endregion
 
     /// <summary>
     /// Класс, представляющий собой команду клиенту
@@ -325,8 +345,6 @@ namespace SimBankSite.Controllers
         public string Command { get; set; }
         public string[] Pars { get; set; }
     }
-#endregion
 
  
-
 }
