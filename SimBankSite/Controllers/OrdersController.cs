@@ -43,6 +43,8 @@ namespace SimBankSite.Controllers
             {
                 forCheckState[i].Order.Status = "Ошибка получения данных";
 
+                db.AllSimCards.FirstOrDefault(s => s.TelNumber == forCheckState[i].Order.TelNumber).State = SimState.Ready;
+
                 var user = UserManager.FindById(forCheckState[i].Order.CustomerId);
                 user.Money += forCheckState[i].Service.Price; //Возвращаем деньги
 
