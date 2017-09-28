@@ -21,20 +21,27 @@ namespace SimBankSite.Models
         /// ICCID сим-карты
         /// </summary>
         public string Id { get; set; }
+
+        [DisplayName("Номер")]
         public string TelNumber { get; set; }
 
+        //[JsonIgnore]
+        //public decimal Balance { get; set; }
 
         /// <summary>
         /// Использованные сервисы как строка (для БД)
         /// </summary>
         [JsonIgnore]
+        [DisplayName("Использованные сервисы")]
         public string UsedServices { get; set; }
 
+        [DisplayName("ID компьютера")]
         public string SimBankId { get; set; }
 
         /// <summary>
         /// Состояние сим карты (готов или используется)
         /// </summary>
+        [DisplayName("Состояние")]
         public SimState State { get; set; }
 
         /// <summary>

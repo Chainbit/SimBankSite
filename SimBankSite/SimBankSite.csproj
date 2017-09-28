@@ -234,6 +234,7 @@
     <Compile Include="Controllers\Admin\ApplicationUsersController.cs" />
     <Compile Include="Controllers\Admin\RoleAdminController.cs" />
     <Compile Include="Controllers\Admin\ServicesController.cs" />
+    <Compile Include="Controllers\Admin\SimsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\OrdersController.cs" />
@@ -306,6 +307,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Sim.ico" />
     <Content Include="Views\Home\Help.cshtml" />
     <Content Include="Views\Manage\BalanceAdding.cshtml" />
     <Content Include="Views\Orders\Index.cshtml" />
@@ -326,6 +328,10 @@
     <Content Include="Views\ApplicationUsers\Index.cshtml" />
     <Content Include="Views\Manage\YandexPartial.cshtml" />
     <Content Include="Views\Manage\BalanceAddingPart.cshtml" />
+    <Content Include="Views\Sims\Delete.cshtml" />
+    <Content Include="Views\Sims\Details.cshtml" />
+    <Content Include="Views\Sims\Edit.cshtml" />
+    <Content Include="Views\Sims\Index.cshtml" />
     <None Include="Web.config">
       <SubType>Designer</SubType>
     </None>
@@ -407,6 +413,9 @@
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Sim.ico</ApplicationIcon>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />

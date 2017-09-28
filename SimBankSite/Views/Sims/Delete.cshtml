@@ -1,0 +1,57 @@
+﻿@model SimBankSite.Models.Sim
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Удалить номер из базы</h2>
+
+<h3>Вы уверены?</h3>
+<div>
+    <h4>Sim</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.TelNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TelNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UsedServices)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UsedServices)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.SimBankId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.SimBankId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.State)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.State)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Удалить" class="btn btn-primary" /> |
+            @Html.ActionLink("Назад", "Index", new {@class = "btn btn-default" })
+        </div>
+    }
+</div>

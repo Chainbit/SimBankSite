@@ -1,0 +1,50 @@
+﻿@model IEnumerable<SimBankSite.Models.Sim>
+
+@{
+    ViewBag.Title = "Список телефонов";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Список телефонов</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TelNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UsedServices)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SimBankId)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TelNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UsedServices)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SimBankId)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.State)
+        </td>
+        <td>
+            @Html.ActionLink("Правка", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Подробно", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Удалить", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>
